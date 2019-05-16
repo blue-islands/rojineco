@@ -10,7 +10,7 @@
 var IndexCtrl = {
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
     _className: 'IndexCtrl',
-    _mymap: null,
+    mymap: null,
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
     init: function UN_init() {
         var _functionName = 'UN_init';
@@ -18,13 +18,13 @@ var IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
-            IndexCtrl._mymap = L.map('mapid').setView([51.505, -0.09], 13);
+            IndexCtrl.mymap = L.map('mapid').setView([51.505, -0.09], 13);
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
                 maxZoom: 18,
                 id: 'mapbox.streets',
                 accessToken: 'pk.eyJ1IjoiaGFvc2hpbWEiLCJhIjoiY2lsODJuMjNoMDlhbnZ0a3IxaGw0NDhqOSJ9.HrD7j0q54v_vOseYNVLeEg' //ここにaccess tokenを挿入
-            }).addTo(IndexCtrl._mymap);
+            }).addTo(IndexCtrl.mymap);
             // 処理終了
         }
         catch (ex) {
@@ -49,6 +49,10 @@ var IndexCtrl = {
             logger.info('heading:' + pos.coords.heading);
             // 移動速度
             logger.info('speed:' + pos.coords.speed);
+
+            var lat=pos.coords.latitude; //緯度
+            var lon=pos.coords.longitude; //経度
+            IndexCtrl.mymap.setView([ lat,lon ]); //地図を移動
             // 処理終了
         }
         catch (ex) {
