@@ -107,7 +107,7 @@ function printProperties(obj) {
     for (var prop in obj){
         properties += prop + '=' + obj[prop] + '\n';
     }
-    logger.debug(properties);
+    logger.log(properties);
 }
 
 String.prototype.trim = function() {
