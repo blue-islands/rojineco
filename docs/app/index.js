@@ -34,5 +34,48 @@ var IndexCtrl = {
             Util.endWriteLog(IndexCtrl._className,_functionName);
         }
     },
+
+    success: function UN_success() {
+        var _functionName = 'UN_success';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            // 緯度
+            logger.log('latitude:' + pos.coords.latitude);
+            // 経度
+            logger.log('longitude:' + pos.coords.longitude);
+            // 移動方向
+            logger.log('heading:' + pos.coords.heading);
+            // 移動速度
+            logger.log('speed:' + pos.coords.speed);
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+
+    error: function UN_error() {
+        var _functionName = 'UN_error';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
 };
+
+
     

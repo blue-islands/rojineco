@@ -29,6 +29,17 @@
 <script src="./app/index.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
+
+		document.addEventListener("DOMContentLoaded", function() {
+			var options = {
+				enableHighAccuracy: true,
+				timeout: 60000,
+				maximumAge: 0
+			};
+			// 位置情報取得
+			window.navigator.geolocation.watchPosition(IndexCtrl.success, IndexCtrl.error, options);
+		}, false);
+
 		IndexCtrl.init();
 	});
 </script>
