@@ -35,20 +35,20 @@ var IndexCtrl = {
         }
     },
 
-    success: function UN_success() {
+    success: function UN_success(pos) {
         var _functionName = 'UN_success';
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
             // 緯度
-            logger.log('latitude:' + pos.coords.latitude);
+            logger.info('latitude:' + pos.coords.latitude);
             // 経度
-            logger.log('longitude:' + pos.coords.longitude);
+            logger.info('longitude:' + pos.coords.longitude);
             // 移動方向
-            logger.log('heading:' + pos.coords.heading);
+            logger.info('heading:' + pos.coords.heading);
             // 移動速度
-            logger.log('speed:' + pos.coords.speed);
+            logger.info('speed:' + pos.coords.speed);
             // 処理終了
         }
         catch (ex) {
@@ -59,13 +59,13 @@ var IndexCtrl = {
         }
     },
 
-    error: function UN_error() {
+    error: function UN_error(err) {
         var _functionName = 'UN_error';
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
-
+            logger.error(err);
             // 処理終了
         }
         catch (ex) {
