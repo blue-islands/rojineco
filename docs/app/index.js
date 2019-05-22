@@ -25,6 +25,14 @@ var IndexCtrl = {
                 id: 'mapbox.streets',
                 accessToken: 'pk.eyJ1IjoiaGFvc2hpbWEiLCJhIjoiY2lsODJuMjNoMDlhbnZ0a3IxaGw0NDhqOSJ9.HrD7j0q54v_vOseYNVLeEg' //ここにaccess tokenを挿入
             }).addTo(IndexCtrl.mymap);
+
+            var options = {
+                enableHighAccuracy: true,
+                timeout: 60000,
+                maximumAge: 0
+            };
+            // 位置情報取得
+            window.navigator.geolocation.watchPosition(IndexCtrl.success, IndexCtrl.error, options);
             // 処理終了
         }
         catch (ex) {
@@ -50,9 +58,37 @@ var IndexCtrl = {
             // 移動速度
             logger.info('speed:' + pos.coords.speed);
 
-            var lat=pos.coords.latitude; //緯度
-            var lon=pos.coords.longitude; //経度
-            IndexCtrl.mymap.setView([ lat,lon ]); //地図を移動
+            var lat = pos.coords.latitude; //緯度
+            var lng = pos.coords.longitude; //経度
+            IndexCtrl.mymap.setView([ lat,lng ]); //地図を移動
+
+            $('#span6').text('データ取得中です');
+
+            // 1.$.ajaxメソッドで通信を行います。
+            //  20行目のdataは、フォームの内容をserialize()している
+            //  →serialize()の内容は、cs1=custom1&cs2=custom2
+            $.ajax({	
+                url:'http://www.livlog.xyz/webapi/nostalgy', // 通信先のURL
+                type:'GET',		// 使用するHTTPメソッド
+                data:{
+                    lat: lat,
+                    lng: lng
+                }, // 送信するデータ
+                // 2. doneは、通信に成功した時に実行される
+                //  引数のdata1は、通信で取得したデータ
+                //  引数のtextStatusは、通信結果のステータス
+                //  引数のjqXHRは、XMLHttpRequestオブジェクト
+                }).done(function(data1,textStatus,jqXHR) {
+                    console.log(data1); //コンソールにJSONが表示される
+        
+                // 6. failは、通信に失敗した時に実行される
+                }).fail(function(jqXHR, textStatus, errorThrown ) {
+         
+                // 7. alwaysは、成功/失敗に関わらず実行される
+                }).always(function(){
+           
+                });
+
             // 処理終了
         }
         catch (ex) {
