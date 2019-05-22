@@ -14,6 +14,7 @@ var IndexCtrl = {
     mymap: null,
     lastLat: 0,
     lastLng: 0,
+    nostalgy: null,
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
     init: function UN_init() {
         var _functionName = 'UN_init';
@@ -73,7 +74,7 @@ var IndexCtrl = {
                 {latitude: IndexCtrl.lastLat, longitude: IndexCtrl.lastLng}
             );
 
-            if (CHANGE_DISTANCE < _distance) {
+            if (IndexCtrl.CHANGE_DISTANCE < _distance) {
                 // 1.$.ajaxメソッドで通信を行います。
                 //  20行目のdataは、フォームの内容をserialize()している
                 //  →serialize()の内容は、cs1=custom1&cs2=custom2
@@ -88,10 +89,11 @@ var IndexCtrl = {
                     //  引数のdata1は、通信で取得したデータ
                     //  引数のtextStatusは、通信結果のステータス
                     //  引数のjqXHRは、XMLHttpRequestオブジェクト
-                    }).done(function(data1,textStatus,jqXHR) {
-                        console.log(data1); //コンソールにJSONが表示される
+                    }).done(function(ret,textStatus,jqXHR) {
+                        console.log(ret); //コンソールにJSONが表示される
                         IndexCtrl.lastLat = _lat;
                         IndexCtrl.lastLng = _lng;
+                        IndexCtrl.nostalgy = ret.results;
                     // 6. failは、通信に失敗した時に実行される
                     }).fail(function(jqXHR, textStatus, errorThrown ) {
                         logger.error(errorThrown);
