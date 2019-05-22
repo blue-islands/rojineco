@@ -10,7 +10,10 @@
 var IndexCtrl = {
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
     _className: 'IndexCtrl',
+    CHANGE_DISTANCE: 50000,
     mymap: null,
+    lastLat: 0,
+    lastLng: 0,
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
     init: function UN_init() {
         var _functionName = 'UN_init';
@@ -44,7 +47,10 @@ var IndexCtrl = {
     },
 
     success: function UN_success(pos) {
-        var _functionName = 'UN_success';
+        var _functionName = 'UN_success',
+            _distance = 0,
+            _lat = 0,
+            _lng = 0;
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
@@ -58,37 +64,42 @@ var IndexCtrl = {
             // 移動速度
             logger.info('speed:' + pos.coords.speed);
 
-            var lat = pos.coords.latitude; //緯度
-            var lng = pos.coords.longitude; //経度
-            IndexCtrl.mymap.setView([ lat,lng ]); //地図を移動
+            _lat = pos.coords.latitude; //緯度
+            _lng = pos.coords.longitude; //経度
+            IndexCtrl.mymap.setView([ _lat,_lng ]); //地図を移動
 
-            $('#span6').text('データ取得中です');
+            _distance = geolib.getDistance(
+                {latitude: _lat, longitude: _lng},
+                {latitude: IndexCtrl.lastLat, longitude: IndexCtrl.lastLng}
+            );
 
-            // 1.$.ajaxメソッドで通信を行います。
-            //  20行目のdataは、フォームの内容をserialize()している
-            //  →serialize()の内容は、cs1=custom1&cs2=custom2
-            $.ajax({	
-                url:'http://www.livlog.xyz/webapi/nostalgy', // 通信先のURL
-                type:'GET',		// 使用するHTTPメソッド
-                data:{
-                    lat: lat,
-                    lng: lng
-                }, // 送信するデータ
-                // 2. doneは、通信に成功した時に実行される
-                //  引数のdata1は、通信で取得したデータ
-                //  引数のtextStatusは、通信結果のステータス
-                //  引数のjqXHRは、XMLHttpRequestオブジェクト
-                }).done(function(data1,textStatus,jqXHR) {
-                    console.log(data1); //コンソールにJSONが表示される
-        
-                // 6. failは、通信に失敗した時に実行される
-                }).fail(function(jqXHR, textStatus, errorThrown ) {
-         
-                // 7. alwaysは、成功/失敗に関わらず実行される
-                }).always(function(){
-           
-                });
-
+            if (CHANGE_DISTANCE < _distance) {
+                // 1.$.ajaxメソッドで通信を行います。
+                //  20行目のdataは、フォームの内容をserialize()している
+                //  →serialize()の内容は、cs1=custom1&cs2=custom2
+                $.ajax({	
+                    url:'https://www.livlog.xyz/webapi/nostalgy', // 通信先のURL
+                    type:'GET',		// 使用するHTTPメソッド
+                    data:{
+                        lat: _lat,
+                        lng: _lng
+                    }, // 送信するデータ
+                    // 2. doneは、通信に成功した時に実行される
+                    //  引数のdata1は、通信で取得したデータ
+                    //  引数のtextStatusは、通信結果のステータス
+                    //  引数のjqXHRは、XMLHttpRequestオブジェクト
+                    }).done(function(data1,textStatus,jqXHR) {
+                        console.log(data1); //コンソールにJSONが表示される
+                        IndexCtrl.lastLat = _lat;
+                        IndexCtrl.lastLng = _lng;
+                    // 6. failは、通信に失敗した時に実行される
+                    }).fail(function(jqXHR, textStatus, errorThrown ) {
+                        logger.error(errorThrown);
+                    // 7. alwaysは、成功/失敗に関わらず実行される
+                    }).always(function(){
+            
+                    });
+            }
             // 処理終了
         }
         catch (ex) {
