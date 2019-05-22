@@ -90,7 +90,7 @@ var IndexCtrl = {
                     //  引数のtextStatusは、通信結果のステータス
                     //  引数のjqXHRは、XMLHttpRequestオブジェクト
                     }).done(function(ret,textStatus,jqXHR) {
-                        console.log(ret); //コンソールにJSONが表示される
+                        logger.info(ret); //コンソールにJSONが表示される
                         IndexCtrl.lastLat = _lat;
                         IndexCtrl.lastLng = _lng;
                         IndexCtrl.nostalgy = ret.results;
@@ -99,7 +99,7 @@ var IndexCtrl = {
                         logger.error(errorThrown);
                     // 7. alwaysは、成功/失敗に関わらず実行される
                     }).always(function(){
-            
+                        logger.info('***** 処理終了 *****');
                     });
             }
             // 処理終了
