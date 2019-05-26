@@ -15,6 +15,7 @@ var IndexCtrl = {
     lastLat: 0,
     lastLng: 0,
     nostalgy: null,
+    markers:[],
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
     init: function UN_init() {
         var _functionName = 'UN_init';
@@ -58,16 +59,21 @@ var IndexCtrl = {
             // 処理開始
             // 緯度
             logger.info('latitude:' + pos.coords.latitude);
+            $('#latitude').val(pos.coords.latitude);
             // 経度
             logger.info('longitude:' + pos.coords.longitude);
+            $('#longitude').val(pos.coords.longitude);
             // 移動方向
             logger.info('heading:' + pos.coords.heading);
+            $('#heading').val(pos.coords.heading);
             // 移動速度
             logger.info('speed:' + pos.coords.speed);
+            $('#speed').val(pos.coords.speed);
 
             _lat = pos.coords.latitude; //緯度
             _lng = pos.coords.longitude; //経度
             IndexCtrl.mymap.setView([ _lat,_lng ]); //地図を移動
+            IndexCtrl.dispMarker();
 
             _distance = geolib.getDistance(
                 {latitude: _lat, longitude: _lng},
@@ -94,6 +100,7 @@ var IndexCtrl = {
                         IndexCtrl.lastLat = _lat;
                         IndexCtrl.lastLng = _lng;
                         IndexCtrl.nostalgy = ret.results;
+                        IndexCtrl.dispMarker();
                     // 6. failは、通信に失敗した時に実行される
                     }).fail(function(jqXHR, textStatus, errorThrown ) {
                         logger.error(errorThrown);
@@ -102,6 +109,8 @@ var IndexCtrl = {
                         logger.info('***** 処理終了 *****');
                     });
             }
+
+
             // 処理終了
         }
         catch (ex) {
@@ -119,6 +128,36 @@ var IndexCtrl = {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
             logger.error(err);
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+
+    dispMarker: function UN_dispMarker() {
+        var _functionName = 'UN_dispMarker';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            if (IndexCtrl.nostalgy) {
+                if (IndexCtrl.markers) {
+                    for (var i = 0; i < IndexCtrl.markers.length; i++) {
+                        IndexCtrl.mymap.removeLayer(IndexCtrl.markers[i]);
+                    }
+                }
+
+                for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
+                    var data = IndexCtrl.nostalgy[i];
+                    var marker = L.marker([data.lat, data.lng]).addTo(IndexCtrl.mymap);
+                    IndexCtrl.markers.push(marker);
+                }
+            }
+
             // 処理終了
         }
         catch (ex) {
