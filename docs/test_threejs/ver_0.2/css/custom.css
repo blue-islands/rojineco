@@ -1,0 +1,22 @@
+/* Custom */
+
+body{
+	width:100%; height:100%;
+	padding:0; margin:0;
+	font-size: 16px;
+}
+
+#scene_test{
+	width:100%; height:400px;
+	padding:0; margin:0; overflow: hidden;
+	position: relative;/* Important */
+	background-color: #cccccc;
+}
+
+#scene_game{
+	margin: 0px; padding: 0px;
+	position: absolute;
+	left: 50%; top: 50%;
+	-ms-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+}
