@@ -139,7 +139,8 @@ var IndexCtrl = {
     },
 
     dispMarker: function UN_dispMarker() {
-        var _functionName = 'UN_dispMarker';
+        var _functionName = 'UN_dispMarker',
+            _nekoIcon = null;
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
@@ -151,9 +152,17 @@ var IndexCtrl = {
                     }
                 }
 
+                _nekoIcon = L.icon({
+                    iconUrl: '../img/neco_icon.png',
+                    iconRetinaUrl: '../img/neco_icon.png',
+                    iconSize: [50, 50],
+                    iconAnchor: [25, 50],
+                    popupAnchor: [0, -50],
+                });
+
                 for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
                     var data = IndexCtrl.nostalgy[i];
-                    var marker = L.marker([data.lat, data.lng]).addTo(IndexCtrl.mymap);
+                    var marker = L.marker([data.lat, data.lng], {icon: _nekoIcon}).addTo(IndexCtrl.mymap);
                     IndexCtrl.markers.push(marker);
                 }
             }
