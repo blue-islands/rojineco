@@ -153,8 +153,8 @@ var IndexCtrl = {
                 }
 
                 _nekoIcon = L.icon({
-                    iconUrl: '../img/neco_icon.png',
-                    iconRetinaUrl: '../img/neco_icon.png',
+                    iconUrl: 'https://rojine.co/img/neco_icon.png',
+                    iconRetinaUrl: 'https://rojine.co/img/neco_icon.png',
                     iconSize: [50, 50],
                     iconAnchor: [25, 50],
                     popupAnchor: [0, -50],
