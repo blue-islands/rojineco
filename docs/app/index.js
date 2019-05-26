@@ -11,6 +11,7 @@ var IndexCtrl = {
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
     _className: 'IndexCtrl',
     CHANGE_DISTANCE: 50000,
+    RANGE_DISTANCE: 10000,
     mymap: null,
     lastLat: 0,
     lastLng: 0,
@@ -73,7 +74,7 @@ var IndexCtrl = {
             _lat = pos.coords.latitude; //緯度
             _lng = pos.coords.longitude; //経度
             IndexCtrl.mymap.setView([ _lat,_lng ]); //地図を移動
-            IndexCtrl.dispMarker();
+            IndexCtrl.dispMarker(_lat, _lng);
 
             _distance = geolib.getDistance(
                 {latitude: _lat, longitude: _lng},
@@ -100,7 +101,7 @@ var IndexCtrl = {
                         IndexCtrl.lastLat = _lat;
                         IndexCtrl.lastLng = _lng;
                         IndexCtrl.nostalgy = ret.results;
-                        IndexCtrl.dispMarker();
+                        IndexCtrl.dispMarker(_lat, _lng);
                     // 6. failは、通信に失敗した時に実行される
                     }).fail(function(jqXHR, textStatus, errorThrown ) {
                         logger.error(errorThrown);
@@ -138,9 +139,10 @@ var IndexCtrl = {
         }
     },
 
-    dispMarker: function UN_dispMarker() {
+    dispMarker: function UN_dispMarker(lat, lng) {
         var _functionName = 'UN_dispMarker',
-            _nekoIcon = null;
+            _nekoIcon = null,
+            _distance = 0;
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
@@ -162,8 +164,14 @@ var IndexCtrl = {
 
                 for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
                     var data = IndexCtrl.nostalgy[i];
-                    var marker = L.marker([data.lat, data.lng], {icon: _nekoIcon}).addTo(IndexCtrl.mymap);
-                    IndexCtrl.markers.push(marker);
+                    _distance = geolib.getDistance(
+                        {latitude: lat, longitude: lng},
+                        {latitude: data.lat, longitude: data.lng}
+                    );
+                    if (IndexCtrl.RANGE_DISTANCE > _distance) {
+                        var marker = L.marker([data.lat, data.lng], {icon: _nekoIcon}).addTo(IndexCtrl.mymap);
+                        IndexCtrl.markers.push(marker);
+                    }
                 }
             }
 
