@@ -1,9 +1,12 @@
 /* Custom */
 
-body{
-	width:100%; height:100%;
-	padding:0; margin:0;
-	font-size: 16px;
+@font-face{
+	font-family: "MyFont";
+	src: url("../fonts/misaki_gothic.ttf") format("truetype");
+}
+
+body {
+	font-family: MyFont;
 }
 
 #scene_test{
