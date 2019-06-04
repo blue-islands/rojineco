@@ -24,6 +24,7 @@ var IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
+            IndexCtrl.dispSize();
             $(window).resize(function() {
                 //リサイズされたときの処理
                 IndexCtrl.dispSize();
