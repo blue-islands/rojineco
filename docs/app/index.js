@@ -81,7 +81,6 @@ var IndexCtrl = {
 
             _lat = pos.coords.latitude; //緯度
             _lng = pos.coords.longitude; //経度
-            IndexCtrl.mymap.setView([ _lat,_lng ]); //地図を移動
             IndexCtrl.dispMarker(_lat, _lng);
 
             _distance = geolib.getDistance(
@@ -170,33 +169,33 @@ var IndexCtrl = {
                 _myIcon = L.icon({
                     iconUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
                     iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
-                    iconSize: [50, 50],
-                    iconAnchor: [25, 50],
-                    popupAnchor: [0, -50],
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 24],
+                    popupAnchor: [0, -24],
                 });
 
                 _nekoIcon1 = L.icon({
                     iconUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
                     iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
-                    iconSize: [50, 50],
-                    iconAnchor: [25, 50],
-                    popupAnchor: [0, -50],
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 24],
+                    popupAnchor: [0, -24],
                 });
 
                 _nekoIcon2 = L.icon({
                     iconUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
                     iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
-                    iconSize: [50, 50],
-                    iconAnchor: [25, 50],
-                    popupAnchor: [0, -50],
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 24],
+                    popupAnchor: [0, -24],
                 });
 
                 _nekoIcon3 = L.icon({
                     iconUrl: 'https://rojine.co/img/8-bit-mario-icon-15.png',
                     iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
-                    iconSize: [50, 50],
-                    iconAnchor: [25, 50],
-                    popupAnchor: [0, -50],
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 24],
+                    popupAnchor: [0, -24],
                 });
 
                 for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
@@ -209,7 +208,13 @@ var IndexCtrl = {
                 }
                 _min = Math.min.apply(null, _distanceAry);
 
-                var marker = L.marker([data.lat, data.lng], {icon: _myIcon}).addTo(IndexCtrl.mymap);
+                IndexCtrl.mymap.setView([ _lat,_lng ]); //地図を移動
+                //IndexCtrl.mymap.fitBounds([
+                //    [40.712, -74.227],
+                //    [40.774, -74.125]
+                //]);
+
+                var marker = L.marker([lat, lng], {icon: _myIcon}).addTo(IndexCtrl.mymap);
                 IndexCtrl.markers.push(marker);
 
                 for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
