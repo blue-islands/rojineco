@@ -25,7 +25,9 @@ var IndexCtrl = {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
             IndexCtrl.mymap = L.map('mapid').setView([51.505, -0.09], 13);
-            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            // https://a.tiles.mapbox.com/v4/duncangraham.552f58b0/{z}/{x}\{y}.png?access_token=,
+            // L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            L.tileLayer('https://a.tiles.mapbox.com/v4/duncangraham.552f58b0/{z}/{x}\{y}.png?access_token={accessToken}', {
                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
                 maxZoom: 18,
                 id: 'mapbox.streets',
