@@ -24,6 +24,11 @@ var IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
+            $(window).resize(function() {
+                //リサイズされたときの処理
+                IndexCtrl.dispSize();
+            });
+
             IndexCtrl.mymap = L.map('mapid').setView([51.505, -0.09], 13);
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             // L.tileLayer('https://a.tiles.mapbox.com/v4/duncangraham.552f58b0/{z}/{x}\{y}.png?access_token={accessToken}', {
@@ -177,6 +182,27 @@ var IndexCtrl = {
                 }
             }
 
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+
+    dispSize: function UN_dispSize() {
+        var _functionName = 'UN_dispSize',
+            _navbarHeight,
+            _windowHeight;
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            // _navbarHeight = $('.navbar').height();
+            _windowHeight = $(window).height();
+            $('#mapid').height(_windowHeight);
             // 処理終了
         }
         catch (ex) {
