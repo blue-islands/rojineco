@@ -68,16 +68,16 @@ var IndexCtrl = {
             // 処理開始
             // 緯度
             logger.info('latitude:' + pos.coords.latitude);
-            $('#latitude').val(pos.coords.latitude);
+            // $('#latitude').val(pos.coords.latitude);
             // 経度
             logger.info('longitude:' + pos.coords.longitude);
-            $('#longitude').val(pos.coords.longitude);
+            // $('#longitude').val(pos.coords.longitude);
             // 移動方向
             logger.info('heading:' + pos.coords.heading);
-            $('#heading').val(pos.coords.heading);
+            // $('#heading').val(pos.coords.heading);
             // 移動速度
             logger.info('speed:' + pos.coords.speed);
-            $('#speed').val(pos.coords.speed);
+            // $('#speed').val(pos.coords.speed);
 
             _lat = pos.coords.latitude; //緯度
             _lng = pos.coords.longitude; //経度
@@ -149,8 +149,13 @@ var IndexCtrl = {
 
     dispMarker: function UN_dispMarker(lat, lng) {
         var _functionName = 'UN_dispMarker',
-            _nekoIcon = null,
-            _distance = 0;
+            _myIcon = null,
+            _nekoIcon1 = null,
+            _nekoIcon2 = null,
+            _nekoIcon3 = null,
+            _distance = 0,
+            _distanceAry = [],
+            _min =0;
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
@@ -162,9 +167,33 @@ var IndexCtrl = {
                     }
                 }
 
-                _nekoIcon = L.icon({
-                    iconUrl: 'https://rojine.co/img/cat4.gif',
-                    iconRetinaUrl: 'https://rojine.co/img/cat4.gif',
+                _myIcon = L.icon({
+                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
+                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
+                    iconSize: [50, 50],
+                    iconAnchor: [25, 50],
+                    popupAnchor: [0, -50],
+                });
+
+                _nekoIcon1 = L.icon({
+                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
+                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
+                    iconSize: [50, 50],
+                    iconAnchor: [25, 50],
+                    popupAnchor: [0, -50],
+                });
+
+                _nekoIcon2 = L.icon({
+                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
+                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
+                    iconSize: [50, 50],
+                    iconAnchor: [25, 50],
+                    popupAnchor: [0, -50],
+                });
+
+                _nekoIcon3 = L.icon({
+                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-15.png',
+                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
                     iconSize: [50, 50],
                     iconAnchor: [25, 50],
                     popupAnchor: [0, -50],
@@ -176,8 +205,21 @@ var IndexCtrl = {
                         {latitude: lat, longitude: lng},
                         {latitude: data.lat, longitude: data.lng}
                     );
+                    _distanceAry.push(_distance);
+                }
+                _min = Math.min.apply(null, _distanceAry);
+
+                var marker = L.marker([data.lat, data.lng], {icon: _myIcon}).addTo(IndexCtrl.mymap);
+                IndexCtrl.markers.push(marker);
+
+                for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
+                    var data = IndexCtrl.nostalgy[i];
+                    _distance = geolib.getDistance(
+                        {latitude: lat, longitude: lng},
+                        {latitude: data.lat, longitude: data.lng}
+                    );
                     if (IndexCtrl.RANGE_DISTANCE > _distance) {
-                        var marker = L.marker([data.lat, data.lng], {icon: _nekoIcon}).addTo(IndexCtrl.mymap);
+                        var marker = L.marker([data.lat, data.lng], {icon: _nekoIcon1}).addTo(IndexCtrl.mymap);
                         IndexCtrl.markers.push(marker);
                     }
                 }
