@@ -11,7 +11,7 @@ var IndexCtrl = {
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
     _className: 'IndexCtrl',
     CHANGE_DISTANCE: 50000,
-    RANGE_DISTANCE: 20000,
+    RANGE_DISTANCE: 30000,
     mymap: null,
     lastLat: 0,
     lastLng: 0,
