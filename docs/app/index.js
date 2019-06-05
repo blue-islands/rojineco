@@ -154,7 +154,14 @@ var IndexCtrl = {
             _nekoIcon3 = null,
             _distance = 0,
             _distanceAry = [],
-            _min =0;
+            _min = 0,
+            _lat = 0,
+            _lng = 0,
+            _up = 0,
+            _right = 0,
+            _down = 0,
+            _left = 0,
+            _bounds = 0;
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
@@ -207,12 +214,26 @@ var IndexCtrl = {
                     _distanceAry.push(_distance);
                 }
                 _min = Math.min.apply(null, _distanceAry);
+                _lat = doRad(lat);
+                _lng = doRad(lng);
+                _up = vincenty(_lat, _lng, doRad(0), _min);
+                _right = vincenty(_lat, _lng, doRad(90), _min);
+                _down = vincenty(_lat, _lng, doRad(180), _min);
+                _left = vincenty(_lat, _lng, doRad(270), _min);
+                _bounds = geolib.getBounds([
+                    { latitude: _up[0], longitude: _up[1] },
+                    { latitude: _right[0], longitude: _right[1] },
+                    { latitude: _down[0], longitude: _down[1] },
+                    { latitude: _left[0], longitude: _left[1] },
+                ]);
 
-                IndexCtrl.mymap.setView([ _lat,_lng ]); //地図を移動
-                //IndexCtrl.mymap.fitBounds([
-                //    [40.712, -74.227],
-                //    [40.774, -74.125]
-                //]);
+                logger.info(_bounds.minLat+','+_bounds.maxLng);
+                logger.info(_bounds.maxLat+','+_bounds.minLng);
+                IndexCtrl.mymap.setView([ lat, lng]); //地図を移動
+                IndexCtrl.mymap.fitBounds([
+                   [_bounds.minLat, _bounds.maxLng],
+                   [_bounds.maxLat, _bounds.minLng]
+                ]);
 
                 var marker = L.marker([lat, lng], {icon: _myIcon}).addTo(IndexCtrl.mymap);
                 IndexCtrl.markers.push(marker);
