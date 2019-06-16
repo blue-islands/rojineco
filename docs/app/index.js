@@ -84,12 +84,14 @@ var IndexCtrl = {
 
             _lat = pos.coords.latitude; //緯度
             _lng = pos.coords.longitude; //経度
-            IndexCtrl.dispMarker(_lat, _lng);
-
             _distance = geolib.getDistance(
                 {latitude: _lat, longitude: _lng},
                 {latitude: IndexCtrl.lastLat, longitude: IndexCtrl.lastLng}
             );
+
+            if (IndexCtrl.RANGE_DISTANCE < _distance) {
+                IndexCtrl.dispMarker(_lat, _lng);
+            }
 
             if (IndexCtrl.CHANGE_DISTANCE < _distance) {
                 // 1.$.ajaxメソッドで通信を行います。
@@ -119,7 +121,8 @@ var IndexCtrl = {
                     }).always(function(){
                         logger.info('***** 処理終了 *****');
                     });
-            }
+            } 
+
             // 処理終了
         }
         catch (ex) {
@@ -167,16 +170,6 @@ var IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
-
-            // 10Kmを超えない場合は更新しない
-            _distance = geolib.getDistance(
-                {latitude: _lat, longitude: _lng},
-                {latitude: IndexCtrl.lastLat, longitude: IndexCtrl.lastLng}
-            );
-            if (IndexCtrl.CHANGE_DISTANCE > _distance) {
-                return;
-            }
-
             if (IndexCtrl.nostalgy) {
                 if (IndexCtrl.markers) {
                     for (var i = 0; i < IndexCtrl.markers.length; i++) {
