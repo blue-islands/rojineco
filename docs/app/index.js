@@ -322,7 +322,7 @@ var IndexCtrl = {
             } else {
                 return L.icon({
                     iconUrl: 'https://rojine.co/img/8-bit-mario-icon-15.png',
-                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
+                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-15.png',
                     iconSize: [24, 24],
                     iconAnchor: [12, 24],
                     popupAnchor: [0, -24],
