@@ -99,8 +99,10 @@ var IndexCtrl = {
                 popupAnchor: [0, -24],
             });
 
-            IndexCtrl.mymap.removeLayer(IndexCtrl.myMarker);
-            IndexCtrl.myMarker = L.marker([lat, lng], {icon: _myIcon}).addTo(IndexCtrl.mymap);
+            if (IndexCtrl.myMarker != null) {
+                IndexCtrl.mymap.removeLayer(IndexCtrl.myMarker);
+            }
+            IndexCtrl.myMarker = L.marker([_lat, _lng], {icon: _myIcon}).addTo(IndexCtrl.mymap);
 
             if (IndexCtrl.RANGE_DISTANCE < _distance) {
                 IndexCtrl.dispMarker(_lat, _lng);
