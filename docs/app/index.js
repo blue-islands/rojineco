@@ -16,6 +16,7 @@ var IndexCtrl = {
     lastLat: 0,
     lastLng: 0,
     nostalgy: null,
+    myMarker: null,
     markers:[],
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
     init: function UN_init() {
@@ -64,7 +65,8 @@ var IndexCtrl = {
         var _functionName = 'UN_success',
             _distance = 0,
             _lat = 0,
-            _lng = 0;
+            _lng = 0,
+            _myIcon = null;
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
@@ -88,6 +90,17 @@ var IndexCtrl = {
                 {latitude: _lat, longitude: _lng},
                 {latitude: IndexCtrl.lastLat, longitude: IndexCtrl.lastLng}
             );
+
+            _myIcon = L.icon({
+                iconUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
+                iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
+                iconSize: [24, 24],
+                iconAnchor: [12, 24],
+                popupAnchor: [0, -24],
+            });
+
+            IndexCtrl.mymap.removeLayer(IndexCtrl.myMarker);
+            IndexCtrl.myMarker = L.marker([lat, lng], {icon: _myIcon}).addTo(IndexCtrl.mymap);
 
             if (IndexCtrl.RANGE_DISTANCE < _distance) {
                 IndexCtrl.dispMarker(_lat, _lng);
@@ -122,7 +135,6 @@ var IndexCtrl = {
                         logger.info('***** 処理終了 *****');
                     });
             } 
-
             // 処理終了
         }
         catch (ex) {
@@ -152,10 +164,6 @@ var IndexCtrl = {
 
     dispMarker: function UN_dispMarker(lat, lng) {
         var _functionName = 'UN_dispMarker',
-            _myIcon = null,
-            _nekoIcon1 = null,
-            _nekoIcon2 = null,
-            _nekoIcon3 = null,
             _distance = 0,
             _distanceAry = [],
             _min = 0,
@@ -179,14 +187,6 @@ var IndexCtrl = {
                         IndexCtrl.mymap.removeLayer(IndexCtrl.markers[i]);
                     }
                 }
-
-                _myIcon = L.icon({
-                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
-                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 24],
-                    popupAnchor: [0, -24],
-                });
 
                 for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
                     var data = IndexCtrl.nostalgy[i];
@@ -217,9 +217,6 @@ var IndexCtrl = {
                    [_bounds.minLat, _bounds.maxLng],
                    [_bounds.maxLat, _bounds.minLng]
                 ]);
-
-                var marker = L.marker([lat, lng], {icon: _myIcon}).addTo(IndexCtrl.mymap);
-                IndexCtrl.markers.push(marker);
 
                 for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
                     var data = IndexCtrl.nostalgy[i];
