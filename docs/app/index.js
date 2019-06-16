@@ -11,7 +11,7 @@ var IndexCtrl = {
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
     _className: 'IndexCtrl',
     CHANGE_DISTANCE: 50000,
-    RANGE_DISTANCE: 30000,
+    RANGE_DISTANCE: 10000,
     mymap: null,
     lastLat: 0,
     lastLng: 0,
@@ -30,11 +30,14 @@ var IndexCtrl = {
                 IndexCtrl.dispSize();
             });
 
-            IndexCtrl.mymap = L.map('mapid').setView([51.505, -0.09], 13);
+            IndexCtrl.mymap = L.map('mapid',{
+                center: [35.7102, 139.8132],
+                zoom: 13,
+                zoomControl: false // default true
+            })
+         
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            // L.tileLayer('https://a.tiles.mapbox.com/v4/duncangraham.552f58b0/{z}/{x}\{y}.png?access_token={accessToken}', {
                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            //    attribution: '<a href=\"https:\/\/www.mapbox.com\/about\/maps\/\" target=\"_blank\">&copy; Mapbox &copy; OpenStreetMap<\/a> <a class=\"mapbox-improve-map\" href=\"https:\/\/www.mapbox.com\/map-feedback\/\" target=\"_blank\">Improve this map<\/a>',
                 maxZoom: 18,
                 id: 'mapbox.streets',
                 accessToken: 'pk.eyJ1IjoiaGFvc2hpbWEiLCJhIjoiY2lsODJuMjNoMDlhbnZ0a3IxaGw0NDhqOSJ9.HrD7j0q54v_vOseYNVLeEg' //ここにaccess tokenを挿入
@@ -117,8 +120,6 @@ var IndexCtrl = {
                         logger.info('***** 処理終了 *****');
                     });
             }
-
-
             // 処理終了
         }
         catch (ex) {
@@ -166,6 +167,16 @@ var IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
+
+            // 10Kmを超えない場合は更新しない
+            _distance = geolib.getDistance(
+                {latitude: _lat, longitude: _lng},
+                {latitude: IndexCtrl.lastLat, longitude: IndexCtrl.lastLng}
+            );
+            if (IndexCtrl.CHANGE_DISTANCE > _distance) {
+                return;
+            }
+
             if (IndexCtrl.nostalgy) {
                 if (IndexCtrl.markers) {
                     for (var i = 0; i < IndexCtrl.markers.length; i++) {
