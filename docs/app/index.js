@@ -161,11 +161,14 @@ var IndexCtrl = {
             _min = 0,
             _lat = 0,
             _lng = 0,
-            _up = 0,
-            _right = 0,
-            _down = 0,
-            _left = 0,
-            _bounds = 0;
+            _up = [],
+            _right = [],
+            _down = [],
+            _left = [],
+            _bounds = 0,
+            _pointLat = 0,
+            _pointLng = 0,
+            _point = [];
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
@@ -179,30 +182,6 @@ var IndexCtrl = {
 
                 _myIcon = L.icon({
                     iconUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
-                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 24],
-                    popupAnchor: [0, -24],
-                });
-
-                _nekoIcon1 = L.icon({
-                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
-                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 24],
-                    popupAnchor: [0, -24],
-                });
-
-                _nekoIcon2 = L.icon({
-                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
-                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 24],
-                    popupAnchor: [0, -24],
-                });
-
-                _nekoIcon3 = L.icon({
-                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-15.png',
                     iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
                     iconSize: [24, 24],
                     iconAnchor: [12, 24],
@@ -249,8 +228,17 @@ var IndexCtrl = {
                         {latitude: data.lat, longitude: data.lng}
                     );
                     if (IndexCtrl.RANGE_DISTANCE > _distance) {
-                        var marker = L.marker([data.lat, data.lng], {icon: _nekoIcon1}).addTo(IndexCtrl.mymap);
-                        IndexCtrl.markers.push(marker);
+
+                        if (IndexCtrl.appearance(data)) {
+                            _pointLat = doRad(data.lat);
+                            _pointLng = doRad(data.lng);
+                            var alpha12 = Math.floor(Math.random() * 359);
+                            var length = Math.floor(Math.random() * 500);
+                            _point = vincenty(_pointLat, _pointLng, doRad(alpha12), length);
+    
+                            var marker = L.marker([_point[0], _point[1]], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
+                            IndexCtrl.markers.push(marker);
+                        }
                     }
                 }
             }
@@ -276,6 +264,70 @@ var IndexCtrl = {
             // _navbarHeight = $('.navbar').height();
             _windowHeight = $(window).height();
             $('#mapid').height(_windowHeight);
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+
+    appearance: function UN_appearance(data) {
+        var _functionName = 'UN_appearance',
+            _num = 0;
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            _num = Math.floor(Math.random() * 60);
+            if (data.alleyRatio > _num) {
+                return true;
+            } else {
+                return false;
+            }
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+    
+    rarity: function UN_rarity(data) {
+        var _functionName = 'UN_rarity';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            if (15 >= data.nostalgiaRatio) {
+                return L.icon({
+                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
+                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 24],
+                    popupAnchor: [0, -24],
+                });
+            } else if (30 >= data.nostalgiaRatio) {
+                return L.icon({
+                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
+                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 24],
+                    popupAnchor: [0, -24],
+                });
+            } else {
+                return L.icon({
+                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-15.png',
+                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 24],
+                    popupAnchor: [0, -24],
+                });
+            }
             // 処理終了
         }
         catch (ex) {
