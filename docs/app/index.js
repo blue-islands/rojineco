@@ -31,7 +31,7 @@ var IndexCtrl = {
                 IndexCtrl.dispSize();
             });
 
-            IndexCtrl.mymap = L.map('mapid',{
+            IndexCtrl.mymap = L.map('mymap',{
                 center: [35.7102, 139.8132],
                 zoom: 13,
                 zoomControl: false // default true
@@ -254,7 +254,7 @@ var IndexCtrl = {
 
     dispSize: function UN_dispSize() {
         var _functionName = 'UN_dispSize',
-            _navbarHeight,
+            // _navbarHeight,
             _windowHeight;
 
         try {
@@ -262,7 +262,7 @@ var IndexCtrl = {
             // 処理開始
             // _navbarHeight = $('.navbar').height();
             _windowHeight = $(window).height();
-            $('#mapid').height(_windowHeight);
+            $('body').height(_windowHeight);
             // 処理終了
         }
         catch (ex) {

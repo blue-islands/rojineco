@@ -7,16 +7,12 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Font -->
-<link href="https://fonts.googleapis.com/css?family=Misaki+Gothic" rel="stylesheet">
-<link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
 <!-- CSS -->
-<link href="https://unpkg.com/nes.css@2.1.0/css/nes.min.css" rel="stylesheet"/>
 <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet"/>
-<link href="https://unpkg.com/nes.css/css/nes-core.min.css" rel="stylesheet"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@latest/dist/leaflet.css" integrity="sha512Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
 <link rel="stylesheet" href="./css/ress.min.css" />
-<link rel="stylesheet" href="./css/custom.css" />
+<link rel="stylesheet" href="./css/web-grid.css" />
+<link rel="stylesheet" href="./css/index.css" />
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -25,8 +21,17 @@
 </head>
 <body>
  
-<!-- コンテンツを配置 -->
-<div id="mapid"></div>
+<!-- 地図を配置 -->
+<div id="mymap"></div>
+<!-- ボタンを配置 -->
+<div id="mybutton">
+	<div class="r">
+		<div class="c-6" style="text-align: center;"><button type="button" class="nes-btn is-primary">自動</button></div>
+		<div class="c-6" style="text-align: center;"><button type="button" class="nes-btn is-primary">状態</button></div>
+		<div class="c-6" style="text-align: center;"><button type="button" class="nes-btn is-primary">残す</button></div>
+		<div class="c-6" style="text-align: center;"><button type="button" class="nes-btn is-primary">設定</button></div>
+	</div>
+</div>
 
 <!-- SCRIPTS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

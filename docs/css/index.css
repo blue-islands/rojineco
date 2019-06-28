@@ -1,0 +1,22 @@
+@font-face{
+	font-family: "misaki_gothic";
+	src: url("../fonts/misaki_ttf/misaki_gothic_2nd.ttf") format("truetype");
+}
+
+body {
+	font-family: misaki_gothic;
+}
+
+#mymap {
+    width: 100%;
+    height: 100%;
+}
+
+#mybutton {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 1000;
+}
