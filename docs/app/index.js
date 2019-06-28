@@ -11,7 +11,7 @@ var IndexCtrl = {
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
     _className: 'IndexCtrl',
     CHANGE_DISTANCE: 50000,
-    RANGE_DISTANCE: 10000,
+    RANGE_DISTANCE: 20000,
     mymap: null,
     lastLat: 0,
     lastLng: 0,
@@ -104,7 +104,7 @@ var IndexCtrl = {
             }
             IndexCtrl.myMarker = L.marker([_lat, _lng], {icon: _myIcon}).addTo(IndexCtrl.mymap);
 
-            if (IndexCtrl.RANGE_DISTANCE < _distance) {
+            if ((IndexCtrl.RANGE_DISTANCE /2) < _distance) {
                 IndexCtrl.dispMarker(_lat, _lng);
             }
 
