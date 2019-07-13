@@ -105,6 +105,8 @@ var IndexCtrl = {
             IndexCtrl.myMarker = L.marker([_lat, _lng], {icon: _myIcon}).addTo(IndexCtrl.mymap);
 
             if ((IndexCtrl.RANGE_DISTANCE /2) < _distance) {
+                IndexCtrl.lastLat = _lat;
+                IndexCtrl.lastLng = _lng;
                 IndexCtrl.dispMarker(_lat, _lng);
             }
 
