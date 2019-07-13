@@ -20,7 +20,7 @@ var IndexCtrl = {
     nostalgy: null,
     myMarker: null,
     markers:[],
-    autoF: false,
+    autoF: true,
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
     init: function UN_init() {
         var _functionName = 'UN_init';
@@ -127,8 +127,10 @@ var IndexCtrl = {
             IndexCtrl.myMarker = L.marker([_lat, _lng], {icon: _myIcon}).addTo(IndexCtrl.mymap);
 
             // 自分の表示位置を中心に
-            IndexCtrl.autoMove(_lat, _lng);
-
+            if (IndexCtrl.autoF) {
+                IndexCtrl.autoMove(_lat, _lng);
+            }
+            
             // 表示マーカーの制御
             if ((IndexCtrl.RANGE_DISTANCE /2) < _rangeDistance) {
                 IndexCtrl.rangeLat = _lat;
@@ -392,7 +394,14 @@ var IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
-       
+            IndexCtrl.autoF
+            if (IndexCtrl.autoF) {
+                $('#doAuto').html('手動');
+                IndexCtrl.autoF = false;
+            } else {
+                $('#doAuto').html('自動');
+                IndexCtrl.autoF = true;
+            }
             // 処理終了
         }
         catch (ex) {
