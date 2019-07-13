@@ -35,17 +35,21 @@ var IndexCtrl = {
             });
 
             // 自動ボタン
-            $("#doAuto").click(function(){
+            $(document).on('click', '#doAuto', function() {
+                // clickイベントの処理
                 IndexCtrl.auto();
             });
             // 設定ボタン
-            $("#doSetting").click(function(){
+            $(document).on('click', '#doSetting', function() {
+                // clickイベントの処理
             });
             // 状態ボタン
-            $("#doStatus").click(function(){
+            $(document).on('click', '#doStatus', function() {
+                // clickイベントの処理
             });
             // コメントボタン
-            $("#doComment").click(function(){
+            $(document).on('click', '#doComment', function() {
+                // clickイベントの処理
             });
 
             IndexCtrl.mymap = L.map('mymap',{
