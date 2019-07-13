@@ -13,11 +13,14 @@ var IndexCtrl = {
     CHANGE_DISTANCE: 50000,
     RANGE_DISTANCE: 20000,
     mymap: null,
-    lastLat: 0,
-    lastLng: 0,
+    changeLat: 0,
+    changeLng: 0,
+    rangeLat: 0,
+    rangeLng: 0,
     nostalgy: null,
     myMarker: null,
     markers:[],
+    autoF: false,
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
     init: function UN_init() {
         var _functionName = 'UN_init';
@@ -29,6 +32,20 @@ var IndexCtrl = {
             $(window).resize(function() {
                 //リサイズされたときの処理
                 IndexCtrl.dispSize();
+            });
+
+            // 自動ボタン
+            $("#doAuto").click(function(){
+                IndexCtrl.auto();
+            });
+            // 設定ボタン
+            $("#doSetting").click(function(){
+            });
+            // 状態ボタン
+            $("#doStatus").click(function(){
+            });
+            // コメントボタン
+            $("#doComment").click(function(){
             });
 
             IndexCtrl.mymap = L.map('mymap',{
@@ -63,7 +80,8 @@ var IndexCtrl = {
 
     success: function UN_success(pos) {
         var _functionName = 'UN_success',
-            _distance = 0,
+            _changeDistance = 0,
+            _rangeDistance = 0,
             _lat = 0,
             _lng = 0,
             _myIcon = null;
@@ -86,9 +104,13 @@ var IndexCtrl = {
 
             _lat = pos.coords.latitude; //緯度
             _lng = pos.coords.longitude; //経度
-            _distance = geolib.getDistance(
+            _changeDistance = geolib.getDistance(
                 {latitude: _lat, longitude: _lng},
-                {latitude: IndexCtrl.lastLat, longitude: IndexCtrl.lastLng}
+                {latitude: IndexCtrl.changeLat, longitude: IndexCtrl.changeLng}
+            );
+            _rangeDistance = geolib.getDistance(
+                {latitude: _lat, longitude: _lng},
+                {latitude: IndexCtrl.rangeLat, longitude: IndexCtrl.rangeLng}
             );
 
             _myIcon = L.icon({
@@ -104,13 +126,18 @@ var IndexCtrl = {
             }
             IndexCtrl.myMarker = L.marker([_lat, _lng], {icon: _myIcon}).addTo(IndexCtrl.mymap);
 
-            if ((IndexCtrl.RANGE_DISTANCE /2) < _distance) {
-                IndexCtrl.lastLat = _lat;
-                IndexCtrl.lastLng = _lng;
+            // 自分の表示位置を中心に
+            IndexCtrl.autoMove(_lat, _lng);
+
+            // 表示マーカーの制御
+            if ((IndexCtrl.RANGE_DISTANCE /2) < _rangeDistance) {
+                IndexCtrl.rangeLat = _lat;
+                IndexCtrl.rangeLng = _lng;
                 IndexCtrl.dispMarker(_lat, _lng);
             }
 
-            if (IndexCtrl.CHANGE_DISTANCE < _distance) {
+            // データ再取得の制御
+            if (IndexCtrl.CHANGE_DISTANCE < _changeDistance) {
                 // 1.$.ajaxメソッドで通信を行います。
                 //  20行目のdataは、フォームの内容をserialize()している
                 //  →serialize()の内容は、cs1=custom1&cs2=custom2
@@ -127,8 +154,8 @@ var IndexCtrl = {
                     //  引数のjqXHRは、XMLHttpRequestオブジェクト
                     }).done(function(ret,textStatus,jqXHR) {
                         logger.info(ret); //コンソールにJSONが表示される
-                        IndexCtrl.lastLat = _lat;
-                        IndexCtrl.lastLng = _lng;
+                        IndexCtrl.changeLat = _lat;
+                        IndexCtrl.changeLng = _lng;
                         IndexCtrl.nostalgy = ret.results;
                         IndexCtrl.dispMarker(_lat, _lng);
                     // 6. failは、通信に失敗した時に実行される
@@ -169,15 +196,6 @@ var IndexCtrl = {
     dispMarker: function UN_dispMarker(lat, lng) {
         var _functionName = 'UN_dispMarker',
             _distance = 0,
-            _distanceAry = [],
-            _min = 0,
-            _lat = 0,
-            _lng = 0,
-            _up = [],
-            _right = [],
-            _down = [],
-            _left = [],
-            _bounds = 0,
             _pointLat = 0,
             _pointLng = 0,
             _point = [];
@@ -191,36 +209,6 @@ var IndexCtrl = {
                         IndexCtrl.mymap.removeLayer(IndexCtrl.markers[i]);
                     }
                 }
-
-                for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
-                    var data = IndexCtrl.nostalgy[i];
-                    _distance = geolib.getDistance(
-                        {latitude: lat, longitude: lng},
-                        {latitude: data.lat, longitude: data.lng}
-                    );
-                    _distanceAry.push(_distance);
-                }
-                _min = Math.min.apply(null, _distanceAry);
-                _lat = doRad(lat);
-                _lng = doRad(lng);
-                _up = vincenty(_lat, _lng, doRad(0), _min);
-                _right = vincenty(_lat, _lng, doRad(90), _min);
-                _down = vincenty(_lat, _lng, doRad(180), _min);
-                _left = vincenty(_lat, _lng, doRad(270), _min);
-                _bounds = geolib.getBounds([
-                    { latitude: _up[0], longitude: _up[1] },
-                    { latitude: _right[0], longitude: _right[1] },
-                    { latitude: _down[0], longitude: _down[1] },
-                    { latitude: _left[0], longitude: _left[1] },
-                ]);
-
-                logger.info(_bounds.minLat+','+_bounds.maxLng);
-                logger.info(_bounds.maxLat+','+_bounds.minLng);
-                IndexCtrl.mymap.setView([ lat, lng]); //地図を移動
-                IndexCtrl.mymap.fitBounds([
-                   [_bounds.minLat, _bounds.maxLng],
-                   [_bounds.maxLat, _bounds.minLng]
-                ]);
 
                 for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
                     var data = IndexCtrl.nostalgy[i];
@@ -265,6 +253,65 @@ var IndexCtrl = {
             // _navbarHeight = $('.navbar').height();
             _windowHeight = $(window).height();
             $('body').height(_windowHeight);
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+
+    autoMove: function UN_appearance(lat, lng) {
+        var _functionName = 'UN_appearance',
+            _distance = 0,
+            _distanceAry = [],
+            _min = 0,
+            _lat = 0,
+            _lng = 0,
+            _up = [],
+            _right = [],
+            _down = [],
+            _left = [],
+            _bounds = {};
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            if (IndexCtrl.nostalgy == null) {
+                return;
+            }
+
+            for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
+                var data = IndexCtrl.nostalgy[i];
+                _distance = geolib.getDistance(
+                    {latitude: lat, longitude: lng},
+                    {latitude: data.lat, longitude: data.lng}
+                );
+                _distanceAry.push(_distance);
+            }
+            _min = Math.min.apply(null, _distanceAry);
+            _lat = doRad(lat);
+            _lng = doRad(lng);
+            _up = vincenty(_lat, _lng, doRad(0), _min);
+            _right = vincenty(_lat, _lng, doRad(90), _min);
+            _down = vincenty(_lat, _lng, doRad(180), _min);
+            _left = vincenty(_lat, _lng, doRad(270), _min);
+            _bounds = geolib.getBounds([
+                { latitude: _up[0], longitude: _up[1] },
+                { latitude: _right[0], longitude: _right[1] },
+                { latitude: _down[0], longitude: _down[1] },
+                { latitude: _left[0], longitude: _left[1] },
+            ]);
+
+            logger.info(_bounds.minLat+','+_bounds.maxLng);
+            logger.info(_bounds.maxLat+','+_bounds.minLng);
+            IndexCtrl.mymap.setView([ lat, lng]); //地図を移動
+            IndexCtrl.mymap.fitBounds([
+               [_bounds.minLat, _bounds.maxLng],
+               [_bounds.maxLat, _bounds.minLng]
+            ]);
             // 処理終了
         }
         catch (ex) {
@@ -329,6 +376,23 @@ var IndexCtrl = {
                     popupAnchor: [0, -24],
                 });
             }
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+
+    auto: function UN_auto() {
+        var _functionName = 'UN_auto';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+       
             // 処理終了
         }
         catch (ex) {
