@@ -31,12 +31,22 @@
 	<button id="doSetting" type="button" class="nes-btn is-error">設定</button>
 </div>
 <div id="button3">
-	<button id="doStatus" type="button" class="nes-btn is-primary">状態</button>
+	<button id="doStatus" type="button" class="nes-btn is-primary">ネコ</button>
 </div>
 <div id="button4">
 	<button id="doComment" type="button" class="nes-btn is-success">ｺﾒﾝﾄ</button>
 </div>
-
+<!-- コメント画面 -->
+<div id="commentView" class="parent">
+	<div class="inner">
+		<label for="textarea_field">コメント</label>
+		<textarea id="textarea_field" class="nes-textarea background-white" style="height: 300px;"></textarea>
+		<button id="doCommentEntry" type="button" class="nes-btn is-success">登録</button>
+		<button id="doCommentCancel" type="button" class="nes-btn">キャンセル</button>
+	</div>
+</div>
+<!-- ネコ出現 -->
+<div id="catView"></div>
 
 <!-- SCRIPTS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

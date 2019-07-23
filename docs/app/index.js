@@ -7,9 +7,13 @@
  *        ：新規登録
  */
 //34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
-var IndexCtrl = {
+var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
+// IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
+IndexCtrl.domain = 'http://localhost:8080/';
+IndexCtrl = {
     _className: 'IndexCtrl',
+    SESSION_UUID: "SESSION_UUID",
     CHANGE_DISTANCE: 50000,
     RANGE_DISTANCE: 20000,
     mymap: null,
@@ -21,6 +25,14 @@ var IndexCtrl = {
     myMarker: null,
     markers:[],
     autoF: true,
+    urls: {
+        login: IndexCtrl.domain + 'login',
+        who: IndexCtrl.domain + 'who',
+        getNostalgy: IndexCtrl.domain + 'getNostalgy',
+        setComment: IndexCtrl.domain + 'setComment',
+        // getTourspot: domain + 'getTourspot',
+        // getEkispertUrl: domain + 'getEkispertUrl'
+    },
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
     init: function UN_init() {
         var _functionName = 'UN_init';
@@ -28,6 +40,13 @@ var IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
+            // UUIDの取得
+            IndexCtrl.uuid = localStorage.getItem(IndexCtrl.SESSION_UUID);
+            if (IndexCtrl.uuid == null) {
+                IndexCtrl.uuid = Util.uuid();
+                localStorage.setItem(IndexCtrl.SESSION_UUID, IndexCtrl.uuid);
+            }
+
             IndexCtrl.dispSize();
             $(window).resize(function() {
                 //リサイズされたときの処理
@@ -50,7 +69,21 @@ var IndexCtrl = {
             // コメントボタン
             $(document).on('click', '#doComment', function() {
                 // clickイベントの処理
+                $('#commentView').show();
             });
+            // コメント登録ボタン
+            $(document).on('click', '#doCommentEntry', function() {
+                // clickイベントの処理
+                IndexCtrl.comment();
+            });
+            // コメントキャンセルボタン
+            $(document).on('click', '#doCommentCancel', function() {
+                // clickイベントの処理
+                $('#commentView').hide();
+            });
+
+            $('#commentView').hide();
+            $('#catView').hide();
 
             IndexCtrl.mymap = L.map('mymap',{
                 center: [35.7102, 139.8132],
@@ -148,7 +181,7 @@ var IndexCtrl = {
                 //  20行目のdataは、フォームの内容をserialize()している
                 //  →serialize()の内容は、cs1=custom1&cs2=custom2
                 $.ajax({	
-                    url:'https://www.livlog.xyz/webapi/nostalgy', // 通信先のURL
+                    url:IndexCtrl.urls.getNostalgy, // 通信先のURL
                     type:'GET',		// 使用するHTTPメソッド
                     data:{
                         lat: _lat,
@@ -406,6 +439,23 @@ var IndexCtrl = {
                 $('#doAuto').html('自動');
                 IndexCtrl.autoF = true;
             }
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+
+    comment: function UN_comment() {
+        var _functionName = 'UN_comment';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            
             // 処理終了
         }
         catch (ex) {
