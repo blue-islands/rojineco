@@ -9,14 +9,17 @@
 //34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
-// IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
-IndexCtrl.domain = 'http://localhost:8080/';
+IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
+// IndexCtrl.domain = 'http://localhost:8080/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
     CHANGE_DISTANCE: 50000,
     RANGE_DISTANCE: 20000,
+    userId: null,
     mymap: null,
+    lat: 0,
+    lng: 0,
     changeLat: 0,
     changeLng: 0,
     rangeLat: 0,
@@ -30,8 +33,6 @@ IndexCtrl = {
         who: IndexCtrl.domain + 'who',
         getNostalgy: IndexCtrl.domain + 'getNostalgy',
         setComment: IndexCtrl.domain + 'setComment',
-        // getTourspot: domain + 'getTourspot',
-        // getEkispertUrl: domain + 'getEkispertUrl'
     },
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
     init: function UN_init() {
@@ -41,10 +42,10 @@ IndexCtrl = {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
             // UUIDの取得
-            IndexCtrl.uuid = localStorage.getItem(IndexCtrl.SESSION_UUID);
-            if (IndexCtrl.uuid == null) {
-                IndexCtrl.uuid = Util.uuid();
-                localStorage.setItem(IndexCtrl.SESSION_UUID, IndexCtrl.uuid);
+            IndexCtrl.userId = localStorage.getItem(IndexCtrl.SESSION_UUID);
+            if (IndexCtrl.userId == null) {
+                IndexCtrl.userId = Util.uuid();
+                localStorage.setItem(IndexCtrl.SESSION_UUID, IndexCtrl.userId);
             }
 
             IndexCtrl.dispSize();
@@ -70,18 +71,27 @@ IndexCtrl = {
             $(document).on('click', '#doComment', function() {
                 // clickイベントの処理
                 $('#commentView').show();
+                $('#commentField').removeClass('is-error');
+                $('#commentField').val('');
             });
             // コメント登録ボタン
             $(document).on('click', '#doCommentEntry', function() {
                 // clickイベントの処理
-                IndexCtrl.comment();
+                var uuid = null;
+                var comment = $('#commentField').val();
+                if (comment.length == 0) {
+                    $('#commentField').addClass('is-error');     
+                } else {
+                    IndexCtrl.comment(uuid, comment);
+                }
             });
             // コメントキャンセルボタン
             $(document).on('click', '#doCommentCancel', function() {
                 // clickイベントの処理
                 $('#commentView').hide();
             });
-
+            
+            // ビューの非表示
             $('#commentView').hide();
             $('#catView').hide();
 
@@ -141,6 +151,8 @@ IndexCtrl = {
 
             _lat = pos.coords.latitude; //緯度
             _lng = pos.coords.longitude; //経度
+            IndexCtrl.lat = _lat;
+            IndexCtrl.lng = _lng;
             _changeDistance = geolib.getDistance(
                 {latitude: _lat, longitude: _lng},
                 {latitude: IndexCtrl.changeLat, longitude: IndexCtrl.changeLng}
@@ -449,13 +461,36 @@ IndexCtrl = {
         }
     },
 
-    comment: function UN_comment() {
+    comment: function UN_comment(uuid, comment) {
         var _functionName = 'UN_comment';
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
-            
+            $.ajax({	
+                url:IndexCtrl.urls.setComment, // 通信先のURL
+                type:'POST',		// 使用するHTTPメソッド
+                data:{
+                    uuid: uuid,
+                    userId: IndexCtrl.userId,
+                    lat: IndexCtrl.lat,
+                    lng: IndexCtrl.lng,
+                    comment: comment
+                }, // 送信するデータ
+                // 2. doneは、通信に成功した時に実行される
+                //  引数のdata1は、通信で取得したデータ
+                //  引数のtextStatusは、通信結果のステータス
+                //  引数のjqXHRは、XMLHttpRequestオブジェクト
+                }).done(function(ret,textStatus,jqXHR) {
+                    logger.info(ret); //コンソールにJSONが表示される
+
+                // 6. failは、通信に失敗した時に実行される
+                }).fail(function(jqXHR, textStatus, errorThrown ) {
+                    logger.error(errorThrown);
+                // 7. alwaysは、成功/失敗に関わらず実行される
+                }).always(function(){
+                    $('#commentView').hide();
+                });
             // 処理終了
         }
         catch (ex) {
@@ -467,5 +502,7 @@ IndexCtrl = {
     },
 };
 
-
+$(document).ready(function(){
+    IndexCtrl.init();
+});
     

@@ -39,8 +39,8 @@
 <!-- コメント画面 -->
 <div id="commentView" class="parent">
 	<div class="inner">
-		<label for="textarea_field">コメント</label>
-		<textarea id="textarea_field" class="nes-textarea background-white" style="height: 300px;"></textarea>
+		<label for="commentField">コメント</label>
+		<textarea id="commentField" class="nes-textarea background-white" style="height: 300px;"></textarea>
 		<button id="doCommentEntry" type="button" class="nes-btn is-success">登録</button>
 		<button id="doCommentCancel" type="button" class="nes-btn">キャンセル</button>
 	</div>
@@ -56,12 +56,7 @@
 <script src="./libs/geolib/dist/geolib.isPointInsideRobust.min.js"></script>
 <script src="./libs/logdown/dist/logdown.min.js"></script>
 <script src="./app/vindeinty.js"></script>
-<script src="./app/util.js?timestamp=20190713"></script>
-<script src="./app/index.js?timestamp=20190713"></script>
-<script type="text/javascript">
-	$(document).ready(function(){
-		IndexCtrl.init();
-	});
-</script>
+<script src="./app/util.js"></script>
+<script src="./app/index.js"></script>
 </body>
 </html>
