@@ -16,6 +16,7 @@ IndexCtrl = {
     SESSION_UUID: "SESSION_UUID",
     CHANGE_DISTANCE: 50000,
     RANGE_DISTANCE: 20000,
+    GET_DISTANCE: 100,
     userId: null,
     mymap: null,
     lat: 0,
@@ -34,6 +35,37 @@ IndexCtrl = {
         getNostalgy: IndexCtrl.domain + 'getNostalgy',
         setComment: IndexCtrl.domain + 'setComment',
     },
+    mapIcon: {
+        my: L.icon({
+            iconUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
+            iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
+            iconSize: [24, 24],
+            iconAnchor: [12, 24],
+            popupAnchor: [0, -24],
+        }),
+        gold: L.icon({
+            iconUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
+            iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
+            iconSize: [24, 24],
+            iconAnchor: [12, 24],
+            popupAnchor: [0, -24],
+        }),
+        silver: L.icon({
+            iconUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
+            iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
+            iconSize: [24, 24],
+            iconAnchor: [12, 24],
+            popupAnchor: [0, -24],
+        }),
+        bronze: L.icon({
+            iconUrl: 'https://rojine.co/img/8-bit-mario-icon-15.png',
+            iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-15.png',
+            iconSize: [24, 24],
+            iconAnchor: [12, 24],
+            popupAnchor: [0, -24],
+        }),
+    },
+
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
     init: function UN_init() {
         var _functionName = 'UN_init';
@@ -162,13 +194,8 @@ IndexCtrl = {
                 {latitude: IndexCtrl.rangeLat, longitude: IndexCtrl.rangeLng}
             );
 
-            _myIcon = L.icon({
-                iconUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
-                iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
-                iconSize: [24, 24],
-                iconAnchor: [12, 24],
-                popupAnchor: [0, -24],
-            });
+            // アイコン設定
+            _myIcon = IndexCtrl.mapIcon.my;
 
             if (IndexCtrl.myMarker != null) {
                 IndexCtrl.mymap.removeLayer(IndexCtrl.myMarker);
@@ -180,6 +207,9 @@ IndexCtrl = {
                 IndexCtrl.autoMove(_lat, _lng);
             }
             
+            // ネコの当たり判定
+            IndexCtrl.judgment();
+
             // 表示マーカーの制御
             if ((IndexCtrl.RANGE_DISTANCE /2) < _rangeDistance) {
                 IndexCtrl.rangeLat = _lat;
@@ -261,6 +291,8 @@ IndexCtrl = {
                     }
                 }
 
+                IndexCtrl.markers = [];
+
                 for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
                     var data = IndexCtrl.nostalgy[i];
                     _distance = geolib.getDistance(
@@ -277,12 +309,12 @@ IndexCtrl = {
                             _point = vincenty(_pointLat, _pointLng, doRad(alpha12), length);
     
                             var marker = L.marker([_point[0], _point[1]], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
+                            marker.data = data;
                             IndexCtrl.markers.push(marker);
                         }
                     }
                 }
             }
-
             // 処理終了
         }
         catch (ex) {
@@ -403,29 +435,11 @@ IndexCtrl = {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
             if (15 >= data.nostalgiaRatio) {
-                return L.icon({
-                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
-                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 24],
-                    popupAnchor: [0, -24],
-                });
+                return IndexCtrl.mapIcon.gold;
             } else if (30 >= data.nostalgiaRatio) {
-                return L.icon({
-                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
-                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 24],
-                    popupAnchor: [0, -24],
-                });
+                return IndexCtrl.mapIcon.silver;
             } else {
-                return L.icon({
-                    iconUrl: 'https://rojine.co/img/8-bit-mario-icon-15.png',
-                    iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-15.png',
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 24],
-                    popupAnchor: [0, -24],
-                });
+                return IndexCtrl.mapIcon.bronze;
             }
             // 処理終了
         }
@@ -491,6 +505,29 @@ IndexCtrl = {
                 }).always(function(){
                     $('#commentView').hide();
                 });
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+
+    judgment: function UN_judgment() {
+        var _functionName = 'UN_judgment',
+            _markers = null;
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            if (IndexCtrl.markers) {
+                for (var i = 0; i < IndexCtrl.markers.length; i++) {
+                    _markers = IndexCtrl.markers[i];
+                    logger.info(_markers);
+                }
+            }
             // 処理終了
         }
         catch (ex) {
