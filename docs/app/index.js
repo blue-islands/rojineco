@@ -1,8 +1,8 @@
 /*
  * タイトル：インデックス画面JS
  * 説明    ：
- * 著作権  ：Copyright(c) 2018 LivLog llc.
- * 会社名  ：リブログ合同会社
+ * 著作権  ：Copyright(c) 2019 rojineco project.
+ * 会社名  ：ロジネコプロジェクト
  * 変更履歴：2019.05.16
  *        ：新規登録
  */
@@ -534,7 +534,7 @@ IndexCtrl = {
                     );
                     // 指定の範囲内に現れたら戦闘画面を表示
                     if (IndexCtrl.GET_DISTANCE > _distancee) {
-                        alert('ネコが現れた');
+                        AttackCtrl.attack(_data)
                         break;
                     } else {
                         logger.info(_data);
