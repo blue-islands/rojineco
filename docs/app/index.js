@@ -517,7 +517,9 @@ IndexCtrl = {
 
     judgment: function UN_judgment() {
         var _functionName = 'UN_judgment',
-            _markers = null;
+            _markers = null,
+            _data = null,
+            _distance = 0;
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
@@ -525,7 +527,18 @@ IndexCtrl = {
             if (IndexCtrl.markers) {
                 for (var i = 0; i < IndexCtrl.markers.length; i++) {
                     _markers = IndexCtrl.markers[i];
-                    logger.info(_markers);
+                    _data = _markers.data;
+                    _distancee = geolib.getDistance(
+                        {latitude: IndexCtrl.lat, longitude: IndexCtrl.lng},
+                        {latitude: _data.lat, longitude: _data.lng}
+                    );
+                    // 指定の範囲内に現れたら戦闘画面を表示
+                    if (IndexCtrl.GET_DISTANCE > _distancee) {
+                        alert('ネコが現れた');
+                        break;
+                    } else {
+                        logger.info(_data);
+                    }
                 }
             }
             // 処理終了
