@@ -37,8 +37,8 @@ IndexCtrl = {
     },
     mapIcon: {
         my: L.icon({
-            iconUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
-            iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-13.png',
+            iconUrl: 'https://rojine.co/img/ze-1-blink.gif',
+            iconRetinaUrl: 'https://rojine.co/img/ze-1-blink.gif',
             iconSize: [24, 24],
             iconAnchor: [12, 24],
             popupAnchor: [0, -24],
