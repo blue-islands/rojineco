@@ -9,8 +9,8 @@
 //34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
-// IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
-IndexCtrl.domain = 'http://localhost:8080/';
+IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
+// IndexCtrl.domain = 'http://localhost:8080/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
@@ -139,6 +139,18 @@ IndexCtrl = {
                 } else {
                     IndexCtrl.setComment(uuid, lat, lng, comment);
                 }
+            });
+            // コメント削除ボタン
+            $(document).on('click', '#doCommentDelete', function() {
+                // clickイベントの処理
+                var comment = $('#commentField').val();
+                var lat = $('#commentLat').val();
+                var lng = $('#commentLng').val();
+                var uuid = $('#commentId').val();
+                if (uuid.length == 0) {
+                    uuid = null;
+                }
+                IndexCtrl.removeComment(uuid);
             });
             // コメントOKボタン
             $(document).on('click', '#doCommentOk', function() {
@@ -605,6 +617,41 @@ IndexCtrl = {
                 }).always(function(){
                     $('#commentView').hide();
                 });
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+
+    removeComment: function UN_removeCommentt(uuid) {
+        var _functionName = 'UN_removeCommentt';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            if(window.confirm('本当に削除しますか？')){
+                $.ajax({	
+                    url:IndexCtrl.urls.removeComment, // 通信先のURL
+                    type:'POST',		// 使用するHTTPメソッド
+                    data:{
+                        uuid: uuid,
+                        userId: IndexCtrl.userId
+                    }, // 送信するデータ
+                    }).done(function(ret,textStatus,jqXHR) {
+                        logger.info(ret); //コンソールにJSONが表示される
+                        IndexCtrl.dispComment(IndexCtrl.rangeLat, IndexCtrl.rangeLng);
+                    }).fail(function(jqXHR, textStatus, errorThrown ) {
+                        logger.error(errorThrown);
+                    }).always(function(){
+                        $('#commentView').hide();
+                    });
+            } else {
+                // window.alert('キャンセルされました。');
+            }
             // 処理終了
         }
         catch (ex) {
