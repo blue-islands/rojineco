@@ -1,10 +1,10 @@
-@font-face{
-	font-family: "misaki_gothic";
-	src: url("../fonts/misaki_ttf/misaki_gothic_2nd.ttf") format("truetype");
+@font-face {
+    font-family: "PixelMplus10-Regular";
+    src: url('https://cdn.leafscape.be/PixelMplus/PixelMplus10-Regular_web.woff2') format("woff2");
 }
 
 body {
-	font-family: misaki_gothic;
+	font-family: PixelMplus10-Regular;
 }
 
 #mymap {

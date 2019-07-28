@@ -9,8 +9,8 @@
 //34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
-IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
-// IndexCtrl.domain = 'http://localhost:8080/';
+// IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
+IndexCtrl.domain = 'http://localhost:8080/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
@@ -37,32 +37,32 @@ IndexCtrl = {
     },
     mapIcon: {
         my: L.icon({
-            iconUrl: 'https://rojine.co/img/ze-1-blink.gif',
-            iconRetinaUrl: 'https://rojine.co/img/ze-1-blink.gif',
-            iconSize: [24, 24],
-            iconAnchor: [12, 24],
-            popupAnchor: [0, -24],
+            iconUrl: './img/walk_back.gif',
+            iconRetinaUrl: './img/walk_back.gif',
+            iconSize: [36, 36],
+            iconAnchor: [18, 36],
+            popupAnchor: [0, -36],
         }),
         gold: L.icon({
-            iconUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
-            iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-7.png',
-            iconSize: [24, 24],
-            iconAnchor: [12, 24],
-            popupAnchor: [0, -24],
+            iconUrl: './img/npc1.png',
+            iconRetinaUrl: './img/npc1.png',
+            iconSize: [36, 36],
+            iconAnchor: [18, 36],
+            popupAnchor: [0, -36],
         }),
         silver: L.icon({
-            iconUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
-            iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-14.png',
-            iconSize: [24, 24],
-            iconAnchor: [12, 24],
-            popupAnchor: [0, -24],
+            iconUrl: './img/npc2.png',
+            iconRetinaUrl: './img/npc2.png',
+            iconSize: [36, 36],
+            iconAnchor: [18, 36],
+            popupAnchor: [0, -36],
         }),
         bronze: L.icon({
-            iconUrl: 'https://rojine.co/img/8-bit-mario-icon-15.png',
-            iconRetinaUrl: 'https://rojine.co/img/8-bit-mario-icon-15.png',
-            iconSize: [24, 24],
-            iconAnchor: [12, 24],
-            popupAnchor: [0, -24],
+            iconUrl: './img/npc3.png',
+            iconRetinaUrl: './img/npc3.png',
+            iconSize: [36, 36],
+            iconAnchor: [18, 36],
+            popupAnchor: [0, -36],
         }),
     },
 
