@@ -9,8 +9,8 @@
 //34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
-// IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
-IndexCtrl.domain = 'http://localhost:8080/';
+IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
+// IndexCtrl.domain = 'http://localhost:8080/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
@@ -28,12 +28,14 @@ IndexCtrl = {
     nostalgy: null,
     myMarker: null,
     markers:[],
+    comments: [],
     autoF: true,
     urls: {
         login: IndexCtrl.domain + 'login',
         who: IndexCtrl.domain + 'who',
         getNostalgy: IndexCtrl.domain + 'getNostalgy',
         setComment: IndexCtrl.domain + 'setComment',
+        getComment: IndexCtrl.domain + 'getComment',
     },
     mapIcon: {
         my: L.icon({
@@ -60,6 +62,13 @@ IndexCtrl = {
         bronze: L.icon({
             iconUrl: './img/npc3.png',
             iconRetinaUrl: './img/npc3.png',
+            iconSize: [36, 36],
+            iconAnchor: [18, 36],
+            popupAnchor: [0, -36],
+        }),
+        comment: L.icon({
+            iconUrl: './img/comment.png',
+            iconRetinaUrl: './img/comment.png',
             iconSize: [36, 36],
             iconAnchor: [18, 36],
             popupAnchor: [0, -36],
@@ -114,7 +123,7 @@ IndexCtrl = {
                 if (comment.length == 0) {
                     $('#commentField').addClass('is-error');     
                 } else {
-                    IndexCtrl.comment(uuid, comment);
+                    IndexCtrl.setComment(uuid, comment);
                 }
             });
             // コメントキャンセルボタン
@@ -220,13 +229,12 @@ IndexCtrl = {
                 IndexCtrl.rangeLat = _lat;
                 IndexCtrl.rangeLng = _lng;
                 IndexCtrl.dispMarker(_lat, _lng);
+                IndexCtrl.dispComment(_lat, _lng);
             }
 
             // データ再取得の制御
             if (IndexCtrl.CHANGE_DISTANCE < _changeDistance) {
-                // 1.$.ajaxメソッドで通信を行います。
-                //  20行目のdataは、フォームの内容をserialize()している
-                //  →serialize()の内容は、cs1=custom1&cs2=custom2
+
                 $.ajax({	
                     url:IndexCtrl.urls.getNostalgy, // 通信先のURL
                     type:'GET',		// 使用するHTTPメソッド
@@ -234,20 +242,14 @@ IndexCtrl = {
                         lat: _lat,
                         lng: _lng
                     }, // 送信するデータ
-                    // 2. doneは、通信に成功した時に実行される
-                    //  引数のdata1は、通信で取得したデータ
-                    //  引数のtextStatusは、通信結果のステータス
-                    //  引数のjqXHRは、XMLHttpRequestオブジェクト
                     }).done(function(ret,textStatus,jqXHR) {
                         logger.info(ret); //コンソールにJSONが表示される
                         IndexCtrl.changeLat = _lat;
                         IndexCtrl.changeLng = _lng;
                         IndexCtrl.nostalgy = ret.results;
                         IndexCtrl.dispMarker(_lat, _lng);
-                    // 6. failは、通信に失敗した時に実行される
                     }).fail(function(jqXHR, textStatus, errorThrown ) {
                         logger.error(errorThrown);
-                    // 7. alwaysは、成功/失敗に関わらず実行される
                     }).always(function(){
                         logger.info('***** 処理終了 *****');
                     });
@@ -330,6 +332,54 @@ IndexCtrl = {
         }
     },
 
+    dispComment: function UN_dispComment(lat, lng) {
+        var _functionName = 'UN_dispComment';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            if (IndexCtrl.comments) {
+                for (var i = 0; i < IndexCtrl.comments.length; i++) {
+                    IndexCtrl.mymap.removeLayer(IndexCtrl.comments[i]);
+                }
+            }
+
+            IndexCtrl.comments = [];
+
+            $.ajax({	
+                url:IndexCtrl.urls.getComment, // 通信先のURL
+                type:'GET',		// 使用するHTTPメソッド
+                data:{
+                    userId: null,
+                    lat: lat,
+                    lng: lng,
+                    distance: IndexCtrl.RANGE_DISTANCE /2
+                }, // 送信するデータ
+                }).done(function(ret,textStatus,jqXHR) {
+                    for (var i = 0; i < ret.results.length; i++) {
+                        var data = ret.results[i];
+                        logger.info(data);
+                        var lat = data.location[1];
+                        var lng = data.location[0];
+                        var marker = L.marker([lat, lng], {icon: IndexCtrl.mapIcon.comment}).addTo(IndexCtrl.mymap);
+                        marker.data = data;
+                        IndexCtrl.comments.push(marker);
+                    }
+                }).fail(function(jqXHR, textStatus, errorThrown ) {
+                    logger.error(errorThrown);
+                }).always(function(){
+                    logger.info('***** 処理終了 *****');
+                });
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+
     dispSize: function UN_dispSize() {
         var _functionName = 'UN_dispSize',
             // _navbarHeight,
@@ -350,6 +400,7 @@ IndexCtrl = {
             Util.endWriteLog(IndexCtrl._className,_functionName);
         }
     },
+    
 
     autoMove: function UN_appearance(lat, lng) {
         var _functionName = 'UN_appearance',
@@ -480,8 +531,8 @@ IndexCtrl = {
         }
     },
 
-    comment: function UN_comment(uuid, comment) {
-        var _functionName = 'UN_comment';
+    setComment: function UN_setComment(uuid, comment) {
+        var _functionName = 'UN_setComment';
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
@@ -496,17 +547,11 @@ IndexCtrl = {
                     lng: IndexCtrl.lng,
                     comment: comment
                 }, // 送信するデータ
-                // 2. doneは、通信に成功した時に実行される
-                //  引数のdata1は、通信で取得したデータ
-                //  引数のtextStatusは、通信結果のステータス
-                //  引数のjqXHRは、XMLHttpRequestオブジェクト
                 }).done(function(ret,textStatus,jqXHR) {
                     logger.info(ret); //コンソールにJSONが表示される
 
-                // 6. failは、通信に失敗した時に実行される
                 }).fail(function(jqXHR, textStatus, errorThrown ) {
                     logger.error(errorThrown);
-                // 7. alwaysは、成功/失敗に関わらず実行される
                 }).always(function(){
                     $('#commentView').hide();
                 });
