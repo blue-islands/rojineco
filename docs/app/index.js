@@ -9,8 +9,8 @@
 //34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
-IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
-// IndexCtrl.domain = 'http://localhost:8080/';
+// IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
+IndexCtrl.domain = 'http://localhost:8080/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
@@ -36,6 +36,7 @@ IndexCtrl = {
         getNostalgy: IndexCtrl.domain + 'getNostalgy',
         setComment: IndexCtrl.domain + 'setComment',
         getComment: IndexCtrl.domain + 'getComment',
+        removeComment: IndexCtrl.domain + 'removeComment',
     },
     mapIcon: {
         my: L.icon({
@@ -112,19 +113,37 @@ IndexCtrl = {
             $(document).on('click', '#doComment', function() {
                 // clickイベントの処理
                 $('#commentView').show();
+                $('#doCommentEntry').show();
+                $('#doCommentDelete').hide();
+                $('#doCommentOk').hide();
+                $('#doCommentCancel').show();
                 $('#commentField').removeClass('is-error');
+                $('#commentField').prop('readOnly', false);
                 $('#commentField').val('');
+                $('#commentLat').val(IndexCtrl.lat);
+                $('#commentLng').val(IndexCtrl.lng);
+                $('#commentId').val('');
             });
             // コメント登録ボタン
             $(document).on('click', '#doCommentEntry', function() {
                 // clickイベントの処理
-                var uuid = null;
                 var comment = $('#commentField').val();
+                var lat = $('#commentLat').val();
+                var lng = $('#commentLng').val();
+                var uuid = $('#commentId').val();
+                if (uuid.length == 0) {
+                    uuid = null;
+                }
                 if (comment.length == 0) {
                     $('#commentField').addClass('is-error');     
                 } else {
-                    IndexCtrl.setComment(uuid, comment);
+                    IndexCtrl.setComment(uuid, lat, lng, comment);
                 }
+            });
+            // コメントOKボタン
+            $(document).on('click', '#doCommentOk', function() {
+                // clickイベントの処理
+                $('#commentView').hide();
             });
             // コメントキャンセルボタン
             $(document).on('click', '#doCommentCancel', function() {
@@ -250,8 +269,8 @@ IndexCtrl = {
                         IndexCtrl.dispMarker(_lat, _lng);
                     }).fail(function(jqXHR, textStatus, errorThrown ) {
                         logger.error(errorThrown);
-                    }).always(function(){
-                        logger.info('***** 処理終了 *****');
+                    // }).always(function(){
+                    //     logger.info('***** 処理終了 *****');
                     });
             } 
             // 処理終了
@@ -333,7 +352,11 @@ IndexCtrl = {
     },
 
     dispComment: function UN_dispComment(lat, lng) {
-        var _functionName = 'UN_dispComment';
+        var _functionName = 'UN_dispComment',
+            _distance = 0,
+            _pointLat = 0,
+            _pointLng = 0,
+            _point = [];
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
@@ -359,16 +382,43 @@ IndexCtrl = {
                     for (var i = 0; i < ret.results.length; i++) {
                         var data = ret.results[i];
                         logger.info(data);
-                        var lat = data.location[1];
-                        var lng = data.location[0];
-                        var marker = L.marker([lat, lng], {icon: IndexCtrl.mapIcon.comment}).addTo(IndexCtrl.mymap);
+                        _pointLat = doRad(data.location[1]);
+                        _pointLng = doRad(data.location[0]);
+                        var alpha12 = Math.floor(Math.random() * 359);
+                        var length = Math.floor(Math.random() * 50);
+                        _point = vincenty(_pointLat, _pointLng, doRad(alpha12), length);
+
+                        var marker = L.marker([_point[0], _point[1]], {icon: IndexCtrl.mapIcon.comment}).addTo(IndexCtrl.mymap)
+                        .on('click', function(e) { 
+                            // clickイベントの処理 
+                            var data = e.target.data;
+                            $('#commentView').show();
+                            if (data.userId == IndexCtrl.userId) {
+                                $('#doCommentEntry').show();
+                                $('#doCommentDelete').show();
+                                $('#doCommentOk').hide();
+                                $('#doCommentCancel').show();
+                                $('#commentField').prop('readOnly', false);
+                            } else {
+                                $('#doCommentEntry').hide();
+                                $('#doCommentDelete').hide();
+                                $('#doCommentOk').show();
+                                $('#doCommentCancel').hide();
+                                $('#commentField').prop('readOnly', true);
+                            }
+                            $('#commentField').removeClass('is-error');
+                            $('#commentField').val(data.comment);
+                            $('#commentLat').val(data.location[1]);
+                            $('#commentLng').val(data.location[0]);
+                            $('#commentId').val(data.uuid);
+                        });
                         marker.data = data;
                         IndexCtrl.comments.push(marker);
                     }
                 }).fail(function(jqXHR, textStatus, errorThrown ) {
                     logger.error(errorThrown);
-                }).always(function(){
-                    logger.info('***** 処理終了 *****');
+                // }).always(function(){
+                //     logger.info('***** 処理終了 *****');
                 });
             // 処理終了
         }
@@ -531,7 +581,7 @@ IndexCtrl = {
         }
     },
 
-    setComment: function UN_setComment(uuid, comment) {
+    setComment: function UN_setComment(uuid, lat, lng, comment) {
         var _functionName = 'UN_setComment';
 
         try {
@@ -543,13 +593,13 @@ IndexCtrl = {
                 data:{
                     uuid: uuid,
                     userId: IndexCtrl.userId,
-                    lat: IndexCtrl.lat,
-                    lng: IndexCtrl.lng,
+                    lat: lat,
+                    lng: lng,
                     comment: comment
                 }, // 送信するデータ
                 }).done(function(ret,textStatus,jqXHR) {
                     logger.info(ret); //コンソールにJSONが表示される
-
+                    IndexCtrl.dispComment(IndexCtrl.rangeLat, IndexCtrl.rangeLng);
                 }).fail(function(jqXHR, textStatus, errorThrown ) {
                     logger.error(errorThrown);
                 }).always(function(){
