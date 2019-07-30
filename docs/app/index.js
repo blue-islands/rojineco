@@ -42,27 +42,90 @@ IndexCtrl = {
         my: L.icon({
             iconUrl: './img/walk_back.gif',
             iconRetinaUrl: './img/walk_back.gif',
+            iconSize: [50, 60],
+            iconAnchor: [25, 60],
+            popupAnchor: [0, -60],
+        }),
+        gold1: L.icon({
+            iconUrl: './img/cat6a.png',
+            iconRetinaUrl: './img/cat6a.png',
+            iconSize: [36, 40],
+            iconAnchor: [18, 40],
+            popupAnchor: [0, -40],
+        }),
+        gold2: L.icon({
+            iconUrl: './img/cat6b.png',
+            iconRetinaUrl: './img/cat6b.png',
+            iconSize: [36, 42],
+            iconAnchor: [18, 42],
+            popupAnchor: [0, -42],
+        }),
+        gold3: L.icon({
+            iconUrl: './img/cat5a.png',
+            iconRetinaUrl: './img/cat5a.png',
+            iconSize: [36, 40],
+            iconAnchor: [18, 40],
+            popupAnchor: [0, -40],
+        }),
+        gold4: L.icon({
+            iconUrl: './img/cat5b.png',
+            iconRetinaUrl: './img/cat5b.png',
+            iconSize: [36, 42],
+            iconAnchor: [18, 42],
+            popupAnchor: [0, -42],
+        }),
+        silver1: L.icon({
+            iconUrl: './img/cat4a.png',
+            iconRetinaUrl: './img/cat4a.png',
             iconSize: [36, 36],
             iconAnchor: [18, 36],
             popupAnchor: [0, -36],
         }),
-        gold: L.icon({
-            iconUrl: './img/npc1.png',
-            iconRetinaUrl: './img/npc1.png',
+        silver2: L.icon({
+            iconUrl: './img/cat4b.png',
+            iconRetinaUrl: './img/cat4b.png',
             iconSize: [36, 36],
             iconAnchor: [18, 36],
             popupAnchor: [0, -36],
         }),
-        silver: L.icon({
-            iconUrl: './img/npc2.png',
-            iconRetinaUrl: './img/npc2.png',
+        silver3: L.icon({
+            iconUrl: './img/cat3a.png',
+            iconRetinaUrl: './img/cat3a.png',
             iconSize: [36, 36],
             iconAnchor: [18, 36],
             popupAnchor: [0, -36],
         }),
-        bronze: L.icon({
-            iconUrl: './img/npc3.png',
-            iconRetinaUrl: './img/npc3.png',
+        silver4: L.icon({
+            iconUrl: './img/cat3b.png',
+            iconRetinaUrl: './img/cat3b.png',
+            iconSize: [36, 36],
+            iconAnchor: [18, 36],
+            popupAnchor: [0, -36],
+        }),
+        bronze1: L.icon({
+            iconUrl: './img/cat21.png',
+            iconRetinaUrl: './img/cat2a.png',
+            iconSize: [36, 36],
+            iconAnchor: [18, 36],
+            popupAnchor: [0, -36],
+        }),
+        bronze2: L.icon({
+            iconUrl: './img/cat2b.png',
+            iconRetinaUrl: './img/cat2b.png',
+            iconSize: [36, 36],
+            iconAnchor: [18, 36],
+            popupAnchor: [0, -36],
+        }),
+        bronze3: L.icon({
+            iconUrl: './img/cat1a.png',
+            iconRetinaUrl: './img/cat1a.png',
+            iconSize: [36, 36],
+            iconAnchor: [18, 36],
+            popupAnchor: [0, -36],
+        }),
+        bronze4: L.icon({
+            iconUrl: './img/cat1b.png',
+            iconRetinaUrl: './img/cat1b.png',
             iconSize: [36, 36],
             iconAnchor: [18, 36],
             popupAnchor: [0, -36],
@@ -547,17 +610,47 @@ IndexCtrl = {
     },
     
     rarity: function UN_rarity(data) {
-        var _functionName = 'UN_rarity';
+        var _functionName = 'UN_rarity',
+            _ran = 0;
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
+            _ran = Math.floor( Math.random() * 5 ) ;
+
             if (15 >= data.nostalgiaRatio) {
-                return IndexCtrl.mapIcon.gold;
+                switch(_ran) {
+                    case 0:
+                        return IndexCtrl.mapIcon.gold1; 
+                    case 1:
+                        return IndexCtrl.mapIcon.gold2; 
+                    case 2:
+                        return IndexCtrl.mapIcon.gold3;
+                    case 3:
+                        return IndexCtrl.mapIcon.gold4;
+                }
             } else if (30 >= data.nostalgiaRatio) {
-                return IndexCtrl.mapIcon.silver;
+                switch(_ran) {
+                    case 0:
+                        return IndexCtrl.mapIcon.silver1; 
+                    case 1:
+                        return IndexCtrl.mapIcon.silver2; 
+                    case 2:
+                        return IndexCtrl.mapIcon.silver3;
+                    case 3:
+                        return IndexCtrl.mapIcon.silver4;
+                }
             } else {
-                return IndexCtrl.mapIcon.bronze;
+                switch(_ran) {
+                    case 0:
+                        return IndexCtrl.mapIcon.bronze1; 
+                    case 1:
+                        return IndexCtrl.mapIcon.bronze2; 
+                    case 2:
+                        return IndexCtrl.mapIcon.bronze3;
+                    case 3:
+                        return IndexCtrl.mapIcon.bronze4;
+                }
             }
             // 処理終了
         }
