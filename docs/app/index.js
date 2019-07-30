@@ -620,35 +620,35 @@ IndexCtrl = {
 
             if (15 >= data.nostalgiaRatio) {
                 switch(_ran) {
-                    case 0:
-                        return IndexCtrl.mapIcon.gold1; 
                     case 1:
-                        return IndexCtrl.mapIcon.gold2; 
+                        return IndexCtrl.mapIcon.gold1; 
                     case 2:
-                        return IndexCtrl.mapIcon.gold3;
+                        return IndexCtrl.mapIcon.gold2; 
                     case 3:
+                        return IndexCtrl.mapIcon.gold3;
+                    case 4:
                         return IndexCtrl.mapIcon.gold4;
                 }
             } else if (30 >= data.nostalgiaRatio) {
                 switch(_ran) {
-                    case 0:
-                        return IndexCtrl.mapIcon.silver1; 
                     case 1:
-                        return IndexCtrl.mapIcon.silver2; 
+                        return IndexCtrl.mapIcon.silver1; 
                     case 2:
-                        return IndexCtrl.mapIcon.silver3;
+                        return IndexCtrl.mapIcon.silver2; 
                     case 3:
+                        return IndexCtrl.mapIcon.silver3;
+                    case 4:
                         return IndexCtrl.mapIcon.silver4;
                 }
             } else {
                 switch(_ran) {
-                    case 0:
-                        return IndexCtrl.mapIcon.bronze1; 
                     case 1:
-                        return IndexCtrl.mapIcon.bronze2; 
+                        return IndexCtrl.mapIcon.bronze1; 
                     case 2:
-                        return IndexCtrl.mapIcon.bronze3;
+                        return IndexCtrl.mapIcon.bronze2; 
                     case 3:
+                        return IndexCtrl.mapIcon.bronze3;
+                    case 4:
                         return IndexCtrl.mapIcon.bronze4;
                 }
             }
