@@ -616,7 +616,7 @@ IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
-            _ran = Math.floor( Math.random() * 5 ) ;
+            _ran = Math.floor( Math.random() * 4 ) + 1;
 
             if (15 >= data.nostalgiaRatio) {
                 switch(_ran) {
