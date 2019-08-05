@@ -31,15 +31,26 @@
 	<button id="doSetting" type="button" class="nes-btn is-error">設定</button>
 </div>
 <div id="button3">
-	<button id="doStatus" type="button" class="nes-btn is-primary">ネコ</button>
+	<button id="doList" type="button" class="nes-btn is-primary">ネコ</button>
 </div>
 <div id="button4">
-	<button id="doComment" type="button" class="nes-btn is-success">写真</button>
+	<button id="doPhoto" type="button" class="nes-btn is-success">写真</button>
 </div>
-<!-- コメント画面 -->
-<div id="commentView" class="parent">
+<!-- 設定画面 -->
+<div id="settingView" class="parent">
 	<div class="inner">
-		<label for="commentField">コメント</label>
+		<button id="doTwitterLogin" type="button" class="nes-btn">
+			<i class="nes-icon twitter is-small" style="top: 3px;"></i>
+			&thinsp;ログイン
+		</button>
+
+		<button id="doCommentCancel" type="button" class="nes-btn">閉じる</button>
+	</div>
+</div>
+<!-- 一覧画面 -->
+<div id="listView" class="parent">
+	<div class="inner">
+		<!-- <label for="commentField">コメント</label>
 		<textarea id="commentField" class="nes-textarea background-white" style="height: 300px;"></textarea>
 		<button id="doCommentEntry" type="button" class="nes-btn is-success">登録</button>
 		<button id="doCommentDelete" type="button" class="nes-btn is-error">削除</button>
@@ -47,8 +58,11 @@
 		<button id="doCommentCancel" type="button" class="nes-btn">キャンセル</button>
 		<input id="commentLat" type="hidden">
 		<input id="commentLng" type="hidden">
-		<input id="commentId" type="hidden">
+		<input id="commentId" type="hidden"> -->
 	</div>
+</div>
+<!-- 写真画面 -->
+<div id="photoView">
 </div>
 <!-- ネコ出現 -->
 <div id="catView"></div>
@@ -60,6 +74,7 @@
 <script src="./libs/geolib/dist/geolib.elevation.min.js"></script>
 <script src="./libs/geolib/dist/geolib.isPointInsideRobust.min.js"></script>
 <script src="./libs/logdown/dist/logdown.min.js"></script>
+<script src="./libs/oauth-io/oauth.min.js"></script>
 <script src="./app/vindeinty.js"></script>
 <script src="./app/util.js"></script>
 <script src="./app/index.js"></script>
