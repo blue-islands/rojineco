@@ -196,6 +196,11 @@ IndexCtrl = {
                 // $('#commentLng').val(IndexCtrl.lng);
                 // $('#commentId').val('');
             });
+            // 設定閉じるボタン
+            $(document).on('click', '#doSettingClose', function() {
+                // clickイベントの処理
+                $('#settingView').hide();
+            });
             // // コメント登録ボタン
             // $(document).on('click', '#doCommentEntry', function() {
             //     // clickイベントの処理
