@@ -26,22 +26,24 @@ var LoginCtrl = {
                 localStorage.setItem("oauth_token_secret", res.oauth_token_secret);
 
                 _formdata = {
-                    'uuid': IndexCtrl.uuid,
+                    'uuid': IndexCtrl.userId,
                     'twitterToken': res.oauth_token,
                 }
                 $.ajax({
-                    url: 'login',
+                    url: IndexCtrl.urls.login,
                     type: 'GET',
                     data: _formdata,
                     dataType: 'json',
                 })
                 // Ajaxリクエストが成功した時
-                .done( (data_) => {
-                    console.log(data_);
-                    IndexCtrl.uuid = data_.login.uuid;
-                    localStorage.setItem(IndexCtrl.SESSION_UUID, IndexCtrl.uuid);
-                    // ログイン状態の確認
-                    LoginCtrl.changeBtn();
+                .done( (data) => {
+                    if (data.results.length > 0) {
+                        var  result = data.results[0];
+                        IndexCtrl.userId = result.uuid;
+                        localStorage.setItem(IndexCtrl.SESSION_UUID, IndexCtrl.userId);
+                        // ログイン状態の確認
+                        IndexCtrl.changeBtn();
+                    }
                 });
 
             //以下追加コード
@@ -49,7 +51,6 @@ var LoginCtrl = {
 
                   //コールバック処理(元のアドレスに戻る)
                   OAuth.callback('twitter',  "callback/url");
-
             });
             // 処理終了
         }
@@ -70,7 +71,7 @@ var LoginCtrl = {
             localStorage.removeItem("oauth_token");
             localStorage.removeItem("oauth_token_secret");
             // ログイン状態の確認
-            LoginCtrl.changeBtn();
+            IndexCtrl.changeBtn();
             // 処理終了
         }
         catch (ex) {
@@ -81,32 +82,4 @@ var LoginCtrl = {
         }
     },
 
-    changeBtn: function UN_changeBtn() {
-        var _functionName = 'UN_changeBtn',
-            _oauthToken = null;
-
-        try {
-            Util.startWriteLog(LoginCtrl._className,_functionName);
-            // 処理開始
-            _oauthToken = localStorage.getItem("oauth_token");
-            if (_oauthToken) {
-                $('#logoutBtn').show();
-                $('#loginBtn').hide();
-                $('#twitterLabel').show();
-                $('#twitterF').prop('checked', true);
-            } else {
-                $('#loginBtn').show();
-                $('#logoutBtn').hide();
-                $('#twitterLabel').hide();
-                $('#twitterF').prop('checked', false);
-            }
-            // 処理終了
-        }
-        catch (ex) {
-            logger.error(ex);
-        }
-        finally {
-            Util.endWriteLog(LoginCtrl._className,_functionName);
-        }
-    },
 };

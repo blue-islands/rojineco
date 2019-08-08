@@ -9,8 +9,8 @@
 //34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
-IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
-// IndexCtrl.domain = 'http://localhost:8080/';
+// IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
+IndexCtrl.domain = 'http://localhost:8080/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
@@ -152,6 +152,8 @@ IndexCtrl = {
                 IndexCtrl.userId = Util.uuid();
                 localStorage.setItem(IndexCtrl.SESSION_UUID, IndexCtrl.userId);
             }
+            // ボタンの表示制御
+            IndexCtrl.changeBtn();
 
             IndexCtrl.dispSize();
             $(window).resize(function() {
@@ -200,6 +202,16 @@ IndexCtrl = {
             $(document).on('click', '#doSettingClose', function() {
                 // clickイベントの処理
                 $('#settingView').hide();
+            });
+            // Twitterログインボタン
+            $(document).on('click', '#doTwitterLogin', function() {
+                // clickイベントの処理
+                LoginCtrl.login();
+            });
+            // Twitterログアウトボタン
+            $(document).on('click', '#doTwitterLogout', function() {
+                // clickイベントの処理
+                LoginCtrl.logout();
             });
             // // コメント登録ボタン
             // $(document).on('click', '#doCommentEntry', function() {
@@ -804,6 +816,31 @@ IndexCtrl = {
         }
         finally {
             Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+    
+    changeBtn: function UN_changeBtn() {
+        var _functionName = 'UN_changeBtn',
+            _oauthToken = null;
+
+        try {
+            Util.startWriteLog(LoginCtrl._className,_functionName);
+            // 処理開始
+            _oauthToken = localStorage.getItem("oauth_token");
+            if (_oauthToken) {
+                $('#doTwitterLogout').show();
+                $('#doTwitterLogin').hide();
+            } else {
+                $('#doTwitterLogin').show();
+                $('#doTwitterLogout').hide();
+            }
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(LoginCtrl._className,_functionName);
         }
     },
 };
