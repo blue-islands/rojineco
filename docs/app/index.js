@@ -173,6 +173,11 @@ IndexCtrl = {
                 $('#listView').hide();
                 $('#photoView').hide();
             });
+            // 設定閉じるボタン
+            $(document).on('click', '#doSettingClose', function() {
+                // clickイベントの処理
+                $('#settingView').hide();
+            });
             // ネコボタン
             $(document).on('click', '#doList', function() {
                 // clickイベントの処理
@@ -180,28 +185,27 @@ IndexCtrl = {
                 $('#listView').show();
                 $('#photoView').hide();
             });
+            // ネコ閉じるボタン
+            $(document).on('click', '#doListClose', function() {
+                // clickイベントの処理
+                $('#listView').hide();
+            });
             // 写真ボタン
             $(document).on('click', '#doPhoto', function() {
                 // clickイベントの処理
                 $('#settingView').hide();
                 $('#listView').hide();
                 $('#photoView').show();
-                // $('#commentView').show();
-                // $('#doCommentEntry').show();
-                // $('#doCommentDelete').hide();
-                // $('#doCommentOk').hide();
-                // $('#doCommentCancel').show();
-                // $('#commentField').removeClass('is-error');
-                // $('#commentField').prop('readOnly', false);
-                // $('#commentField').val('');
-                // $('#commentLat').val(IndexCtrl.lat);
-                // $('#commentLng').val(IndexCtrl.lng);
-                // $('#commentId').val('');
             });
-            // 設定閉じるボタン
-            $(document).on('click', '#doSettingClose', function() {
+            // 写真送信ボタン
+            $(document).on('click', '#doPhotoSendTo', function() {
                 // clickイベントの処理
-                $('#settingView').hide();
+           
+            });
+            // 写真閉じるボタン
+            $(document).on('click', '#doPhotoClose', function() {
+                // clickイベントの処理
+                $('#photoView').hide();
             });
             // Twitterログインボタン
             $(document).on('click', '#doTwitterLogin', function() {
@@ -213,44 +217,7 @@ IndexCtrl = {
                 // clickイベントの処理
                 LoginCtrl.logout();
             });
-            // // コメント登録ボタン
-            // $(document).on('click', '#doCommentEntry', function() {
-            //     // clickイベントの処理
-            //     var comment = $('#commentField').val();
-            //     var lat = $('#commentLat').val();
-            //     var lng = $('#commentLng').val();
-            //     var uuid = $('#commentId').val();
-            //     if (uuid.length == 0) {
-            //         uuid = null;
-            //     }
-            //     if (comment.length == 0) {
-            //         $('#commentField').addClass('is-error');     
-            //     } else {
-            //         IndexCtrl.setComment(uuid, lat, lng, comment);
-            //     }
-            // });
-            // // コメント削除ボタン
-            // $(document).on('click', '#doCommentDelete', function() {
-            //     // clickイベントの処理
-            //     var comment = $('#commentField').val();
-            //     var lat = $('#commentLat').val();
-            //     var lng = $('#commentLng').val();
-            //     var uuid = $('#commentId').val();
-            //     if (uuid.length == 0) {
-            //         uuid = null;
-            //     }
-            //     IndexCtrl.removeComment(uuid);
-            // });
-            // // コメントOKボタン
-            // $(document).on('click', '#doCommentOk', function() {
-            //     // clickイベントの処理
-            //     $('#commentView').hide();
-            // });
-            // // コメントキャンセルボタン
-            // $(document).on('click', '#doCommentCancel', function() {
-            //     // clickイベントの処理
-            //     $('#commentView').hide();
-            // });
+        
             
             // ビューの非表示
             $('#settingView').hide();
