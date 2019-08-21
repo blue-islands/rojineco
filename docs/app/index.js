@@ -9,13 +9,13 @@
 //34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
-IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
-// IndexCtrl.domain = 'http://localhost:8080/';
+// IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
+IndexCtrl.domain = 'http://localhost:8080/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
-    CHANGE_DISTANCE: 50000,
-    RANGE_DISTANCE: 20000,
+    CHANGE_DISTANCE: 30000,
+    RANGE_DISTANCE: 15000,
     GET_DISTANCE: 100,
     userId: null,
     mymap: null,
@@ -26,14 +26,17 @@ IndexCtrl = {
     rangeLat: 0,
     rangeLng: 0,
     nostalgy: null,
+    temple: null,
     myMarker: null,
-    markers:[],
+    nostalgyMarkers:[],
+    templeMarkers:[],
     comments: [],
     autoF: true,
     urls: {
         login: IndexCtrl.domain + 'login',
         who: IndexCtrl.domain + 'who',
         getNostalgy: IndexCtrl.domain + 'getNostalgy',
+        getTemple: IndexCtrl.domain + 'getTemple',
         setComment: IndexCtrl.domain + 'setComment',
         getComment: IndexCtrl.domain + 'getComment',
         removeComment: IndexCtrl.domain + 'removeComment',
@@ -136,6 +139,20 @@ IndexCtrl = {
             iconSize: [36, 36],
             iconAnchor: [18, 36],
             popupAnchor: [0, -36],
+        }),
+        shrine: L.icon({
+            iconUrl: './img/shrine.png',
+            iconRetinaUrl: './img/shrine.png',
+            iconSize: [31, 25],
+            iconAnchor: [15, 25],
+            popupAnchor: [0, -25],
+        }),
+        temple: L.icon({
+            iconUrl: './img/temple.png',
+            iconRetinaUrl: './img/temple.png',
+            iconSize: [31, 30],
+            iconAnchor: [15, 30],
+            popupAnchor: [0, -30],
         }),
     },
 
@@ -315,9 +332,17 @@ IndexCtrl = {
 
             // 表示マーカーの制御
             if ((IndexCtrl.RANGE_DISTANCE /2) < _rangeDistance) {
+                // IndexCtrl.rangeLat = _lat;
+                // IndexCtrl.rangeLng = _lng;
+                IndexCtrl.dispNostalgy(_lat, _lng);
+                // IndexCtrl.dispTemple(_lat, _lng);
+                // IndexCtrl.dispComment(_lat, _lng);
+            }
+            if ((IndexCtrl.RANGE_DISTANCE /4) < _rangeDistance) {
                 IndexCtrl.rangeLat = _lat;
                 IndexCtrl.rangeLng = _lng;
-                IndexCtrl.dispMarker(_lat, _lng);
+                // IndexCtrl.dispNostalgy(_lat, _lng);
+                IndexCtrl.dispTemple(_lat, _lng);
                 // IndexCtrl.dispComment(_lat, _lng);
             }
 
@@ -329,19 +354,40 @@ IndexCtrl = {
                     type:'GET',		// 使用するHTTPメソッド
                     data:{
                         lat: _lat,
-                        lng: _lng
+                        lng: _lng,
+                        distance: IndexCtrl.CHANGE_DISTANCE
                     }, // 送信するデータ
-                    }).done(function(ret,textStatus,jqXHR) {
-                        logger.info(ret); //コンソールにJSONが表示される
-                        IndexCtrl.changeLat = _lat;
-                        IndexCtrl.changeLng = _lng;
-                        IndexCtrl.nostalgy = ret.results;
-                        IndexCtrl.dispMarker(_lat, _lng);
-                    }).fail(function(jqXHR, textStatus, errorThrown ) {
-                        logger.error(errorThrown);
-                    // }).always(function(){
-                    //     logger.info('***** 処理終了 *****');
-                    });
+                }).done(function(ret,textStatus,jqXHR) {
+                    logger.info(ret); //コンソールにJSONが表示される
+                    IndexCtrl.changeLat = _lat;
+                    IndexCtrl.changeLng = _lng;
+                    IndexCtrl.nostalgy = ret.results;
+                    IndexCtrl.dispNostalgy(_lat, _lng);
+                }).fail(function(jqXHR, textStatus, errorThrown ) {
+                    logger.error(errorThrown);
+                // }).always(function(){
+                //     logger.info('***** 処理終了 *****');
+                });
+
+                $.ajax({	
+                    url:IndexCtrl.urls.getTemple, // 通信先のURL
+                    type:'GET',		// 使用するHTTPメソッド
+                    data:{
+                        lat: _lat,
+                        lng: _lng,
+                        distance: IndexCtrl.CHANGE_DISTANCE
+                    }, // 送信するデータ
+                }).done(function(ret,textStatus,jqXHR) {
+                    logger.info(ret); //コンソールにJSONが表示される
+                    IndexCtrl.changeLat = _lat;
+                    IndexCtrl.changeLng = _lng;
+                    IndexCtrl.temple = ret.results;
+                    IndexCtrl.dispTemple(_lat, _lng);
+                }).fail(function(jqXHR, textStatus, errorThrown ) {
+                    logger.error(errorThrown);
+                // }).always(function(){
+                //     logger.info('***** 処理終了 *****');
+                });
             } 
             // 処理終了
         }
@@ -370,8 +416,8 @@ IndexCtrl = {
         }
     },
 
-    dispMarker: function UN_dispMarker(lat, lng) {
-        var _functionName = 'UN_dispMarker',
+    dispNostalgy: function UN_dispNostalgy(lat, lng) {
+        var _functionName = 'UN_dispNostalgy',
             _distance = 0,
             _pointLat = 0,
             _pointLng = 0,
@@ -381,13 +427,13 @@ IndexCtrl = {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
             if (IndexCtrl.nostalgy) {
-                if (IndexCtrl.markers) {
-                    for (var i = 0; i < IndexCtrl.markers.length; i++) {
-                        IndexCtrl.mymap.removeLayer(IndexCtrl.markers[i]);
+                if (IndexCtrl.nostalgyMarkers) {
+                    for (var i = 0; i < IndexCtrl.nostalgyMarkers.length; i++) {
+                        IndexCtrl.mymap.removeLayer(IndexCtrl.nostalgyMarkers[i]);
                     }
                 }
 
-                IndexCtrl.markers = [];
+                IndexCtrl.nostalgyMarkers = [];
 
                 for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
                     var data = IndexCtrl.nostalgy[i];
@@ -406,7 +452,60 @@ IndexCtrl = {
     
                             var marker = L.marker([_point[0], _point[1]], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
                             marker.data = data;
-                            IndexCtrl.markers.push(marker);
+                            IndexCtrl.nostalgyMarkers.push(marker);
+                        }
+                    }
+                }
+            }
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+
+    dispTemple: function UN_dispTemple(lat, lng) {
+        var _functionName = 'UN_dispTemple',
+            _distance = 0,
+            _pointLat = 0,
+            _pointLng = 0,
+            _point = [];
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            if (IndexCtrl.temple) {
+                if (IndexCtrl.templeMarkers) {
+                    for (var i = 0; i < IndexCtrl.templeMarkers.length; i++) {
+                        IndexCtrl.mymap.removeLayer(IndexCtrl.templeMarkers[i]);
+                    }
+                }
+
+                IndexCtrl.templeMarkers = [];
+
+                for (var i = 0; i < IndexCtrl.temple.length; i++) {
+                    var data = IndexCtrl.temple[i];
+                    _distance = geolib.getDistance(
+                        {latitude: lat, longitude: lng},
+                        {latitude: data.location[1], longitude: data.location[0]}
+                    );
+                    if ((IndexCtrl.RANGE_DISTANCE /2) > _distance) {
+                      
+                        if (data.genre.includes('神社')) {
+                            var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.shrine}).addTo(IndexCtrl.mymap);
+                            marker.data = data;
+                            IndexCtrl.templeMarkers.push(marker);
+                        } else if (data.genre.includes('寺院')) {
+                            // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
+                            // marker.data = data;
+                            // IndexCtrl.templeMarkers.push(marker);
+                        } else if (data.genre.includes('教会')) {
+                            // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
+                            // marker.data = data;
+                            // IndexCtrl.templeMarkers.push(marker);
                         }
                     }
                 }
@@ -522,8 +621,8 @@ IndexCtrl = {
     },
     
 
-    autoMove: function UN_appearance(lat, lng) {
-        var _functionName = 'UN_appearance',
+    autoMove: function UN_autoMove(lat, lng) {
+        var _functionName = 'UN_autoMove',
             _distance = 0,
             _distanceAry = [],
             _min = 0,
@@ -752,17 +851,17 @@ IndexCtrl = {
 
     judgment: function UN_judgment() {
         var _functionName = 'UN_judgment',
-            _markers = null,
+            _nostalgyMarkers = null,
             _data = null,
             _distance = 0;
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
-            if (IndexCtrl.markers) {
-                for (var i = 0; i < IndexCtrl.markers.length; i++) {
-                    _markers = IndexCtrl.markers[i];
-                    _data = _markers.data;
+            if (IndexCtrl.nostalgyMarkers) {
+                for (var i = 0; i < IndexCtrl.nostalgyMarkers.length; i++) {
+                    _nostalgyMarkers = IndexCtrl.nostalgyMarkers[i];
+                    _data = _nostalgyMarkers.data;
                     _distancee = geolib.getDistance(
                         {latitude: IndexCtrl.lat, longitude: IndexCtrl.lng},
                         {latitude: _data.lat, longitude: _data.lng}
