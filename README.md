@@ -28,6 +28,7 @@
 ネコと路地裏を睦びつける意味として、ネコは交通量の少ない、人気の少ない、ノスタルジーな路地裏こ比較的生息していると考えられる。
 
 # ドット絵アイコン
+* http://yms.main.jp/dotartworld/page2/worldmapvx.html
 * https://hpgpixer.jp/
 * https://www39.atwiki.jp/kkk111/
 * http://blog.pipoya.net/
