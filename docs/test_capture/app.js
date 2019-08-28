@@ -26,9 +26,9 @@ function startVideo() {
         .then(function (mediaStream) {
             console.log('取得したMediaStream->', mediaStream);
             videoStreamInUse = mediaStream;
-            document.querySelector('video').src = window.URL.createObjectURL(mediaStream);
+            // document.querySelector('video').src = window.URL.createObjectURL(mediaStream);
             // 対応していればこっちの方が良い
-            // document.querySelector('video').srcObject = mediaStream;
+            document.querySelector('video').srcObject = mediaStream;
 
 
         })
