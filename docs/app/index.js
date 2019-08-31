@@ -40,6 +40,9 @@ IndexCtrl = {
         setComment: IndexCtrl.domain + 'setComment',
         getComment: IndexCtrl.domain + 'getComment',
         removeComment: IndexCtrl.domain + 'removeComment',
+        setPhoto: IndexCtrl.domain + 'setPhoto',
+        getPhoto: IndexCtrl.domain + 'getPhoto',
+        removePhoto: IndexCtrl.domain + 'removePhoto',
     },
     mapIcon: {
         my: L.icon({
@@ -767,7 +770,36 @@ IndexCtrl = {
         try {
             Util.startWriteLog(LoginCtrl._className,_functionName);
             // 処理開始
-     
+            var file    = document.querySelector('#testUpload').files[0];
+            var reader  = new FileReader();
+          
+            reader.addEventListener("load", function () {
+            //   preview.src = reader.result;
+              　console.log(reader.result); 
+        
+                $.ajax({	 
+                    url: IndexCtrl.urls.setPhoto, // 通信先のURL
+                    type:'POST',		// 使用するHTTPメソッド
+                    data:{
+                        uuid: null,
+                        userId: 'test',
+                        lat: 0,
+                        lng: 0,
+                        photo: reader.result,
+                    }, // 送信するデータ
+                }).done(function(ret, textStatus, jqXHR) {
+                    console.log(ret); //コンソールにJSONが表示される
+            
+                }).fail(function(jqXHR, textStatus, errorThrown ) {
+                    console.log(errorThrown);
+                // }).always(function(){
+                //     logger.info('***** 処理終了 *****');
+                });
+            }, false);
+        
+            if (file) {
+                reader.readAsDataURL(file);
+            }　
             // 処理終了
         }
         catch (ex) {
