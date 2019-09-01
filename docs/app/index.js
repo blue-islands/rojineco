@@ -793,6 +793,7 @@ IndexCtrl = {
                     logger.error(errorThrown);
                 }).always(function(){
                 //     logger.info('***** 処理終了 *****');
+                    $('#fileUpload').val('');  
                 });
             }, false);
         
