@@ -10,7 +10,7 @@
 var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
 IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
-// IndexCtrl.domain = 'http://localhost:8080/';
+//IndexCtrl.domain = 'http://localhost:8080/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
@@ -765,40 +765,39 @@ IndexCtrl = {
 
     photoSendTo: function UN_photoSendTo() {
         var _functionName = 'UN_photoSendTo',
-            _oauthToken = null;
+            _file = null,
+            _reader;
 
         try {
             Util.startWriteLog(LoginCtrl._className,_functionName);
             // 処理開始
-            var file    = document.querySelector('#testUpload').files[0];
-            var reader  = new FileReader();
+            _file    = document.querySelector('#fileUpload').files[0];
+            _reader  = new FileReader();
           
-            reader.addEventListener("load", function () {
-            //   preview.src = reader.result;
-              　console.log(reader.result); 
+            _reader.addEventListener("load", function () {
+                logger.info(_reader.result); 
         
                 $.ajax({	 
                     url: IndexCtrl.urls.setPhoto, // 通信先のURL
                     type:'POST',		// 使用するHTTPメソッド
                     data:{
                         uuid: null,
-                        userId: 'test',
-                        lat: 0,
-                        lng: 0,
-                        photo: reader.result,
+                        userId: IndexCtrl.userId,
+                        lat: IndexCtrl.lat,
+                        lng: IndexCtrl.lng,
+                        photo: _reader.result,
                     }, // 送信するデータ
                 }).done(function(ret, textStatus, jqXHR) {
-                    console.log(ret); //コンソールにJSONが表示される
-            
+                    logger.info(ret); //コンソールにJSONが表示される
                 }).fail(function(jqXHR, textStatus, errorThrown ) {
-                    console.log(errorThrown);
-                // }).always(function(){
+                    logger.error(errorThrown);
+                }).always(function(){
                 //     logger.info('***** 処理終了 *****');
                 });
             }, false);
         
-            if (file) {
-                reader.readAsDataURL(file);
+            if (_file) {
+                _reader.readAsDataURL(_file);
             }　
             // 処理終了
         }
