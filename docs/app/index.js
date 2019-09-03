@@ -30,7 +30,7 @@ IndexCtrl = {
     myMarker: null,
     nostalgyMarkers:[],
     templeMarkers:[],
-    comments: [],
+    photos: [],
     autoF: true,
     urls: {
         login: IndexCtrl.domain + 'login',
@@ -136,12 +136,12 @@ IndexCtrl = {
             iconAnchor: [18, 36],
             popupAnchor: [0, -36],
         }),
-        comment: L.icon({
-            iconUrl: './img/comment.png',
-            iconRetinaUrl: './img/comment.png',
-            iconSize: [36, 36],
-            iconAnchor: [18, 36],
-            popupAnchor: [0, -36],
+        photo: L.icon({
+            iconUrl: './img/photo.png',
+            iconRetinaUrl: './img/photo.png',
+            iconSize: [30, 34],
+            iconAnchor: [15, 34],
+            popupAnchor: [0, -34],
         }),
         shrine: L.icon({
             iconUrl: './img/shrine.png',
@@ -345,7 +345,7 @@ IndexCtrl = {
                 IndexCtrl.rangeLng = _lng;
                 // IndexCtrl.dispNostalgy(_lat, _lng);
                 IndexCtrl.dispTemple(_lat, _lng);
-                // IndexCtrl.dispComment(_lat, _lng);
+                IndexCtrl.dispPhoto(_lat, _lng);
             }
 
             // データ再取得の制御
@@ -807,6 +807,103 @@ IndexCtrl = {
         }
         finally {
             Util.endWriteLog(LoginCtrl._className,_functionName);
+        }
+    },
+
+    dispPhoto: function UN_dispPhoto(lat, lng) {
+        var _functionName = 'UN_dispPhoto',
+            _distance = 0,
+            _pointLat = 0,
+            _pointLng = 0,
+            _point = [];
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            if (IndexCtrl.photos) {
+                for (var i = 0; i < IndexCtrl.photos.length; i++) {
+                    IndexCtrl.mymap.removeLayer(IndexCtrl.photos[i]);
+                }
+            }
+
+            IndexCtrl.photos = [];
+
+            $.ajax({	
+                url:IndexCtrl.urls.getPhoto, // 通信先のURL
+                type:'GET',		// 使用するHTTPメソッド
+                data:{
+                    userId: null,
+                    lat: lat,
+                    lng: lng,
+                    distance: IndexCtrl.RANGE_DISTANCE /2
+                }, // 送信するデータ
+                }).done(function(ret,textStatus,jqXHR) {
+                    for (var i = 0; i < ret.results.length; i++) {
+                        var data = ret.results[i];
+                        logger.info(data);
+                        _pointLat = doRad(data.location[1]);
+                        _pointLng = doRad(data.location[0]);
+                        var alpha12 = Math.floor(Math.random() * 359);
+                        var length = Math.floor(Math.random() * 50);
+                        _point = vincenty(_pointLat, _pointLng, doRad(alpha12), length);
+
+                        var marker = L.marker([_point[0], _point[1]], {icon: IndexCtrl.mapIcon.photo}).addTo(IndexCtrl.mymap)
+                        .on('click', function(e) { 
+                            // clickイベントの処理 
+                            var data = e.target.data;
+                            $('#catImage').attr('src', data.url);
+                            document.querySelector('#dialogPhoto').showModal();
+                        });
+                        marker.data = data;
+                        IndexCtrl.photos.push(marker);
+                    }
+                }).fail(function(jqXHR, textStatus, errorThrown ) {
+                    logger.error(errorThrown);
+                // }).always(function(){
+                //     logger.info('***** 処理終了 *****');
+                });
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+    
+    removePhoto: function UN_removePhoto(uuid) {
+        var _functionName = 'UN_removePhoto';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            if(window.confirm('本当に削除しますか？')){
+                $.ajax({	
+                    url:IndexCtrl.urls.removePhoto, // 通信先のURL
+                    type:'POST',		// 使用するHTTPメソッド
+                    data:{
+                        uuid: uuid,
+                        userId: IndexCtrl.userId
+                    }, // 送信するデータ
+                    }).done(function(ret,textStatus,jqXHR) {
+                        logger.info(ret); //コンソールにJSONが表示される
+                        IndexCtrl.dispComment(IndexCtrl.rangeLat, IndexCtrl.rangeLng);
+                    }).fail(function(jqXHR, textStatus, errorThrown ) {
+                        logger.error(errorThrown);
+                    }).always(function(){
+                        $('#commentView').hide();
+                    });
+            } else {
+                // window.alert('キャンセルされました。');
+            }
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
         }
     },
 };
