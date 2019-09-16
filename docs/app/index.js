@@ -9,8 +9,8 @@
 //34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
-//IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
-IndexCtrl.domain = 'http://localhost:8080/';
+IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
+//IndexCtrl.domain = 'http://localhost:8080/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
@@ -27,9 +27,11 @@ IndexCtrl = {
     rangeLng: 0,
     nostalgy: null,
     temple: null,
+    park: null,
     myMarker: null,
     nostalgyMarkers:[],
     templeMarkers:[],
+    parkMarkers:[],
     photos: [],
     autoF: true,
     urls: {
@@ -37,6 +39,7 @@ IndexCtrl = {
         who: IndexCtrl.domain + 'who',
         getNostalgy: IndexCtrl.domain + 'getNostalgy',
         getTemple: IndexCtrl.domain + 'getTemple',
+        getPark: IndexCtrl.domain + 'getPark',
         setComment: IndexCtrl.domain + 'setComment',
         getComment: IndexCtrl.domain + 'getComment',
         removeComment: IndexCtrl.domain + 'removeComment',
@@ -151,6 +154,13 @@ IndexCtrl = {
             popupAnchor: [0, -25],
         }),
         temple: L.icon({
+            iconUrl: './img/temple.png',
+            iconRetinaUrl: './img/temple.png',
+            iconSize: [31, 30],
+            iconAnchor: [15, 30],
+            popupAnchor: [0, -30],
+        }),
+        park: L.icon({
             iconUrl: './img/temple.png',
             iconRetinaUrl: './img/temple.png',
             iconSize: [31, 30],
@@ -390,6 +400,26 @@ IndexCtrl = {
                 // }).always(function(){
                 //     logger.info('***** 処理終了 *****');
                 });
+
+                $.ajax({	
+                    url:IndexCtrl.urls.getPark, // 通信先のURL
+                    type:'GET',		// 使用するHTTPメソッド
+                    data:{
+                        lat: _lat,
+                        lng: _lng,
+                        distance: IndexCtrl.CHANGE_DISTANCE
+                    }, // 送信するデータ
+                }).done(function(ret,textStatus,jqXHR) {
+                    logger.info(ret); //コンソールにJSONが表示される
+                    IndexCtrl.changeLat = _lat;
+                    IndexCtrl.changeLng = _lng;
+                    IndexCtrl.park = ret.results;
+                    IndexCtrl.dispPark(_lat, _lng);
+                }).fail(function(jqXHR, textStatus, errorThrown ) {
+                    logger.error(errorThrown);
+                // }).always(function(){
+                //     logger.info('***** 処理終了 *****');
+                });
             } 
             // 処理終了
         }
@@ -471,10 +501,7 @@ IndexCtrl = {
 
     dispTemple: function UN_dispTemple(lat, lng) {
         var _functionName = 'UN_dispTemple',
-            _distance = 0,
-            _pointLat = 0,
-            _pointLng = 0,
-            _point = [];
+            _distance = 0;
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
@@ -509,6 +536,46 @@ IndexCtrl = {
                             // marker.data = data;
                             // IndexCtrl.templeMarkers.push(marker);
                         }
+                    }
+                }
+            }
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+
+    dispPark: function UN_dispPark(lat, lng) {
+        var _functionName = 'UN_dispPark',
+            _distance = 0;
+
+        try {
+            Util.startWriteLog(IndexCtrl._className,_functionName);
+            // 処理開始
+            if (IndexCtrl.park) {
+                if (IndexCtrl.parkMarkers) {
+                    for (var i = 0; i < IndexCtrl.parkMarkers.length; i++) {
+                        IndexCtrl.mymap.removeLayer(IndexCtrl.parkMarkers[i]);
+                    }
+                }
+
+                IndexCtrl.parkMarkers = [];
+
+                for (var i = 0; i < IndexCtrl.park.length; i++) {
+                    var data = IndexCtrl.park[i];
+                    _distance = geolib.getDistance(
+                        {latitude: lat, longitude: lng},
+                        {latitude: data.location[1], longitude: data.location[0]}
+                    );
+                    if ((IndexCtrl.RANGE_DISTANCE /2) > _distance) {
+                      
+                        var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.shrine}).addTo(IndexCtrl.mymap);
+                        marker.data = data;
+                        IndexCtrl.parkMarkers.push(marker);
                     }
                 }
             }
