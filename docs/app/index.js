@@ -45,6 +45,7 @@ IndexCtrl = {
         removeComment: IndexCtrl.domain + 'removeComment',
         setPhoto: IndexCtrl.domain + 'setPhoto',
         getPhoto: IndexCtrl.domain + 'getPhoto',
+        getPhotoList: IndexCtrl.domain + 'getPhotoList',
         removePhoto: IndexCtrl.domain + 'removePhoto',
     },
     mapIcon: {
@@ -140,11 +141,11 @@ IndexCtrl = {
             popupAnchor: [0, -32],
         }),
         photo: L.icon({
-            iconUrl: './img/photo.png',
-            iconRetinaUrl: './img/photo.png',
-            iconSize: [30, 34],
-            iconAnchor: [15, 34],
-            popupAnchor: [0, -34],
+            iconUrl: './img/camera.png',
+            iconRetinaUrl: './img/camera.png',
+            iconSize: [54, 40],
+            iconAnchor: [27, 40],
+            popupAnchor: [0, -20],
         }),
         shrine: L.icon({
             iconUrl: './img/shrine.png',
@@ -208,19 +209,19 @@ IndexCtrl = {
                 // clickイベントの処理
                 $('#settingView').hide();
             });
-            // ネコボタン
+            // 写真一覧ボタン
             $(document).on('click', '#doList', function() {
                 // clickイベントの処理
                 $('#settingView').hide();
                 $('#listView').show();
                 $('#photoView').hide();
             });
-            // ネコ閉じるボタン
+            // 写真一覧閉じるボタン
             $(document).on('click', '#doListClose', function() {
                 // clickイベントの処理
                 $('#listView').hide();
             });
-            // 写真ボタン
+            // 写真撮影ボタン
             $(document).on('click', '#doPhoto', function() {
                 // clickイベントの処理
                 $('#settingView').hide();
@@ -232,7 +233,7 @@ IndexCtrl = {
                 // clickイベントの処理
                 IndexCtrl.photoSendTo();
             });
-            // 写真閉じるボタン
+            // 写真撮影閉じるボタン
             $(document).on('click', '#doPhotoClose', function() {
                 // clickイベントの処理
                 $('#photoView').hide();
@@ -246,6 +247,11 @@ IndexCtrl = {
             $(document).on('click', '#doTwitterLogout', function() {
                 // clickイベントの処理
                 LoginCtrl.logout();
+            });
+            // ネコ表示閉じるボタン
+            $(document).on('click', '#doCatClose', function() {
+                // clickイベントの処理
+                $('#catView').hide();
             });
             
             // ビューの非表示
@@ -344,16 +350,11 @@ IndexCtrl = {
 
             // 表示マーカーの制御
             if ((IndexCtrl.RANGE_DISTANCE /2) < _rangeDistance) {
-                // IndexCtrl.rangeLat = _lat;
-                // IndexCtrl.rangeLng = _lng;
                 IndexCtrl.dispNostalgy(_lat, _lng);
-                // IndexCtrl.dispTemple(_lat, _lng);
-                // IndexCtrl.dispComment(_lat, _lng);
             }
             if ((IndexCtrl.RANGE_DISTANCE /4) < _rangeDistance) {
                 IndexCtrl.rangeLat = _lat;
                 IndexCtrl.rangeLng = _lng;
-                // IndexCtrl.dispNostalgy(_lat, _lng);
                 IndexCtrl.dispTemple(_lat, _lng);
                 IndexCtrl.dispPark(_lat, _lng);
                 IndexCtrl.dispPhoto(_lat, _lng);
@@ -573,7 +574,6 @@ IndexCtrl = {
                         {latitude: data.location[1], longitude: data.location[0]}
                     );
                     if ((IndexCtrl.RANGE_DISTANCE /2) > _distance) {
-                      
                         var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.park}).addTo(IndexCtrl.mymap);
                         marker.data = data;
                         IndexCtrl.parkMarkers.push(marker);
@@ -920,7 +920,7 @@ IndexCtrl = {
                             // clickイベントの処理 
                             var data = e.target.data;
                             $('#catImage').attr('src', data.url);
-                            document.querySelector('#dialogPhoto').showModal();
+                            $('#catView').show();
                         });
                         marker.data = data;
                         IndexCtrl.photos.push(marker);
