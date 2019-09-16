@@ -9,8 +9,8 @@
 //34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
-IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
-//IndexCtrl.domain = 'http://localhost:8080/';
+//IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
+IndexCtrl.domain = 'http://localhost:8080/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
