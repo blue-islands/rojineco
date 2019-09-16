@@ -12,7 +12,6 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@latest/dist/leaflet.css" integrity="sha512Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
 <link rel="stylesheet" href="./css/ress.min.css" />
 <link rel="stylesheet" href="./css/web-grid.css" />
-<link rel="stylesheet" href="./libs/dialog-polyfill/dist/dialog-polyfill.css" />
 <link rel="stylesheet" href="./css/index.css" />
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -50,16 +49,19 @@
 		</button>
 
 		<button id="doSettingClose" type="button" class="nes-btn">閉じる</button>
+		<button type="button" class="nes-btn is-primary" onclick="document.getElementById('dialogPhoto').showModal();">
+		Open dark dialog
+		</button>
 	</div>
 </div>
-<!-- 一覧画面 -->
+<!-- 写真一覧画面 -->
 <div id="listView" class="parent">
 	<div class="inner">
 
 		<button id="doListClose" type="button" class="nes-btn">閉じる</button>
 	</div>
 </div>
-<!-- 写真画面 -->
+<!-- 写真撮影画面 -->
 <div id="photoView" class="parent">
 	<div class="inner">
 		<label class="nes-btn" for="fileUpload">
@@ -72,23 +74,17 @@
 		<button id="doPhotoClose" type="button" class="nes-btn">閉じる</button>
 	</div>
 </div>
-<!-- ネコ出現 -->
-<div id="catView"></div>
-
-<section>
-	<!-- <button type="button" class="nes-btn is-primary" onclick="document.getElementById('dialog-dark').showModal();">
-		Open dark dialog
-	</button> -->
-	<dialog class="nes-dialog is-dark" id="dialogPhoto">
-		<form method="dialog" style="text-align: center;">
-			<img src="" id="catImage" width="100%">
-			<br><br>
-			<menu class="dialog-menu" style="text-align: center;">
-				<button class="nes-btn is-primary">close</button>
-			</menu>
-		</form>
-	</dialog>
-</section>
+<!-- ネコ表示画面 -->
+<div id="catView">
+	<div class="nes-container is-rounded is-dark">
+		<div style="text-align: center;">
+			<img src="" id="catImage" style="width: 100%; max-width: 200px">
+		</div>
+		<div style="text-align: center;">
+			<button id="doCatClose" class="nes-btn is-primary">close</button>
+		</div>
+	</div>
+</div>
 
 <!-- SCRIPTS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -98,7 +94,6 @@
 <script src="./libs/geolib/dist/geolib.isPointInsideRobust.min.js"></script>
 <script src="./libs/logdown/dist/logdown.min.js"></script>
 <script src="./libs/oauth-io/oauth.min.js"></script>
-<script src="./libs/dialog-polyfill/dist/dialog-polyfill.js"></script>
 <script src="./app/vindeinty.js"></script>
 <script src="./app/util.js"></script>
 <script src="./app/index.js"></script>
