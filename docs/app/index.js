@@ -161,11 +161,11 @@ IndexCtrl = {
             popupAnchor: [0, -30],
         }),
         park: L.icon({
-            iconUrl: './img/temple.png',
-            iconRetinaUrl: './img/temple.png',
-            iconSize: [31, 30],
-            iconAnchor: [15, 30],
-            popupAnchor: [0, -30],
+            iconUrl: './img/park.png',
+            iconRetinaUrl: './img/park.png',
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32],
         }),
     },
 
@@ -355,6 +355,7 @@ IndexCtrl = {
                 IndexCtrl.rangeLng = _lng;
                 // IndexCtrl.dispNostalgy(_lat, _lng);
                 IndexCtrl.dispTemple(_lat, _lng);
+                IndexCtrl.dispPark(_lat, _lng);
                 IndexCtrl.dispPhoto(_lat, _lng);
             }
 
@@ -573,7 +574,7 @@ IndexCtrl = {
                     );
                     if ((IndexCtrl.RANGE_DISTANCE /2) > _distance) {
                       
-                        var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.shrine}).addTo(IndexCtrl.mymap);
+                        var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.park}).addTo(IndexCtrl.mymap);
                         marker.data = data;
                         IndexCtrl.parkMarkers.push(marker);
                     }
