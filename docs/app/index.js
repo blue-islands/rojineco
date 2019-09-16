@@ -141,11 +141,11 @@ IndexCtrl = {
             popupAnchor: [0, -32],
         }),
         photo: L.icon({
-            iconUrl: './img/photo.png',
-            iconRetinaUrl: './img/photo.png',
-            iconSize: [30, 34],
-            iconAnchor: [15, 34],
-            popupAnchor: [0, -34],
+            iconUrl: './img/camera.png',
+            iconRetinaUrl: './img/camera.png',
+            iconSize: [54, 40],
+            iconAnchor: [27, 40],
+            popupAnchor: [0, -20],
         }),
         shrine: L.icon({
             iconUrl: './img/shrine.png',
