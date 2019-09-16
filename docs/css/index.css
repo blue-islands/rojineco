@@ -88,27 +88,17 @@ body {
     background-color: white;
 }
 
-.parent{
+.dialog-parent{
     width: 100%;
     height: 100%;
     position: relative;
 }
-.inner{
+.dialog-inner{
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 80%;
-    height: 80%;
-    -webkit-transform: translateY(-50%) translateX(-50%);
-    transform: translateY(-50%) translateX(-50%);
-}
-
-.inner{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80%;
-    height: 80%;
+    width: 300px;
+    height: 300px;
     -webkit-transform: translateY(-50%) translateX(-50%);
     transform: translateY(-50%) translateX(-50%);
 }
