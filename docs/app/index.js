@@ -50,11 +50,32 @@ IndexCtrl = {
     },
     mapIcon: {
         my: L.icon({
+            iconUrl: './img/walk_front.gif',
+            iconRetinaUrl: './img/walk_front.gif',
+            iconSize: [64, 64],
+            iconAnchor: [32, 64],
+            popupAnchor: [0, -64],
+        }),
+        myLeft: L.icon({
+            iconUrl: './img/walk_left.gif',
+            iconRetinaUrl: './img/walk_left.gif',
+            iconSize: [64, 64],
+            iconAnchor: [32, 64],
+            popupAnchor: [0, -64],
+        }),
+        myRight: L.icon({
+            iconUrl: './img/walk_right.gif',
+            iconRetinaUrl: './img/walk_right.gif',
+            iconSize: [64, 64],
+            iconAnchor: [32, 64],
+            popupAnchor: [0, -64],
+        }),
+        myBack: L.icon({
             iconUrl: './img/walk_back.gif',
             iconRetinaUrl: './img/walk_back.gif',
-            iconSize: [50, 60],
-            iconAnchor: [25, 60],
-            popupAnchor: [0, -60],
+            iconSize: [64, 64],
+            iconAnchor: [32, 64],
+            popupAnchor: [0, -64],
         }),
         gold1: L.icon({
             iconUrl: './img/cat_g1.png',
@@ -333,7 +354,19 @@ IndexCtrl = {
             );
 
             // アイコン設定
-            _myIcon = IndexCtrl.mapIcon.my;
+            if (pos.coords.heading == null) {
+                _myIcon = IndexCtrl.mapIcon.my;
+            } else if (0 <= pos.coords.heading && pos.coords.heading <= 45) {
+                _myIcon = IndexCtrl.mapIcon.myBack;
+            } else if (45 <= pos.coords.heading && pos.coords.heading <= 135) {
+                _myIcon = IndexCtrl.mapIcon.myRight;
+            } else if (135 <= pos.coords.heading && pos.coords.heading <= 225) {
+                _myIcon = IndexCtrl.mapIcon.my;
+            } else if (225 <= pos.coords.heading && pos.coords.heading <= 315) {
+                _myIcon = IndexCtrl.mapIcon.myLeft;
+            } else if (315 <= pos.coords.heading && pos.coords.heading <= 0) {
+                _myIcon = IndexCtrl.mapIcon.myBack;
+            }
 
             if (IndexCtrl.myMarker != null) {
                 IndexCtrl.mymap.removeLayer(IndexCtrl.myMarker);
