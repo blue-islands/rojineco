@@ -356,7 +356,7 @@ IndexCtrl = {
             // アイコン設定
             if (pos.coords.heading == null) {
                 _myIcon = IndexCtrl.mapIcon.my;
-            } else if (0 <= pos.coords.heading && pos.coords.heading <= 45) {
+            } else if (pos.coords.heading <= 45) {
                 _myIcon = IndexCtrl.mapIcon.myBack;
             } else if (45 <= pos.coords.heading && pos.coords.heading <= 135) {
                 _myIcon = IndexCtrl.mapIcon.myRight;
@@ -364,7 +364,7 @@ IndexCtrl = {
                 _myIcon = IndexCtrl.mapIcon.my;
             } else if (225 <= pos.coords.heading && pos.coords.heading <= 315) {
                 _myIcon = IndexCtrl.mapIcon.myLeft;
-            } else if (315 <= pos.coords.heading && pos.coords.heading <= 0) {
+            } else if (315 <= pos.coords.heading) {
                 _myIcon = IndexCtrl.mapIcon.myBack;
             }
 
