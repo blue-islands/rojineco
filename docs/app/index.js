@@ -17,7 +17,7 @@ IndexCtrl = {
     CHANGE_DISTANCE: 30000,
     RANGE_DISTANCE: 15000,
     GET_DISTANCE: 100,
-    BOUND_ZOOM: 12,
+    BOUND_ZOOM: 14,
     userId: null,
     mymap: null,
     lat: 0,
@@ -462,7 +462,6 @@ IndexCtrl = {
                 IndexCtrl.dispNostalgy(_lat, _lng);
                 IndexCtrl.dispTemple(_lat, _lng);
                 IndexCtrl.dispPark(_lat, _lng);
-                IndexCtrl.dispPhoto(_lat, _lng);
             }
 
             IndexCtrl.zoom = z;
@@ -537,7 +536,7 @@ IndexCtrl = {
                                 radius: 500,
                                 color: '#e61212',
                                 fillColor: '#e61212',
-                                fillOpacity: 0.01
+                                fillOpacity: 0.1
                             }).addTo(IndexCtrl.mymap);
                             IndexCtrl.nostalgyCircle.push(circle);
                         }
@@ -921,6 +920,7 @@ IndexCtrl = {
                 }).always(function(){
                 //     logger.info('***** 処理終了 *****');
                     $('#fileUpload').val('');
+                    $('#photoView').hide();
                 });
             }, false);
 
