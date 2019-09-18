@@ -30,6 +30,7 @@ IndexCtrl = {
     park: null,
     myMarker: null,
     nostalgyMarkers:[],
+    nostalgyCircle:[],
     templeMarkers:[],
     parkMarkers:[],
     photos: [],
@@ -274,7 +275,7 @@ IndexCtrl = {
                 // clickイベントの処理
                 $('#catView').hide();
             });
-            
+
             // ビューの非表示
             $('#settingView').hide();
             $('#listView').hide();
@@ -286,7 +287,7 @@ IndexCtrl = {
                 zoom: 13,
                 zoomControl: false // default true
             })
-         
+
             // L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             //     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
             //     maxZoom: 18,
@@ -377,26 +378,11 @@ IndexCtrl = {
             if (IndexCtrl.autoF) {
                 IndexCtrl.autoMove(_lat, _lng);
             }
-            
-            // ネコの当たり判定
-            IndexCtrl.judgment();
-
-            // 表示マーカーの制御
-            if ((IndexCtrl.RANGE_DISTANCE /2) < _rangeDistance) {
-                IndexCtrl.dispNostalgy(_lat, _lng);
-            }
-            if ((IndexCtrl.RANGE_DISTANCE /4) < _rangeDistance) {
-                IndexCtrl.rangeLat = _lat;
-                IndexCtrl.rangeLng = _lng;
-                IndexCtrl.dispTemple(_lat, _lng);
-                IndexCtrl.dispPark(_lat, _lng);
-                IndexCtrl.dispPhoto(_lat, _lng);
-            }
 
             // データ再取得の制御
             if (IndexCtrl.CHANGE_DISTANCE < _changeDistance) {
 
-                $.ajax({	
+                $.ajax({
                     url:IndexCtrl.urls.getNostalgy, // 通信先のURL
                     type:'GET',		// 使用するHTTPメソッド
                     data:{
@@ -416,7 +402,7 @@ IndexCtrl = {
                 //     logger.info('***** 処理終了 *****');
                 });
 
-                $.ajax({	
+                $.ajax({
                     url:IndexCtrl.urls.getTemple, // 通信先のURL
                     type:'GET',		// 使用するHTTPメソッド
                     data:{
@@ -436,7 +422,7 @@ IndexCtrl = {
                 //     logger.info('***** 処理終了 *****');
                 });
 
-                $.ajax({	
+                $.ajax({
                     url:IndexCtrl.urls.getPark, // 通信先のURL
                     type:'GET',		// 使用するHTTPメソッド
                     data:{
@@ -455,7 +441,22 @@ IndexCtrl = {
                 // }).always(function(){
                 //     logger.info('***** 処理終了 *****');
                 });
-            } 
+            }
+
+            // ネコの当たり判定
+            IndexCtrl.judgment();
+
+            // 表示マーカーの制御
+            if ((IndexCtrl.RANGE_DISTANCE /2) < _rangeDistance) {
+                IndexCtrl.dispNostalgy(_lat, _lng);
+            }
+            if ((IndexCtrl.RANGE_DISTANCE /4) < _rangeDistance) {
+                IndexCtrl.rangeLat = _lat;
+                IndexCtrl.rangeLng = _lng;
+                IndexCtrl.dispTemple(_lat, _lng);
+                IndexCtrl.dispPark(_lat, _lng);
+                IndexCtrl.dispPhoto(_lat, _lng);
+            }
             // 処理終了
         }
         catch (ex) {
@@ -499,8 +500,14 @@ IndexCtrl = {
                         IndexCtrl.mymap.removeLayer(IndexCtrl.nostalgyMarkers[i]);
                     }
                 }
+                if (IndexCtrl.nostalgyMarkers) {
+                    for (var i = 0; i < IndexCtrl.nostalgyCircle.length; i++) {
+                        IndexCtrl.mymap.removeLayer(IndexCtrl.nostalgyCircle[i]);
+                    }
+                }
 
                 IndexCtrl.nostalgyMarkers = [];
+                IndexCtrl.nostalgyCircle = [];
 
                 for (var i = 0; i < IndexCtrl.nostalgy.length; i++) {
                     var data = IndexCtrl.nostalgy[i];
@@ -510,17 +517,29 @@ IndexCtrl = {
                     );
                     if (IndexCtrl.RANGE_DISTANCE > _distance) {
 
-                        if (IndexCtrl.appearance(data)) {
-                            _pointLat = doRad(data.lat);
-                            _pointLng = doRad(data.lng);
-                            var alpha12 = Math.floor(Math.random() * 359);
-                            var length = Math.floor(Math.random() * 500);
-                            _point = vincenty(_pointLat, _pointLng, doRad(alpha12), length);
-    
-                            var marker = L.marker([_point[0], _point[1]], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
+//                        if (IndexCtrl.appearance(data)) {
+//                            _pointLat = doRad(data.lat);
+//                            _pointLng = doRad(data.lng);
+//                            var alpha12 = Math.floor(Math.random() * 359);
+//                            var length = Math.floor(Math.random() * 500);
+//                            _point = vincenty(_pointLat, _pointLng, doRad(alpha12), length);
+//
+//                            var marker = L.marker([_point[0], _point[1]], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
+//                            marker.data = data;
+//                            IndexCtrl.nostalgyMarkers.push(marker);
+
+                            var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
                             marker.data = data;
                             IndexCtrl.nostalgyMarkers.push(marker);
-                        }
+
+                            var circle = L.circle([data.location[1], data.location[0]], {
+                                radius: 500,
+                                color: 'blue',
+                                fillColor: '#e61212',
+                                fillOpacity: 0.5
+                            }).addTo(IndexCtrl.mymap);
+                            IndexCtrl.nostalgyCircle.push(marker);
+//                        }
                     }
                 }
             }
@@ -557,7 +576,7 @@ IndexCtrl = {
                         {latitude: data.location[1], longitude: data.location[0]}
                     );
                     if ((IndexCtrl.RANGE_DISTANCE /2) > _distance) {
-                      
+
                         if (data.genre.includes('神社')) {
                             var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.shrine}).addTo(IndexCtrl.mymap);
                             marker.data = data;
@@ -643,7 +662,7 @@ IndexCtrl = {
             Util.endWriteLog(IndexCtrl._className,_functionName);
         }
     },
-    
+
     autoMove: function UN_autoMove(lat, lng) {
         var _functionName = 'UN_autoMove',
             _distance = 0,
@@ -725,7 +744,7 @@ IndexCtrl = {
             Util.endWriteLog(IndexCtrl._className,_functionName);
         }
     },
-    
+
     rarity: function UN_rarity(data) {
         var _functionName = 'UN_rarity',
             _ran = 0;
@@ -738,9 +757,9 @@ IndexCtrl = {
             if (15 >= data.nostalgiaRatio) {
                 switch(_ran) {
                     case 1:
-                        return IndexCtrl.mapIcon.gold1; 
+                        return IndexCtrl.mapIcon.gold1;
                     case 2:
-                        return IndexCtrl.mapIcon.gold2; 
+                        return IndexCtrl.mapIcon.gold2;
                     case 3:
                         return IndexCtrl.mapIcon.gold3;
                     case 4:
@@ -749,9 +768,9 @@ IndexCtrl = {
             } else if (30 >= data.nostalgiaRatio) {
                 switch(_ran) {
                     case 1:
-                        return IndexCtrl.mapIcon.silver1; 
+                        return IndexCtrl.mapIcon.silver1;
                     case 2:
-                        return IndexCtrl.mapIcon.silver2; 
+                        return IndexCtrl.mapIcon.silver2;
                     case 3:
                         return IndexCtrl.mapIcon.silver3;
                     case 4:
@@ -760,9 +779,9 @@ IndexCtrl = {
             } else {
                 switch(_ran) {
                     case 1:
-                        return IndexCtrl.mapIcon.bronze1; 
+                        return IndexCtrl.mapIcon.bronze1;
                     case 2:
-                        return IndexCtrl.mapIcon.bronze2; 
+                        return IndexCtrl.mapIcon.bronze2;
                     case 3:
                         return IndexCtrl.mapIcon.bronze3;
                     case 4:
@@ -838,7 +857,7 @@ IndexCtrl = {
             Util.endWriteLog(IndexCtrl._className,_functionName);
         }
     },
-    
+
     changeBtn: function UN_changeBtn() {
         var _functionName = 'UN_changeBtn',
             _oauthToken = null;
@@ -874,11 +893,11 @@ IndexCtrl = {
             // 処理開始
             _file    = document.querySelector('#fileUpload').files[0];
             _reader  = new FileReader();
-          
+
             _reader.addEventListener("load", function () {
-                logger.info(_reader.result); 
-        
-                $.ajax({	 
+                logger.info(_reader.result);
+
+                $.ajax({
                     url: IndexCtrl.urls.setPhoto, // 通信先のURL
                     type:'POST',		// 使用するHTTPメソッド
                     data:{
@@ -894,13 +913,13 @@ IndexCtrl = {
                     logger.error(errorThrown);
                 }).always(function(){
                 //     logger.info('***** 処理終了 *****');
-                    $('#fileUpload').val('');  
+                    $('#fileUpload').val('');
                 });
             }, false);
-        
+
             if (_file) {
                 _reader.readAsDataURL(_file);
-            }　
+            }
             // 処理終了
         }
         catch (ex) {
@@ -929,7 +948,7 @@ IndexCtrl = {
 
             IndexCtrl.photos = [];
 
-            $.ajax({	
+            $.ajax({
                 url:IndexCtrl.urls.getPhoto, // 通信先のURL
                 type:'GET',		// 使用するHTTPメソッド
                 data:{
@@ -949,8 +968,8 @@ IndexCtrl = {
                         _point = vincenty(_pointLat, _pointLng, doRad(alpha12), length);
 
                         var marker = L.marker([_point[0], _point[1]], {icon: IndexCtrl.mapIcon.photo}).addTo(IndexCtrl.mymap)
-                        .on('click', function(e) { 
-                            // clickイベントの処理 
+                        .on('click', function(e) {
+                            // clickイベントの処理
                             var data = e.target.data;
                             $('#catImage').attr('src', data.url);
                             $('#catView').show();
@@ -972,7 +991,7 @@ IndexCtrl = {
             Util.endWriteLog(IndexCtrl._className,_functionName);
         }
     },
-    
+
     removePhoto: function UN_removePhoto(uuid) {
         var _functionName = 'UN_removePhoto';
 
@@ -980,7 +999,7 @@ IndexCtrl = {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
             if(window.confirm('本当に削除しますか？')){
-                $.ajax({	
+                $.ajax({
                     url:IndexCtrl.urls.removePhoto, // 通信先のURL
                     type:'POST',		// 使用するHTTPメソッド
                     data:{
@@ -1012,4 +1031,4 @@ IndexCtrl = {
 $(document).ready(function(){
     IndexCtrl.init();
 });
-    
+
