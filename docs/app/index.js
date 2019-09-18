@@ -17,10 +17,12 @@ IndexCtrl = {
     CHANGE_DISTANCE: 30000,
     RANGE_DISTANCE: 15000,
     GET_DISTANCE: 100,
+    BOUND_ZOOM: 13,
     userId: null,
     mymap: null,
     lat: 0,
     lng: 0,
+    zoom: 0,
     changeLat: 0,
     changeLng: 0,
     rangeLat: 0,
@@ -443,9 +445,6 @@ IndexCtrl = {
                 });
             }
 
-            // ネコの当たり判定
-            IndexCtrl.judgment();
-
             // 表示マーカーの制御
             if ((IndexCtrl.RANGE_DISTANCE /2) < _rangeDistance) {
                 IndexCtrl.dispNostalgy(_lat, _lng);
@@ -457,6 +456,14 @@ IndexCtrl = {
                 IndexCtrl.dispPark(_lat, _lng);
                 IndexCtrl.dispPhoto(_lat, _lng);
             }
+
+            var z = IndexCtrl.mymap.getZoom();
+            if (IndexCtrl.zoom != z) {
+                IndexCtrl.dispNostalgy(_lat, _lng);
+            }
+
+            IndexCtrl.zoom = z;
+            console.log(z);
             // 処理終了
         }
         catch (ex) {
@@ -500,7 +507,7 @@ IndexCtrl = {
                         IndexCtrl.mymap.removeLayer(IndexCtrl.nostalgyMarkers[i]);
                     }
                 }
-                if (IndexCtrl.nostalgyMarkers) {
+                if (IndexCtrl.nostalgyCircle) {
                     for (var i = 0; i < IndexCtrl.nostalgyCircle.length; i++) {
                         IndexCtrl.mymap.removeLayer(IndexCtrl.nostalgyCircle[i]);
                     }
@@ -515,31 +522,20 @@ IndexCtrl = {
                         {latitude: lat, longitude: lng},
                         {latitude: data.lat, longitude: data.lng}
                     );
-                    if (IndexCtrl.RANGE_DISTANCE > _distance) {
 
-                        if (IndexCtrl.appearance(data)) {
-//                            _pointLat = doRad(data.lat);
-//                            _pointLng = doRad(data.lng);
-//                            var alpha12 = Math.floor(Math.random() * 359);
-//                            var length = Math.floor(Math.random() * 500);
-//                            _point = vincenty(_pointLat, _pointLng, doRad(alpha12), length);
-//
-//                            var marker = L.marker([_point[0], _point[1]], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
-//                            marker.data = data;
-//                            IndexCtrl.nostalgyMarkers.push(marker);
+                    var marker = L.marker([data.lat, data.lng], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
+                    marker.data = data;
+                    IndexCtrl.nostalgyMarkers.push(marker);
 
-                            var marker = L.marker([data.lat, data.lng], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
-                            marker.data = data;
-                            IndexCtrl.nostalgyMarkers.push(marker);
-
-                            var circle = L.circle([data.lat, data.lng], {
-                                radius: 500,
-                                color: '#e61212',
-                                fillColor: '#e61212',
-                                fillOpacity: 0.1
-                            }).addTo(IndexCtrl.mymap);
-                            IndexCtrl.nostalgyCircle.push(marker);
-                        }
+                    var z = IndexCtrl.mymap.getZoom();
+                    if (IndexCtrl.BOUND_ZOOM <= z) {
+                        var circle = L.circle([data.lat, data.lng], {
+                            radius: 500,
+                            color: '#e61212',
+                            fillColor: '#e61212',
+                            fillOpacity: 0.01
+                        }).addTo(IndexCtrl.mymap);
+                        IndexCtrl.nostalgyCircle.push(circle);
                     }
                 }
             }
@@ -575,21 +571,18 @@ IndexCtrl = {
                         {latitude: lat, longitude: lng},
                         {latitude: data.location[1], longitude: data.location[0]}
                     );
-                    if ((IndexCtrl.RANGE_DISTANCE /2) > _distance) {
-
-                        if (data.genre.includes('神社')) {
-                            var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.shrine}).addTo(IndexCtrl.mymap);
-                            marker.data = data;
-                            IndexCtrl.templeMarkers.push(marker);
-                        } else if (data.genre.includes('寺院')) {
-                            // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
-                            // marker.data = data;
-                            // IndexCtrl.templeMarkers.push(marker);
-                        } else if (data.genre.includes('教会')) {
-                            // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
-                            // marker.data = data;
-                            // IndexCtrl.templeMarkers.push(marker);
-                        }
+                    if (data.genre.includes('神社')) {
+                        var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.shrine}).addTo(IndexCtrl.mymap);
+                        marker.data = data;
+                        IndexCtrl.templeMarkers.push(marker);
+                    } else if (data.genre.includes('寺院')) {
+                        // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
+                        // marker.data = data;
+                        // IndexCtrl.templeMarkers.push(marker);
+                    } else if (data.genre.includes('教会')) {
+                        // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
+                        // marker.data = data;
+                        // IndexCtrl.templeMarkers.push(marker);
                     }
                 }
             }
@@ -625,11 +618,9 @@ IndexCtrl = {
                         {latitude: lat, longitude: lng},
                         {latitude: data.location[1], longitude: data.location[0]}
                     );
-                    if ((IndexCtrl.RANGE_DISTANCE /2) > _distance) {
-                        var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.park}).addTo(IndexCtrl.mymap);
-                        marker.data = data;
-                        IndexCtrl.parkMarkers.push(marker);
-                    }
+                    var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.park}).addTo(IndexCtrl.mymap);
+                    marker.data = data;
+                    IndexCtrl.parkMarkers.push(marker);
                 }
             }
             // 処理終了
