@@ -17,7 +17,7 @@ IndexCtrl = {
     CHANGE_DISTANCE: 30000,
     RANGE_DISTANCE: 15000,
     GET_DISTANCE: 100,
-    BOUND_ZOOM: 13,
+    BOUND_ZOOM: 14,
     userId: null,
     mymap: null,
     lat: 0,
@@ -460,6 +460,9 @@ IndexCtrl = {
             var z = IndexCtrl.mymap.getZoom();
             if (IndexCtrl.zoom != z) {
                 IndexCtrl.dispNostalgy(_lat, _lng);
+                IndexCtrl.dispTemple(_lat, _lng);
+                IndexCtrl.dispPark(_lat, _lng);
+                IndexCtrl.dispPhoto(_lat, _lng);
             }
 
             IndexCtrl.zoom = z;
@@ -523,19 +526,21 @@ IndexCtrl = {
                         {latitude: data.lat, longitude: data.lng}
                     );
 
-                    var marker = L.marker([data.lat, data.lng], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
-                    marker.data = data;
-                    IndexCtrl.nostalgyMarkers.push(marker);
-
-                    var z = IndexCtrl.mymap.getZoom();
-                    if (IndexCtrl.BOUND_ZOOM <= z) {
-                        var circle = L.circle([data.lat, data.lng], {
-                            radius: 500,
-                            color: '#e61212',
-                            fillColor: '#e61212',
-                            fillOpacity: 0.01
-                        }).addTo(IndexCtrl.mymap);
-                        IndexCtrl.nostalgyCircle.push(circle);
+                    if (IndexCtrl.RANGE_DISTANCE > _distance) {
+                        var marker = L.marker([data.lat, data.lng], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
+                        marker.data = data;
+                        IndexCtrl.nostalgyMarkers.push(marker);
+    
+                        var z = IndexCtrl.mymap.getZoom();
+                        if (IndexCtrl.BOUND_ZOOM <= z) {
+                            var circle = L.circle([data.lat, data.lng], {
+                                radius: 500,
+                                color: '#e61212',
+                                fillColor: '#e61212',
+                                fillOpacity: 0.01
+                            }).addTo(IndexCtrl.mymap);
+                            IndexCtrl.nostalgyCircle.push(circle);
+                        }
                     }
                 }
             }
@@ -564,25 +569,30 @@ IndexCtrl = {
                 }
 
                 IndexCtrl.templeMarkers = [];
-
+            
                 for (var i = 0; i < IndexCtrl.temple.length; i++) {
                     var data = IndexCtrl.temple[i];
                     _distance = geolib.getDistance(
                         {latitude: lat, longitude: lng},
                         {latitude: data.location[1], longitude: data.location[0]}
                     );
-                    if (data.genre.includes('神社')) {
-                        var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.shrine}).addTo(IndexCtrl.mymap);
-                        marker.data = data;
-                        IndexCtrl.templeMarkers.push(marker);
-                    } else if (data.genre.includes('寺院')) {
-                        // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
-                        // marker.data = data;
-                        // IndexCtrl.templeMarkers.push(marker);
-                    } else if (data.genre.includes('教会')) {
-                        // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
-                        // marker.data = data;
-                        // IndexCtrl.templeMarkers.push(marker);
+                    if (IndexCtrl.RANGE_DISTANCE > _distance) {
+                        var z = IndexCtrl.mymap.getZoom();
+                        if (IndexCtrl.BOUND_ZOOM <= z) {
+                            if (data.genre.includes('神社')) {
+                                var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.shrine}).addTo(IndexCtrl.mymap);
+                                marker.data = data;
+                                IndexCtrl.templeMarkers.push(marker);
+                            } else if (data.genre.includes('寺院')) {
+                                // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
+                                // marker.data = data;
+                                // IndexCtrl.templeMarkers.push(marker);
+                            } else if (data.genre.includes('教会')) {
+                                // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
+                                // marker.data = data;
+                                // IndexCtrl.templeMarkers.push(marker);
+                            }
+                        }
                     }
                 }
             }
@@ -611,16 +621,22 @@ IndexCtrl = {
                 }
 
                 IndexCtrl.parkMarkers = [];
-
+          
+                var z = IndexCtrl.mymap.getZoom();
                 for (var i = 0; i < IndexCtrl.park.length; i++) {
                     var data = IndexCtrl.park[i];
                     _distance = geolib.getDistance(
                         {latitude: lat, longitude: lng},
                         {latitude: data.location[1], longitude: data.location[0]}
                     );
-                    var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.park}).addTo(IndexCtrl.mymap);
-                    marker.data = data;
-                    IndexCtrl.parkMarkers.push(marker);
+                    if (IndexCtrl.RANGE_DISTANCE > _distance) {
+                        var z = IndexCtrl.mymap.getZoom();
+                        if (IndexCtrl.BOUND_ZOOM <= z) {
+                            var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.park}).addTo(IndexCtrl.mymap);
+                            marker.data = data;
+                            IndexCtrl.parkMarkers.push(marker);
+                        }
+                    }
                 }
             }
             // 処理終了
