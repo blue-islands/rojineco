@@ -17,7 +17,7 @@ IndexCtrl = {
     CHANGE_DISTANCE: 30000,
     RANGE_DISTANCE: 15000,
     GET_DISTANCE: 100,
-    BOUND_ZOOM: 13,
+    BOUND_ZOOM: 12,
     userId: null,
     mymap: null,
     lat: 0,
