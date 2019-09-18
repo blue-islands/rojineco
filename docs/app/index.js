@@ -517,7 +517,7 @@ IndexCtrl = {
                     );
                     if (IndexCtrl.RANGE_DISTANCE > _distance) {
 
-//                        if (IndexCtrl.appearance(data)) {
+                        if (IndexCtrl.appearance(data)) {
 //                            _pointLat = doRad(data.lat);
 //                            _pointLng = doRad(data.lng);
 //                            var alpha12 = Math.floor(Math.random() * 359);
@@ -534,12 +534,12 @@ IndexCtrl = {
 
                             var circle = L.circle([data.lat, data.lng], {
                                 radius: 500,
-                                color: 'blue',
+                                color: '#e61212',
                                 fillColor: '#e61212',
-                                fillOpacity: 0.5
+                                fillOpacity: 0.1
                             }).addTo(IndexCtrl.mymap);
                             IndexCtrl.nostalgyCircle.push(marker);
-//                        }
+                        }
                     }
                 }
             }
