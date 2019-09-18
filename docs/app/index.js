@@ -528,11 +528,11 @@ IndexCtrl = {
 //                            marker.data = data;
 //                            IndexCtrl.nostalgyMarkers.push(marker);
 
-                            var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
+                            var marker = L.marker([data.lat, data.lng], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
                             marker.data = data;
                             IndexCtrl.nostalgyMarkers.push(marker);
 
-                            var circle = L.circle([data.location[1], data.location[0]], {
+                            var circle = L.circle([data.lat, data.lng], {
                                 radius: 500,
                                 color: 'blue',
                                 fillColor: '#e61212',
