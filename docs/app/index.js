@@ -583,9 +583,9 @@ IndexCtrl = {
                                 marker.data = data;
                                 IndexCtrl.templeMarkers.push(marker);
                             } else if (data.genre.includes('寺院')) {
-                                var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap).bindTooltip(data.name,{direction:'top', offset:L.point(0, -16)});
-                                marker.data = data;
-                                IndexCtrl.templeMarkers.push(marker);
+                                // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap).bindTooltip(data.name,{direction:'top', offset:L.point(0, -16)});
+                                // marker.data = data;
+                                // IndexCtrl.templeMarkers.push(marker);
                             } else if (data.genre.includes('教会')) {
                                 // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
                                 // marker.data = data;
