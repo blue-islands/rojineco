@@ -17,7 +17,7 @@ IndexCtrl = {
     CHANGE_DISTANCE: 30000,
     RANGE_DISTANCE: 15000,
     GET_DISTANCE: 100,
-    BOUND_ZOOM: 14,
+    BOUND_ZOOM: 13,
     userId: null,
     mymap: null,
     lat: 0,
@@ -84,112 +84,112 @@ IndexCtrl = {
             iconUrl: './img/cat_g1.png',
             iconRetinaUrl: './img/cat_g1.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         gold2: L.icon({
             iconUrl: './img/cat_g2.png',
             iconRetinaUrl: './img/cat_g2.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         gold3: L.icon({
             iconUrl: './img/cat_g3.png',
             iconRetinaUrl: './img/cat_g3.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         gold4: L.icon({
             iconUrl: './img/cat_g3.png',
             iconRetinaUrl: './img/cat_g3.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         silver1: L.icon({
             iconUrl: './img/cat_s1.png',
             iconRetinaUrl: './img/cat_s1.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         silver2: L.icon({
             iconUrl: './img/cat_s2.png',
             iconRetinaUrl: './img/cat_s2.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         silver3: L.icon({
             iconUrl: './img/cat_s3.png',
             iconRetinaUrl: './img/cat_s3.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         silver4: L.icon({
             iconUrl: './img/cat_s3.png',
             iconRetinaUrl: './img/cat_s3.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         bronze1: L.icon({
             iconUrl: './img/cat_b1.png',
             iconRetinaUrl: './img/cat_b1.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         bronze2: L.icon({
             iconUrl: './img/cat_b2.png',
             iconRetinaUrl: './img/cat_b2.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         bronze3: L.icon({
             iconUrl: './img/cat_b3.png',
             iconRetinaUrl: './img/cat_b3.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         bronze4: L.icon({
             iconUrl: './img/cat_b3.png',
             iconRetinaUrl: './img/cat_b3.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         photo: L.icon({
             iconUrl: './img/camera.png',
             iconRetinaUrl: './img/camera.png',
             iconSize: [54, 40],
-            iconAnchor: [27, 40],
+            iconAnchor: [27, 20],
             popupAnchor: [0, -20],
         }),
         shrine: L.icon({
             iconUrl: './img/shrine.png',
             iconRetinaUrl: './img/shrine.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
         temple: L.icon({
             iconUrl: './img/temple.png',
             iconRetinaUrl: './img/temple.png',
             iconSize: [31, 30],
-            iconAnchor: [15, 30],
+            iconAnchor: [15, 15],
             popupAnchor: [0, -30],
         }),
         park: L.icon({
             iconUrl: './img/park.png',
             iconRetinaUrl: './img/park.png',
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
     },
@@ -529,7 +529,7 @@ IndexCtrl = {
                         var marker = L.marker([data.lat, data.lng], {icon: IndexCtrl.rarity(data)}).addTo(IndexCtrl.mymap);
                         marker.data = data;
                         IndexCtrl.nostalgyMarkers.push(marker);
-    
+
                         var z = IndexCtrl.mymap.getZoom();
                         if (IndexCtrl.BOUND_ZOOM <= z) {
                             var circle = L.circle([data.lat, data.lng], {
@@ -568,7 +568,7 @@ IndexCtrl = {
                 }
 
                 IndexCtrl.templeMarkers = [];
-            
+
                 for (var i = 0; i < IndexCtrl.temple.length; i++) {
                     var data = IndexCtrl.temple[i];
                     _distance = geolib.getDistance(
@@ -579,13 +579,13 @@ IndexCtrl = {
                         var z = IndexCtrl.mymap.getZoom();
                         if (IndexCtrl.BOUND_ZOOM <= z) {
                             if (data.genre.includes('神社')) {
-                                var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.shrine}).addTo(IndexCtrl.mymap);
+                                var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.shrine}).addTo(IndexCtrl.mymap).bindTooltip(data.name,{direction:'top', offset:L.point(0, -16)});
                                 marker.data = data;
                                 IndexCtrl.templeMarkers.push(marker);
                             } else if (data.genre.includes('寺院')) {
-                                // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
-                                // marker.data = data;
-                                // IndexCtrl.templeMarkers.push(marker);
+                                var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap).bindTooltip(data.name,{direction:'top', offset:L.point(0, -16)});
+                                marker.data = data;
+                                IndexCtrl.templeMarkers.push(marker);
                             } else if (data.genre.includes('教会')) {
                                 // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
                                 // marker.data = data;
@@ -620,7 +620,7 @@ IndexCtrl = {
                 }
 
                 IndexCtrl.parkMarkers = [];
-          
+
                 var z = IndexCtrl.mymap.getZoom();
                 for (var i = 0; i < IndexCtrl.park.length; i++) {
                     var data = IndexCtrl.park[i];
@@ -631,7 +631,7 @@ IndexCtrl = {
                     if (IndexCtrl.RANGE_DISTANCE > _distance) {
                         var z = IndexCtrl.mymap.getZoom();
                         if (IndexCtrl.BOUND_ZOOM <= z) {
-                            var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.park}).addTo(IndexCtrl.mymap);
+                            var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.park}).addTo(IndexCtrl.mymap).bindTooltip(data.name,{direction:'top', offset:L.point(0, -16)});
                             marker.data = data;
                             IndexCtrl.parkMarkers.push(marker);
                         }
