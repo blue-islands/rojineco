@@ -464,8 +464,11 @@ IndexCtrl = {
                 IndexCtrl.dispPark(_lat, _lng);
             }
 
+            // ネコが近くにいたらアラートを出す。
+            IndexCtrl.judgment();
+
             IndexCtrl.zoom = z;
-            console.log(z);
+            logger.info("zoom:" + z);
             // 処理終了
         }
         catch (ex) {
@@ -728,29 +731,6 @@ IndexCtrl = {
         }
     },
 
-    appearance: function UN_appearance(data) {
-        var _functionName = 'UN_appearance',
-            _num = 0;
-
-        try {
-            Util.startWriteLog(IndexCtrl._className,_functionName);
-            // 処理開始
-            _num = Math.floor(Math.random() * 60);
-            if (data.alleyRatio > _num) {
-                return true;
-            } else {
-                return false;
-            }
-            // 処理終了
-        }
-        catch (ex) {
-            logger.error(ex);
-        }
-        finally {
-            Util.endWriteLog(IndexCtrl._className,_functionName);
-        }
-    },
-
     rarity: function UN_rarity(data) {
         var _functionName = 'UN_rarity',
             _ran = 0;
@@ -847,7 +827,7 @@ IndexCtrl = {
                     );
                     // 指定の範囲内に現れたら戦闘画面を表示
                     if (IndexCtrl.GET_DISTANCE > _distancee) {
-                        AttackCtrl.attack(_data)
+                    	alert('近くでネコの匂いがしますね。。。');
                         break;
                     } else {
                         logger.info(_data);
