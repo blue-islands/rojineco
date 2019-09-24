@@ -445,7 +445,7 @@ IndexCtrl = {
             }
 
             // ネコが近くにいたらアラートを出す。
-            IndexCtrl.judgment();
+           // IndexCtrl.judgment();
 
             IndexCtrl.zoom = z;
             logger.info("zoom:" + z);
