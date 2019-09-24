@@ -37,6 +37,7 @@ IndexCtrl = {
     parkMarkers:[],
     photos: [],
     autoF: true,
+    necoF: false,
     urls: {
         login: IndexCtrl.domain + 'login',
         who: IndexCtrl.domain + 'who',
@@ -101,13 +102,6 @@ IndexCtrl = {
             iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
-        gold4: L.icon({
-            iconUrl: './img/cat_g3.png',
-            iconRetinaUrl: './img/cat_g3.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -32],
-        }),
         silver1: L.icon({
             iconUrl: './img/cat_s1.png',
             iconRetinaUrl: './img/cat_s1.png',
@@ -129,13 +123,6 @@ IndexCtrl = {
             iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
-        silver4: L.icon({
-            iconUrl: './img/cat_s3.png',
-            iconRetinaUrl: './img/cat_s3.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -32],
-        }),
         bronze1: L.icon({
             iconUrl: './img/cat_b1.png',
             iconRetinaUrl: './img/cat_b1.png',
@@ -151,13 +138,6 @@ IndexCtrl = {
             popupAnchor: [0, -32],
         }),
         bronze3: L.icon({
-            iconUrl: './img/cat_b3.png',
-            iconRetinaUrl: './img/cat_b3.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -32],
-        }),
-        bronze4: L.icon({
             iconUrl: './img/cat_b3.png',
             iconRetinaUrl: './img/cat_b3.png',
             iconSize: [32, 32],
@@ -738,7 +718,7 @@ IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
             // 処理開始
-            _ran = Math.floor( Math.random() * 4 ) + 1;
+            _ran = Math.floor( Math.random() * 3 ) + 1;
 
             if (15 >= data.nostalgiaRatio) {
                 switch(_ran) {
@@ -748,8 +728,6 @@ IndexCtrl = {
                         return IndexCtrl.mapIcon.gold2;
                     case 3:
                         return IndexCtrl.mapIcon.gold3;
-                    case 4:
-                        return IndexCtrl.mapIcon.gold4;
                 }
             } else if (30 >= data.nostalgiaRatio) {
                 switch(_ran) {
@@ -759,8 +737,6 @@ IndexCtrl = {
                         return IndexCtrl.mapIcon.silver2;
                     case 3:
                         return IndexCtrl.mapIcon.silver3;
-                    case 4:
-                        return IndexCtrl.mapIcon.silver4;
                 }
             } else {
                 switch(_ran) {
@@ -770,8 +746,6 @@ IndexCtrl = {
                         return IndexCtrl.mapIcon.bronze2;
                     case 3:
                         return IndexCtrl.mapIcon.bronze3;
-                    case 4:
-                        return IndexCtrl.mapIcon.bronze4;
                 }
             }
             // 処理終了
@@ -812,7 +786,8 @@ IndexCtrl = {
         var _functionName = 'UN_judgment',
             _nostalgyMarkers = null,
             _data = null,
-            _distance = 0;
+            _distance = 0,
+            _flg = false;
 
         try {
             Util.startWriteLog(IndexCtrl._className,_functionName);
@@ -827,13 +802,20 @@ IndexCtrl = {
                     );
                     // 指定の範囲内に現れたら戦闘画面を表示
                     if (IndexCtrl.GET_DISTANCE > _distancee) {
-                    	alert('近くでネコの匂いがしますね。。。');
+                    	_flg = true;
                         break;
                     } else {
                         logger.info(_data);
                     }
                 }
             }
+
+            if (IndexCtrl.necoF != _flg) {
+            	if (_flg) {
+                   	alert('近くでネコの匂いがしますね。。。');
+            	}
+            }
+         	IndexCtrl.necoF = _flg;
             // 処理終了
         }
         catch (ex) {
