@@ -9,8 +9,8 @@
 //34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
-IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
-//IndexCtrl.domain = 'http://localhost:8080/';
+// IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
+IndexCtrl.domain = 'http://localhost:8080/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
@@ -251,6 +251,26 @@ IndexCtrl = {
             $(document).on('click', '#doTwitterLogout', function() {
                 // clickイベントの処理
                 LoginCtrl.logout();
+            });
+            // 神社・仏閣表示ボタン
+            $(document).on('click', '#doTempleOn', function() {
+                // clickイベントの処理
+                LoginCtrl.dispTempleIcon(true);
+            });
+            // 神社・仏閣非表示ボタン
+            $(document).on('click', '#doTempleOff', function() {
+                // clickイベントの処理
+                LoginCtrl.dispTempleIcon(false);
+            });
+            // 公園表示ボタン
+            $(document).on('click', '#doParkOn', function() {
+                // clickイベントの処理
+                LoginCtrl.dispParkIcon(true);
+            });
+           // 公園非表示ボタン
+           $(document).on('click', '#doParkOff', function() {
+                // clickイベントの処理
+                LoginCtrl.dispParkIcon(false);
             });
             // ネコ表示閉じるボタン
             $(document).on('click', '#doCatClose', function() {
@@ -993,6 +1013,77 @@ IndexCtrl = {
         }
         finally {
             Util.endWriteLog(IndexCtrl._className,_functionName);
+        }
+    },
+    
+    changeBtn: function UN_changeBtn() {
+        var _functionName = 'UN_changeBtn',
+            _oauthToken = null;
+
+        try {
+            Util.startWriteLog(LoginCtrl._className,_functionName);
+            // 処理開始
+            _oauthToken = localStorage.getItem("oauth_token");
+            if (_oauthToken) {
+                $('#doTwitterLogout').show();
+                $('#doTwitterLogin').hide();
+            } else {
+                $('#doTwitterLogin').show();
+                $('#doTwitterLogout').hide();
+            }
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(LoginCtrl._className,_functionName);
+        }
+    },
+
+    dispTempleIcon: function UN_dispTempleIcon(dispF) {
+        var _functionName = 'UN_dispTempleIcon';
+
+        try {
+            Util.startWriteLog(LoginCtrl._className,_functionName);
+            // 処理開始
+            if (dispF) {
+                $('#doTempleOff').show();
+                $('#doTempleOn').hide();
+            } else {
+                $('#doTempleOn').show();
+                $('#doTempleOff').hide();
+            }
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(LoginCtrl._className,_functionName);
+        }
+    },
+
+    dispParkIcon: function UN_dispParkIcon(dispF) {
+        var _functionName = 'UN_dispParkIcon';
+
+        try {
+            Util.startWriteLog(LoginCtrl._className,_functionName);
+            // 処理開始
+            if (dispF) {
+                $('#doParkOff').show();
+                $('#doParkOn').hide();
+            } else {
+                $('#doParkOn').show();
+                $('#doParkOff').hide();
+            }
+            // 処理終了
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
+        finally {
+            Util.endWriteLog(LoginCtrl._className,_functionName);
         }
     },
 };

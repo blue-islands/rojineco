@@ -94,13 +94,16 @@ body {
     position: relative;
 }
 .dialog-inner{
+    width: 300px;
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 300px;
-    height: 300px;
     -webkit-transform: translateY(-50%) translateX(-50%);
     transform: translateY(-50%) translateX(-50%);
+}
+
+.is-gray{
+    background-color: #aaa;
 }
 
 .nes-btn > input[type="file"] {
