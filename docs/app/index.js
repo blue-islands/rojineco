@@ -257,22 +257,22 @@ IndexCtrl = {
       // 神社・仏閣表示ボタン
       $(document).on('click', '#doTempleOn', function() {
         // clickイベントの処理
-        IndexCtrl.dispTempleIcon(true);
+        IndexCtrl.dispTempleIcon(false);
       });
       // 神社・仏閣非表示ボタン
       $(document).on('click', '#doTempleOff', function() {
         // clickイベントの処理
-        IndexCtrl.dispTempleIcon(false);
+        IndexCtrl.dispTempleIcon(true);
       });
       // 公園表示ボタン
       $(document).on('click', '#doParkOn', function() {
         // clickイベントの処理
-        IndexCtrl.dispParkIcon(true);
+        IndexCtrl.dispParkIcon(false);
       });
       // 公園非表示ボタン
       $(document).on('click', '#doParkOff', function() {
         // clickイベントの処理
-        IndexCtrl.dispParkIcon(false);
+        IndexCtrl.dispParkIcon(true);
       });
       // ネコ表示閉じるボタン
       $(document).on('click', '#doCatClose', function() {
@@ -592,9 +592,9 @@ IndexCtrl = {
             latitude: data.location[1],
             longitude: data.location[0]
           });
-          if (IndexCtrl.RANGE_DISTANCE > _distance) {
+          if ((IndexCtrl.RANGE_DISTANCE / 2) > _distance) {
             var z = IndexCtrl.mymap.getZoom();
-            if (IndexCtrl.BOUND_ZOOM <= z) {
+            if (IndexCtrl.BOUND_ZOOM <= z && IndexCtrl.templeF) {
               if (data.genre.includes('神社')) {
                 var marker = L.marker([data.location[1], data.location[0]], {
                   icon: IndexCtrl.mapIcon.shrine
@@ -605,9 +605,9 @@ IndexCtrl = {
                 marker.data = data;
                 IndexCtrl.templeMarkers.push(marker);
               } else if (data.genre.includes('寺院')) {
-                // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap).bindTooltip(data.name,{direction:'top', offset:L.point(0, -16)});
-                // marker.data = data;
-                // IndexCtrl.templeMarkers.push(marker);
+                var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap).bindTooltip(data.name,{direction:'top', offset:L.point(0, -16)});
+                marker.data = data;
+                IndexCtrl.templeMarkers.push(marker);
               } else if (data.genre.includes('教会')) {
                 // var marker = L.marker([data.location[1], data.location[0]], {icon: IndexCtrl.mapIcon.temple}).addTo(IndexCtrl.mymap);
                 // marker.data = data;
@@ -651,9 +651,9 @@ IndexCtrl = {
             latitude: data.location[1],
             longitude: data.location[0]
           });
-          if (IndexCtrl.RANGE_DISTANCE > _distance) {
+          if ((IndexCtrl.RANGE_DISTANCE / 2) > _distance) {
             var z = IndexCtrl.mymap.getZoom();
-            if (IndexCtrl.BOUND_ZOOM <= z) {
+            if (IndexCtrl.BOUND_ZOOM <= z && IndexCtrl.parkF) {
               var marker = L.marker([data.location[1], data.location[0]], {
                 icon: IndexCtrl.mapIcon.park
               }).addTo(IndexCtrl.mymap).bindTooltip(data.name, {
@@ -1070,12 +1070,12 @@ IndexCtrl = {
       Util.startWriteLog(IndexCtrl._className, _functionName);
       // 処理開始
       if (dispF) {
-        $('#doTempleOff').show();
-        $('#doTempleOn').hide();
-        IndexCtrl.templeF = true;
-      } else {
         $('#doTempleOn').show();
         $('#doTempleOff').hide();
+        IndexCtrl.templeF = true;
+      } else {
+        $('#doTempleOff').show();
+        $('#doTempleOn').hide();
         IndexCtrl.templeF = false;
       }
       // 処理終了
@@ -1093,12 +1093,12 @@ IndexCtrl = {
       Util.startWriteLog(IndexCtrl._className, _functionName);
       // 処理開始
       if (dispF) {
-        $('#doParkOff').show();
-        $('#doParkOn').hide();
-        IndexCtrl.parkF = true;
-      } else {
         $('#doParkOn').show();
         $('#doParkOff').hide();
+        IndexCtrl.parkF = true;
+      } else {
+        $('#doParkOff').show();
+        $('#doParkOn').hide();
         IndexCtrl.parkF = false;
       }
       // 処理終了
