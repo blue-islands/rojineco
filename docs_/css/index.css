@@ -1,0 +1,111 @@
+@font-face {
+    font-family: "PixelMplus10-Regular";
+    src: url('https://cdn.leafscape.be/PixelMplus/PixelMplus10-Regular_web.woff2') format("woff2");
+}
+
+body {
+	font-family: PixelMplus10-Regular;
+}
+
+#mymap {
+    width: 100%;
+    height: 100%;
+}
+
+#button1 {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 1000;
+}
+
+#button2 {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+}
+
+#button3 {
+    position: absolute;
+    bottom: 25px;
+    left: 15px;
+    z-index: 1000;
+}
+
+#button4 {
+    position: absolute;
+    bottom: 25px;
+    right: 15px;
+    z-index: 1000;
+}
+
+#settingView {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: rgba(200, 200, 200, 0.8);
+    z-index: 1001;
+}
+
+
+#listView {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: rgba(200, 200, 200, 0.8);
+    z-index: 1001;
+}
+
+#photoView {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: rgba(200, 200, 200, 0.8);
+    z-index: 1001;
+}
+
+#catView {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(200, 200, 200, 0.8);
+    z-index: 1001;
+}
+
+.background-white {
+    background-color: white;
+}
+
+.dialog-parent{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.dialog-inner{
+    width: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateY(-50%) translateX(-50%);
+    transform: translateY(-50%) translateX(-50%);
+}
+
+.is-gray{
+    background-color: #aaa;
+}
+
+.nes-btn > input[type="file"] {
+    display: none;
+}

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * タイトル：ログイン画面JS
  * 説明    ：
  * 著作権  ：Copyright(c) 2018 LivLog llc.
