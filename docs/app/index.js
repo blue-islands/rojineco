@@ -38,6 +38,8 @@ IndexCtrl = {
   photos: [],
   autoF: true,
   necoF: false,
+  templeF: false,
+  parkF: false,
   urls: {
     login: IndexCtrl.domain + 'login',
     who: IndexCtrl.domain + 'who',
@@ -283,7 +285,11 @@ IndexCtrl = {
       $('#listView').hide();
       $('#photoView').hide();
       $('#catView').hide();
-
+      
+      // 設定ボタンの制御
+      IndexCtrl.dispTempleIcon(true);
+      IndexCtrl.dispParkIcon(true);
+      
       IndexCtrl.mymap = L.map('mymap', {
         center: [35.7102, 139.8132],
         zoom: 13,
@@ -1039,7 +1045,7 @@ IndexCtrl = {
       _oauthToken = null;
 
     try {
-      Util.startWriteLog(LoginCtrl._className, _functionName);
+      Util.startWriteLog(IndexCtrl._className, _functionName);
       // 処理開始
       _oauthToken = localStorage.getItem("oauth_token");
       if (_oauthToken) {
@@ -1053,7 +1059,7 @@ IndexCtrl = {
     } catch (ex) {
       logger.error(ex);
     } finally {
-      Util.endWriteLog(LoginCtrl._className, _functionName);
+      Util.endWriteLog(IndexCtrl._className, _functionName);
     }
   },
 
@@ -1061,20 +1067,22 @@ IndexCtrl = {
     var _functionName = 'UN_dispTempleIcon';
 
     try {
-      Util.startWriteLog(LoginCtrl._className, _functionName);
+      Util.startWriteLog(IndexCtrl._className, _functionName);
       // 処理開始
       if (dispF) {
         $('#doTempleOff').show();
         $('#doTempleOn').hide();
+        IndexCtrl.templeF = true;
       } else {
         $('#doTempleOn').show();
         $('#doTempleOff').hide();
+        IndexCtrl.templeF = false;
       }
       // 処理終了
     } catch (ex) {
       logger.error(ex);
     } finally {
-      Util.endWriteLog(LoginCtrl._className, _functionName);
+      Util.endWriteLog(IndexCtrl._className, _functionName);
     }
   },
 
@@ -1082,20 +1090,22 @@ IndexCtrl = {
     var _functionName = 'UN_dispParkIcon';
 
     try {
-      Util.startWriteLog(LoginCtrl._className, _functionName);
+      Util.startWriteLog(IndexCtrl._className, _functionName);
       // 処理開始
       if (dispF) {
         $('#doParkOff').show();
         $('#doParkOn').hide();
+        IndexCtrl.parkF = true;
       } else {
         $('#doParkOn').show();
         $('#doParkOff').hide();
+        IndexCtrl.parkF = false;
       }
       // 処理終了
     } catch (ex) {
       logger.error(ex);
     } finally {
-      Util.endWriteLog(LoginCtrl._className, _functionName);
+      Util.endWriteLog(IndexCtrl._className, _functionName);
     }
   },
 };
