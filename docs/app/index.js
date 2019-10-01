@@ -38,6 +38,7 @@ IndexCtrl = {
     photos: [],
     autoF: true,
     necoF: false,
+    shrineF: false,
     templeF: false,
     parkF: false,
     urls: {
@@ -249,12 +250,22 @@ IndexCtrl = {
                 // clickイベントの処理
                 LoginCtrl.logout();
             });
-            // 神社・仏閣表示ボタン
+            // 神社表示ボタン
+            $(document).on('click', '#doShrineOn', function() {
+                // clickイベントの処理
+                IndexCtrl.dispShrineIcon(false);
+            });
+            // 神社非表示ボタン
+            $(document).on('click', '#doShrineOff', function() {
+                // clickイベントの処理
+                IndexCtrl.dispShrineIcon(true);
+            });
+            // お寺表示ボタン
             $(document).on('click', '#doTempleOn', function() {
                 // clickイベントの処理
                 IndexCtrl.dispTempleIcon(false);
             });
-            // 神社・仏閣非表示ボタン
+            // お寺非表示ボタン
             $(document).on('click', '#doTempleOff', function() {
                 // clickイベントの処理
                 IndexCtrl.dispTempleIcon(true);
@@ -282,6 +293,7 @@ IndexCtrl = {
             $('#catView').hide();
 
             // 設定ボタンの制御
+            IndexCtrl.dispShrineIcon(true);
             IndexCtrl.dispTempleIcon(true);
             IndexCtrl.dispParkIcon(true);
 
@@ -587,10 +599,11 @@ IndexCtrl = {
                         latitude: data.location[1],
                         longitude: data.location[0]
                     });
+
                     if ((IndexCtrl.RANGE_DISTANCE / 2) > _distance) {
                         var z = IndexCtrl.mymap.getZoom();
-                        if (IndexCtrl.BOUND_ZOOM <= z && IndexCtrl.templeF) {
-                            if (data.genre.includes('神社')) {
+                        if (IndexCtrl.BOUND_ZOOM <= z) {
+                            if (data.genre.includes('神社') && IndexCtrl.shrineF) {
                                 var marker = L.marker([data.location[1], data.location[0]], {
                                     icon: IndexCtrl.mapIcon.shrine
                                 }).addTo(IndexCtrl.mymap).bindTooltip(data.name, {
@@ -599,7 +612,7 @@ IndexCtrl = {
                                 });
                                 marker.data = data;
                                 IndexCtrl.templeMarkers.push(marker);
-                            } else if (data.genre.includes('寺院')) {
+                            } else if (data.genre.includes('寺院') && IndexCtrl.templeF) {
                                 var marker = L.marker([data.location[1], data.location[0]], {
                                     icon: IndexCtrl.mapIcon.temple
                                 }).addTo(IndexCtrl.mymap).bindTooltip(data.name, {
@@ -1051,6 +1064,30 @@ IndexCtrl = {
                 $('#doTwitterLogin').show();
                 $('#doTwitterLogout').hide();
             }
+            // 処理終了
+        } catch (ex) {
+            logger.error(ex);
+        } finally {
+            Util.endWriteLog(IndexCtrl._className, _functionName);
+        }
+    },
+
+    dispShrineIcon: function UN_dispShrineIcon(dispF) {
+        var _functionName = 'UN_dispShrineIcon';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className, _functionName);
+            // 処理開始
+            if (dispF) {
+                $('#doShrineOn').show();
+                $('#doShrineOff').hide();
+                IndexCtrl.shrineF = true;
+            } else {
+                $('#doShrineOff').show();
+                $('#doShrineOn').hide();
+                IndexCtrl.shrineF = false;
+            }
+            IndexCtrl.zoom = 0;
             // 処理終了
         } catch (ex) {
             logger.error(ex);
