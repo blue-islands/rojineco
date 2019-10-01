@@ -41,6 +41,7 @@ IndexCtrl = {
     shrineF: false,
     templeF: false,
     parkF: false,
+    processF: false,
     urls: {
         login: IndexCtrl.domain + 'login',
         who: IndexCtrl.domain + 'who',
@@ -484,7 +485,7 @@ IndexCtrl = {
             }
 
             // ネコが近くにいたらアラートを出す。
-            // IndexCtrl.judgment();
+            IndexCtrl.judgment(_lat, _lng);
 
             IndexCtrl.zoom = z;
             logger.info("zoom:" + z);
@@ -838,7 +839,7 @@ IndexCtrl = {
         }
     },
 
-    judgment: function UN_judgment() {
+    judgment: function UN_judgment(lat, lng) {
         var _functionName = 'UN_judgment',
             _nostalgyMarkers = null,
             _data = null,
@@ -848,33 +849,37 @@ IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
-            if (IndexCtrl.nostalgyMarkers) {
-                for (var i = 0; i < IndexCtrl.nostalgyMarkers.length; i++) {
-                    _nostalgyMarkers = IndexCtrl.nostalgyMarkers[i];
-                    _data = _nostalgyMarkers.data;
-                    _distancee = geolib.getDistance({
-                        latitude: IndexCtrl.lat,
-                        longitude: IndexCtrl.lng
-                    }, {
-                        latitude: _data.lat,
-                        longitude: _data.lng
-                    });
-                    // 指定の範囲内に現れたら戦闘画面を表示
-                    if (IndexCtrl.GET_DISTANCE > _distancee) {
-                        _flg = true;
-                        break;
-                    } else {
-                        logger.info(_data);
+            // 多重アクセスを防ぐ
+            if (!IndexCtrl.processF) {
+            	IndexCtrl.processF = true;
+                if (IndexCtrl.nostalgyMarkers) {
+                    for (var i = 0; i < IndexCtrl.nostalgyMarkers.length; i++) {
+                        _nostalgyMarkers = IndexCtrl.nostalgyMarkers[i];
+                        _data = _nostalgyMarkers.data;
+                        _distancee = geolib.getDistance({
+                            latitude: lat,
+                            longitude: lng
+                        }, {
+                            latitude: _data.lat,
+                            longitude: _data.lng
+                        });
+                        // 指定の範囲内に現れたら戦闘画面を表示
+                        if (IndexCtrl.GET_DISTANCE > _distancee) {
+                            _flg = true;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (IndexCtrl.necoF != _flg) {
-                if (_flg) {
-                    alert('近くでネコの匂いがしますね。。。');
+                if (IndexCtrl.necoF != _flg) {
+                    if (_flg) {
+                    	navigator.vibrate([500]);
+                        alert('近くでネコの匂いがしますね。。。');
+                    }
                 }
+                IndexCtrl.necoF = _flg;
+                IndexCtrl.processF = false;
             }
-            IndexCtrl.necoF = _flg;
             // 処理終了
         } catch (ex) {
             logger.error(ex);
