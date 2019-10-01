@@ -45,7 +45,7 @@
 </div>
 <!-- 設定画面 -->
 <div id="settingView" class="dialog-parent">
-	<div class="nes-container is-rounded dialog-inner is-gray">
+	<div class="nes-container is-rounded dialog-inner is-dark">
 		<div style="text-align: center;">
 			<button id="doTwitterLogin" type="button" class="nes-btn">
 				<i class="nes-icon twitter is-small" style="top: 3px;"></i>
@@ -80,21 +80,28 @@
 	</div>
 </div>
 <!-- 写真撮影画面 -->
-<div id="photoView" class="parent">
-	<div class="inner">
-		<label class="nes-btn" for="fileUpload">
-			<span>写真を撮影する</span>
-			<input type="file" id="fileUpload" accept='image/*'>
-		</label>
-		<span id="photoName"></span>
+<div id="photoView" class="dialog-parent">
+	<div class="nes-container is-rounded dialog-inner is-dark">
+		<div style="text-align: center;">
+			<label class="nes-btn is-primary" for="fileUpload">
+				<span>写真を撮影する</span>
+				<input type="file" id="fileUpload" accept='image/*'>
+			</label>
+		</div>
 		<div style="height: 8px;"></div>
-		<button id="doPhotoSendTo" type="button" class="nes-btn">送信</button>
+		<div style="text-align: center;">
+			<img src="./images/l_e_others_501.png" id="photoImage" style="width: 100%; max-width: 200px">
+		</div>
+		<div style="height: 8px;"></div>
+		<div style="text-align: center;">
+		<button id="doPhotoSendTo" type="button" class="nes-btn is-success">登録</button>
 		<button id="doPhotoClose" type="button" class="nes-btn">閉じる</button>
+		</div>
 	</div>
 </div>
 <!-- ネコ表示画面 -->
 <div id="catView" class="dialog-parent">
-	<div class="nes-container is-rounded is-dark dialog-inner">
+	<div class="nes-container is-rounded dialog-inner is-dark">
 		<div style="text-align: center;">
 			<img src="" id="catImage" style="width: 100%; max-width: 200px">
 		</div>

@@ -212,6 +212,22 @@ IndexCtrl = {
                 $('#settingView').hide();
                 $('#listView').hide();
                 $('#photoView').show();
+                $('#photoImage').attr('src', './images/l_e_others_501.png');
+                $('#fileUpload').val('');
+            });
+            // 写真選択ボタン
+            $(document).on('change', '#fileUpload', function() {
+                // changeイベントの処理
+                var file = document.querySelector('#fileUpload').files[0];
+                var reader = new FileReader();
+                reader.addEventListener("load", function() {
+                    logger.info(reader.result);
+                    $('#photoImage').attr('src', reader.result)
+                }, false);
+
+                if (file) {
+                	reader.readAsDataURL(file);
+                }
             });
             // 写真送信ボタン
             $(document).on('click', '#doPhotoSendTo', function() {
@@ -909,6 +925,7 @@ IndexCtrl = {
                     //     logger.info('***** 処理終了 *****');
                     $('#fileUpload').val('');
                     $('#photoView').hide();
+                    IndexCtrl.dispPhoto(IndexCtrl.lat, IndexCtrl.lng);
                 });
             }, false);
 
@@ -920,6 +937,7 @@ IndexCtrl = {
             logger.error(ex);
         } finally {
             Util.endWriteLog(LoginCtrl._className, _functionName);
+            $('#photoView').hide();
         }
     },
 
