@@ -56,95 +56,74 @@ IndexCtrl = {
     },
     mapIcon: {
         my: L.icon({
-            iconUrl: './images/walk_front.gif',
-            iconRetinaUrl: './images/walk_front.gif',
+            iconUrl: './images/walking_man_front.gif',
+            iconRetinaUrl: './images/walking_man_front.gif',
             iconSize: [64, 64],
             iconAnchor: [32, 64],
             popupAnchor: [0, -64],
         }),
         myLeft: L.icon({
-            iconUrl: './images/walk_left.gif',
-            iconRetinaUrl: './images/walk_left.gif',
+            iconUrl: './images/walking_man_left.gif',
+            iconRetinaUrl: './images/walking_man_left.gif',
             iconSize: [64, 64],
             iconAnchor: [32, 64],
             popupAnchor: [0, -64],
         }),
         myRight: L.icon({
-            iconUrl: './images/walk_right.gif',
-            iconRetinaUrl: './images/walk_right.gif',
+            iconUrl: './images/walking_man_right.gif',
+            iconRetinaUrl: './images/walking_man_right.gif',
             iconSize: [64, 64],
             iconAnchor: [32, 64],
             popupAnchor: [0, -64],
         }),
         myBack: L.icon({
-            iconUrl: './images/walk_back.gif',
-            iconRetinaUrl: './images/walk_back.gif',
+            iconUrl: './images/walking_man_back.gif',
+            iconRetinaUrl: './images/walking_man_back.gif',
             iconSize: [64, 64],
             iconAnchor: [32, 64],
             popupAnchor: [0, -64],
         }),
         gold1: L.icon({
-            iconUrl: './images/cat_g1.png',
-            iconRetinaUrl: './images/cat_g1.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -32],
+            iconUrl: './images/cat_sabi.png',
+            iconRetinaUrl: './images/cat_sabi.png',
+            iconSize: [64, 48],
+            iconAnchor: [32, 24],
+            popupAnchor: [0, -48],
         }),
         gold2: L.icon({
-            iconUrl: './images/cat_g2.png',
-            iconRetinaUrl: './images/cat_g2.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -32],
-        }),
-        gold3: L.icon({
-            iconUrl: './images/cat_g3.png',
-            iconRetinaUrl: './images/cat_g3.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -32],
+            iconUrl: './images/cat_tora.png',
+            iconRetinaUrl: './images/cat_tora.png',
+            iconSize: [64, 48],
+            iconAnchor: [32, 24],
+            popupAnchor: [0, -48],
         }),
         silver1: L.icon({
-            iconUrl: './images/cat_s1.png',
-            iconRetinaUrl: './images/cat_s1.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -32],
+            iconUrl: './images/cat_black.png',
+            iconRetinaUrl: './images/cat_black.png',
+            iconSize: [64, 48],
+            iconAnchor: [32, 24],
+            popupAnchor: [0, -48],
         }),
         silver2: L.icon({
-            iconUrl: './images/cat_s2.png',
-            iconRetinaUrl: './images/cat_s2.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -32],
-        }),
-        silver3: L.icon({
-            iconUrl: './images/cat_s3.png',
-            iconRetinaUrl: './images/cat_s3.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -32],
+            iconUrl: './images/cat_kiji.png',
+            iconRetinaUrl: './images/cat_kiji.png',
+            iconSize: [64, 48],
+            iconAnchor: [32, 24],
+            popupAnchor: [0, -48],
         }),
         bronze1: L.icon({
-            iconUrl: './images/cat_b1.png',
-            iconRetinaUrl: './images/cat_b1.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -32],
+            iconUrl: './images/cat_hachi.png',
+            iconRetinaUrl: './images/cat_hachi.png',
+            iconSize: [64, 48],
+            iconAnchor: [32, 24],
+            popupAnchor: [0, -48],
         }),
         bronze2: L.icon({
-            iconUrl: './images/cat_b2.png',
-            iconRetinaUrl: './images/cat_b2.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -32],
-        }),
-        bronze3: L.icon({
-            iconUrl: './images/cat_b3.png',
-            iconRetinaUrl: './images/cat_b3.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -32],
+            iconUrl: './images/cat_mike.png',
+            iconRetinaUrl: './images/cat_mike.png',
+            iconSize: [64, 48],
+            iconAnchor: [32, 24],
+            popupAnchor: [0, -48],
         }),
         photo: L.icon({
             iconUrl: './images/camera.png',
@@ -776,7 +755,7 @@ IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
-            _ran = Math.floor(Math.random() * 3) + 1;
+            _ran = Math.floor(Math.random() * 2) + 1;
 
             if (15 >= data.nostalgiaRatio) {
                 switch (_ran) {
@@ -784,8 +763,6 @@ IndexCtrl = {
                         return IndexCtrl.mapIcon.gold1;
                     case 2:
                         return IndexCtrl.mapIcon.gold2;
-                    case 3:
-                        return IndexCtrl.mapIcon.gold3;
                 }
             } else if (30 >= data.nostalgiaRatio) {
                 switch (_ran) {
@@ -793,8 +770,6 @@ IndexCtrl = {
                         return IndexCtrl.mapIcon.silver1;
                     case 2:
                         return IndexCtrl.mapIcon.silver2;
-                    case 3:
-                        return IndexCtrl.mapIcon.silver3;
                 }
             } else {
                 switch (_ran) {
@@ -802,8 +777,6 @@ IndexCtrl = {
                         return IndexCtrl.mapIcon.bronze1;
                     case 2:
                         return IndexCtrl.mapIcon.bronze2;
-                    case 3:
-                        return IndexCtrl.mapIcon.bronze3;
                 }
             }
             // 処理終了
