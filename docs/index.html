@@ -8,12 +8,11 @@
 <title>ロジネコ | 近くのネコに会いに行く</title>
 <meta name="description" content="ロジネコは自由気ままに暮らすネコ達を見つけて、写真を撮って、ネコ達の実態を把握することを目的としています。かわいいネコ達に会いに行きましょう。">
 <meta name="author" content="@rojineco">
-<script src="components/loader.js"></script>
+<script src="./components/loader.js"></script>
 <link rel="shortcut icon" href="favicon.png">
 <link rel="apple-touch-icon-precomposed" href="favicon.png" />
 <link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="components/loader.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="./components/loader.css">
 <!-- CSS -->
 <link rel="stylesheet" href="https://unpkg.com/nes.css@latest/css/nes.min.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@latest/dist/leaflet.css" integrity="sha512Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
@@ -47,7 +46,7 @@
 <!-- 設定画面 -->
 <div id="settingView" class="dialog-parent animated fadeInUp">
 	<div class="nes-container is-rounded dialog-inner is-dark">
-		<div style="text-align: center;">
+		<div class="center">
 			<button id="doTwitterLogin" type="button" class="nes-btn">
 				<i class="nes-icon twitter is-small" style="top: 3px;"></i>
 				&thinsp;ログイン
@@ -57,49 +56,65 @@
 				&thinsp;ログアウト
 			</button>
 		</div>
-		<div style="height: 8px;"></div>
-		<div style="text-align: center;">
+		<div class="space-08"></div>
+		<div class="center">
 			<button id="doShrineOn" type="button" class="nes-btn is-primary">神社を表示</button>
 			<button id="doShrineOff" type="button" class="nes-btn is-primary">神社を非表示</button>
 		</div>
-		<div style="height: 8px;"></div>
-		<div style="text-align: center;">
+		<div class="space-08"></div>
+		<div class="center">
 			<button id="doTempleOn" type="button" class="nes-btn is-success">お寺を表示</button>
 			<button id="doTempleOff" type="button" class="nes-btn is-success">お寺を非表示</button>
 		</div>
-		<div style="height: 8px;"></div>
-		<div style="text-align: center;">
+		<div class="space-08"></div>
+		<div class="center">
 			<button id="doParkOn" type="button" class="nes-btn is-warning">公園を表示</button>
 			<button id="doParkOff" type="button" class="nes-btn is-warning">公園を非表示</button>
 		</div>
-		<div style="height: 8px;"></div>
-		<div style="text-align: center;">
+		<div class="space-08"></div>
+		<div class="center">
 			<button id="doSettingClose" type="button" class="nes-btn">閉じる</button>
 		</div>
 	</div>
 </div>
 <!-- 写真一覧画面 -->
-<div id="listView" class="parent animated fadeInUp">
-	<div class="inner">
-
-		<button id="doListClose" type="button" class="nes-btn">閉じる</button>
+<div id="listView" class="list-parent animated fadeInUp">
+	<div class="nes-container is-rounded list-inner is-light-white">
+		<div class="nes-table-responsive center">
+			<table class="nes-table is-bordered is-dark">
+				<tbody id="photoList">
+					<tr>
+						<td>Thou hast had a good morning</td>
+						<td>Thou hast had a good afternon</td>
+					</tr>
+					<tr>
+						<td>Thou hast had a good morning</td>
+						<td>Thou hast had a good afternoon</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="space-08"></div>
+		<div class="center">
+			<button id="doListClose" type="button" class="nes-btn">閉じる</button>
+		</div>
 	</div>
 </div>
 <!-- 写真撮影画面 -->
 <div id="photoView" class="dialog-parent animated fadeInUp">
 	<div class="nes-container is-rounded dialog-inner is-dark">
-		<div style="text-align: center;">
+		<div class="center">
 			<label class="nes-btn is-primary" for="fileUpload">
 				<span>写真を撮影する</span>
 				<input type="file" id="fileUpload" accept='image/*'>
 			</label>
 		</div>
-		<div style="height: 8px;"></div>
-		<div style="text-align: center;">
+		<div class="space-08"></div>
+		<div class="center">
 			<img src="./images/l_e_others_501.png" id="photoImage" style="width: 100%; max-width: 200px">
 		</div>
-		<div style="height: 8px;"></div>
-		<div style="text-align: center;">
+		<div class="space-08"></div>
+		<div class="center">
 		<button id="doPhotoSendTo" type="button" class="nes-btn is-success">登録</button>
 		<button id="doPhotoClose" type="button" class="nes-btn">閉じる</button>
 		</div>
@@ -108,11 +123,11 @@
 <!-- ネコ表示画面 -->
 <div id="catView" class="dialog-parent animated fadeInUp">
 	<div class="nes-container is-rounded dialog-inner is-dark">
-		<div style="text-align: center;">
+		<div class="center">
 			<img src="" id="catImage" style="width: 100%; max-width: 200px">
 		</div>
-		<div style="height: 8px;"></div>
-		<div style="text-align: center;">
+		<div class="space-08"></div>
+		<div class="center">
 			<button id="doCatClose" class="nes-btn is-primary">close</button>
 		</div>
 	</div>
