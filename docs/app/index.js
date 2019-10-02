@@ -791,14 +791,14 @@ IndexCtrl = {
             // 処理開始
             _ran = Math.floor(Math.random() * 2) + 1;
 
-            if (15 >= data.nostalgiaRatio) {
+            if (60 <= data.nostalgiaRatio) {
                 switch (_ran) {
                     case 1:
                         return IndexCtrl.mapIcon.gold1;
                     case 2:
                         return IndexCtrl.mapIcon.gold2;
                 }
-            } else if (30 >= data.nostalgiaRatio) {
+            } else if (30 <= data.nostalgiaRatio) {
                 switch (_ran) {
                     case 1:
                         return IndexCtrl.mapIcon.silver1;
