@@ -550,9 +550,13 @@ IndexCtrl = {
                     if (IndexCtrl.RANGE_DISTANCE > _distance) {
                         var marker = L.marker([data.lat, data.lng], {
                             icon: IndexCtrl.rarity(data)
-                        }).addTo(IndexCtrl.mymap);
+                        }).addTo(IndexCtrl.mymap).bindTooltip('路地裏度:' + data.alleyRatio + '%, ノスタルジー度:' + data.nostalgiaRatio + '%', {
+                            direction: 'top',
+                            offset: L.point(0, -24)
+                        });
+
                         marker.data = data;
-                        IndexCtrl.nostalgyMarkers.push(marker);
+                        IndexCtrl.nostalgyMarkers.push(marker)
 
                         var z = IndexCtrl.mymap.getZoom();
                         if (IndexCtrl.BOUND_ZOOM <= z) {
