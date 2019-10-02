@@ -14,7 +14,7 @@ IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
-    CHANGE_DISTANCE: 30000,
+    CHANGE_DISTANCE: 20000,
     RANGE_DISTANCE: 10000,
     GET_DISTANCE: 1000,
     BOUND_ZOOM: 13,
