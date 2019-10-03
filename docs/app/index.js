@@ -36,6 +36,7 @@ IndexCtrl = {
     templeMarkers: [],
     parkMarkers: [],
     photos: [],
+    photos2: [],
     autoF: true,
     necoF: false,
     shrineF: false,
@@ -229,7 +230,7 @@ IndexCtrl = {
                 }, false);
 
                 if (file) {
-                	reader.readAsDataURL(file);
+                    reader.readAsDataURL(file);
                 }
             });
             // 写真送信ボタン
@@ -856,7 +857,7 @@ IndexCtrl = {
             // 処理開始
             // 多重アクセスを防ぐ
             if (!IndexCtrl.processF) {
-            	IndexCtrl.processF = true;
+                IndexCtrl.processF = true;
                 if (IndexCtrl.nostalgyMarkers) {
                     for (var i = 0; i < IndexCtrl.nostalgyMarkers.length; i++) {
                         _nostalgyMarkers = IndexCtrl.nostalgyMarkers[i];
@@ -878,7 +879,7 @@ IndexCtrl = {
 
                 if (IndexCtrl.necoF != _flg) {
                     if (_flg) {
-                    	navigator.vibrate([500]);
+                        navigator.vibrate([500]);
                         alert('近くでネコの匂いがしますね。。。');
                     }
                 }
@@ -1007,8 +1008,7 @@ IndexCtrl = {
                         .on('click', function(e) {
                             // clickイベントの処理
                             var data = e.target.data;
-                            $('#catImage').attr('src', data.url);
-                            $('#catView').show();
+                            IndexCtrl.dispCat(null, data);
                         });
                     marker.data = data;
                     IndexCtrl.photos.push(marker);
@@ -1027,55 +1027,44 @@ IndexCtrl = {
     },
 
     dispPhotoList: function UN_dispPhotoList() {
-        var _functionName = 'UN_dispPhotoList',
-            _distance = 0,
-            _pointLat = 0,
-            _pointLng = 0,
-            _point = [];
+        var _functionName = 'UN_dispPhotoList';
 
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
-            if (IndexCtrl.photos) {
-                for (var i = 0; i < IndexCtrl.photos.length; i++) {
-                    IndexCtrl.mymap.removeLayer(IndexCtrl.photos[i]);
-                }
-            }
-
-            IndexCtrl.photos = [];
 
             $.ajax({
                 url: IndexCtrl.urls.getPhotoList, // 通信先のURL
                 type: 'GET', // 使用するHTTPメソッド
                 data: {
-//                    userId: IndexCtrl.userId
-                    userId: 'f8b959f8-fe36-40e5-8728-a341d82dea84'
+                    userId: IndexCtrl.userId
                 }, // 送信するデータ
             }).done(function(ret, textStatus, jqXHR) {
-            	var html = '';
+                var html = '';
+                IndexCtrl.photos2 = ret.results;
                 for (var i = 0; i < ret.results.length; i++) {
                     var data = ret.results[i];
                     logger.info(data);
                     if (i % 2 == 0) {
-                    	html += '<tr>';
-                    	html += '<td align="center" valign="middle">';
-                    	html += '<a>';
-                    	html += '<img src="' + data.url + '" style="width: 100%; max-width: 200px">';
-                    	html += '</a>';
-                    	html += '</td>';
+                        html += '<tr>';
+                        html += '<td align="center" valign="middle">';
+                        html += '<a onclick="IndexCtrl.dispCat(\'' + data.uuid +  '\', null)">';
+                        html += '<img src="' + data.url + '" style="width: 100%; max-width: 200px">';
+                        html += '</a>';
+                        html += '</td>';
                     } else {
-                    	html += '<td align="center" valign="middle">';
-                    	html += '<a>';
-                    	html += '<img src="' + data.url + '" style="width: 100%; max-width: 200px">';
-                    	html += '</a>';
-                    	html += '</td>';
-                    	html += '</tr>';
+                        html += '<td align="center" valign="middle">';
+                        html += '<a onclick="IndexCtrl.dispCat(\'' + data.uuid +  '\', null)">';
+                        html += '<img src="' + data.url + '" style="width: 100%; max-width: 200px">';
+                        html += '</a>';
+                        html += '</td>';
+                        html += '</tr>';
                     }
                 }
 
                 if (ret.results.length % 2 != 0) {
-                	html += '<td></td>';
-                	html += '</tr>';
+                    html += '<td></td>';
+                    html += '</tr>';
                 }
 
                 $('#photoList').html(html);
@@ -1084,6 +1073,33 @@ IndexCtrl = {
                 // }).always(function(){
                 //     logger.info('***** 処理終了 *****');
             });
+            // 処理終了
+        } catch (ex) {
+            logger.error(ex);
+        } finally {
+            Util.endWriteLog(IndexCtrl._className, _functionName);
+        }
+    },
+
+    dispCat: function UN_dispCat(uuid, data) {
+        var _functionName = 'UN_dispCat';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className, _functionName);
+            // 処理開始
+            if (uuid) {
+
+                for( var val in IndexCtrl.photos2) {
+                    var photo = IndexCtrl.photos2[val];
+                    if (uuid == photo.uuid) {
+                        data = photo;
+                        break;
+                    }
+                }
+            }
+
+            $('#catImage').attr('src', data.url);
+            $('#catView').show();
             // 処理終了
         } catch (ex) {
             logger.error(ex);

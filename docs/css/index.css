@@ -81,7 +81,7 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(200, 200, 200, 0.8);
-    z-index: 1001;
+    z-index: 1011;
 }
 
 .background-white {
