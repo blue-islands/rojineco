@@ -1,0 +1,287 @@
+[
+  {
+    "no": 1,
+    "id": "abyssinian",
+    "name": "アビシニアン"
+  },
+  {
+    "no": 2,
+    "id": "Aegean_cat",
+    "name": "エーゲ・キャット"
+  },
+  {
+    "no": 3,
+    "id": "alpine_lynx_cat",
+    "name": "アルパインリンクス"
+  },
+  {
+    "no": 4,
+    "id": "american_bobtail",
+    "name": "アメリカンボブテイル"
+  },
+  {
+    "no": 5,
+    "id": "american_curl",
+    "name": "アメリカンカール"
+  },
+  {
+    "no": 6,
+    "id": "American_Keuda",
+    "name": "アメリカンキューダ"
+  },
+  {
+    "no": 7,
+    "id": "American_Polydactyl_cat",
+    "name": "アメリカンポリダクティル"
+  },
+  {
+    "no": 8,
+    "id": "American_Ringtail_cat",
+    "name": "アメリカンリングテイル"
+  },
+  {
+    "no": 9,
+    "id": "american_short_hair",
+    "name": "アメリカンショートヘア"
+  },
+  {
+    "no": 10,
+    "id": "american_wirehair",
+    "name": "アメリカンワイヤーヘア"
+  },
+  {
+    "no": 11,
+    "id": "Arabian_Mau",
+    "name": "アラビアンマウ"
+  },
+  {
+    "no": 12,
+    "id": "Asian_cats",
+    "name": "アジアン"
+  },
+  {
+    "no": 13,
+    "id": "Australian_mist",
+    "name": "オーストラリアンミスト"
+  },
+  {
+    "no": 14,
+    "id": "Bahraini_Dilmun_Cat",
+    "name": "バーレイニディルムンキャット"
+  },
+  {
+    "no": 15,
+    "id": "Balinese_cat",
+    "name": "バリニーズ"
+  },
+  {
+    "no": 16,
+    "id": "Bambino_cat",
+    "name": "バンビーノ"
+  },
+  {
+    "no": 17,
+    "id": "Bengal_cat",
+    "name": "ベンガル"
+  },
+  {
+    "no": 18,
+    "id": "Birman",
+    "name": "バーマン"
+  },
+  {
+    "no": 19,
+    "id": "bombay_cat",
+    "name": "ボンベイ"
+  },
+  {
+    "no": 20,
+    "id": "Bramble_cat",
+    "name": "ブランブル"
+  },
+  {
+    "no": 21,
+    "id": "Brazilian_Shorthair",
+    "name": "ブラジリアンショートヘア"
+  },
+  {
+    "no": 22,
+    "id": "British_Longhair",
+    "name": "ブリティッシュロングヘア"
+  },
+  {
+    "no": 23,
+    "id": "BritishShortHair",
+    "name": "ブリティッシュショートヘア"
+  },
+  {
+    "no": 24,
+    "id": "Burmese",
+    "name": "バーミーズ"
+  },
+  {
+    "no": 25,
+    "id": "Chartreux",
+    "name": "シャルトリュー"
+  },
+  {
+    "no": 26,
+    "id": "Cornish_Rex",
+    "name": "コーニッシュレックス"
+  },
+  {
+    "no": 27,
+    "id": "Cymric",
+    "name": "キムリック"
+  },
+  {
+    "no": 28,
+    "id": "Devon_Rex",
+    "name": "デボンレックス"
+  },
+  {
+    "no": 29,
+    "id": "Egyptian_Mau",
+    "name": "エジプシャンマウ"
+  },
+  {
+    "no": 30,
+    "id": "Exotic_Shorthair",
+    "name": "エキゾチックショートヘア"
+  },
+  {
+    "no": 31,
+    "id": "HavanaBrown_cat",
+    "name": "ハバナ"
+  },
+  {
+    "no": 32,
+    "id": "Himalayan_cat",
+    "name": "ヒマラヤン"
+  },
+  {
+    "no": 33,
+    "id": "Japanese_Bobtail",
+    "name": "ジャパニーズボブテイル"
+  },
+  {
+    "no": 34,
+    "id": "Korat",
+    "name": "コラット"
+  },
+  {
+    "no": 35,
+    "id": "LaPerm",
+    "name": "ラパーマ"
+  },
+  {
+    "no": 36,
+    "id": "Mainecoon",
+    "name": "メインクーン"
+  },
+  {
+    "no": 37,
+    "id": "Manx_cat",
+    "name": "マンクス"
+  },
+  {
+    "no": 38,
+    "id": "munchkin_cat",
+    "name": "マンチカン"
+  },
+  {
+    "no": 39,
+    "id": "Norwegian_Forest_Cat",
+    "name": "ノルウェージャンフォレストキャット"
+  },
+  {
+    "no": 40,
+    "id": "Ocicat",
+    "name": "オシキャット"
+  },
+  {
+    "no": 41,
+    "id": "Oriental_cat",
+    "name": "オリエンタルショートヘア"
+  },
+  {
+    "no": 42,
+    "id": "Persian_cat",
+    "name": "ペルシャ"
+  },
+  {
+    "no": 43,
+    "id": "PixieBob",
+    "name": "ピクシーボブ"
+  },
+  {
+    "no": 44,
+    "id": "Ragamuffin_cat",
+    "name": "ラガマフィン"
+  },
+  {
+    "no": 45,
+    "id": "Ragdoll",
+    "name": "ラグドール"
+  },
+  {
+    "no": 46,
+    "id": "RussianBlue",
+    "name": "ロシアンブルー"
+  },
+  {
+    "no": 47,
+    "id": "Scottish_Fold",
+    "name": "スコティッシュフォールド"
+  },
+  {
+    "no": 48,
+    "id": "Selkirk_Rex",
+    "name": "セルカークレックス"
+  },
+  {
+    "no": 49,
+    "id": "Siamese",
+    "name": "シャム"
+  },
+  {
+    "no": 50,
+    "id": "Siberian_cat",
+    "name": "サイベリアン"
+  },
+  {
+    "no": 51,
+    "id": "Singapura_cat",
+    "name": "シンガプーラ"
+  },
+  {
+    "no": 52,
+    "id": "Snowshoe_cat",
+    "name": "スノーシュー"
+  },
+  {
+    "no": 53,
+    "id": "Somali_cat",
+    "name": "ソマリ"
+  },
+  {
+    "no": 54,
+    "id": "Sphynx_cat",
+    "name": "スフィンクス"
+  },
+  {
+    "no": 55,
+    "id": "Tonkinese",
+    "name": "トンキニーズ"
+  },
+  {
+    "no": 56,
+    "id": "Turkish_Angora",
+    "name": "ターキッシュアンゴラ"
+  },
+  {
+    "no": 57,
+    "id": "Turkish_Van",
+    "name": "ターキッシュバン"
+  }
+]
