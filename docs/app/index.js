@@ -1040,6 +1040,13 @@ IndexCtrl = {
                     userId: IndexCtrl.userId
                 }, // 送信するデータ
             }).done(function(ret, textStatus, jqXHR) {
+
+                if (ret.results.length == 0) {
+                    alert('まだ、ネコを撮影していません。');
+                    $('#listView').hide();
+                    return;
+                }
+
                 var html = '';
                 IndexCtrl.photos2 = ret.results;
                 for (var i = 0; i < ret.results.length; i++) {
