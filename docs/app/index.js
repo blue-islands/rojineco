@@ -288,6 +288,11 @@ IndexCtrl = {
                 // clickイベントの処理
                 $('#catView').hide();
             });
+            // 写真削除ボタン
+            $(document).on('click', '#doCatDelete', function() {
+                // clickイベントの処理
+                IndexCtrl.removePhoto();
+            });
 
             // ビューの非表示
             $('#settingView').hide();
@@ -1108,7 +1113,13 @@ IndexCtrl = {
             if (data.cats.length > 0) {
                 IndexCtrl.getCatName(data.cats[0].name);
             } else {
-            	$('#catName').text('不明');
+                $('#catName').text('不明');
+            }
+
+            if (data.userId == IndexCtrl.userId) {
+                $('#doCatDelete').show();
+            } else {
+                $('#doCatDelete').hide();
             }
 
             $('#catView').show();
@@ -1120,7 +1131,7 @@ IndexCtrl = {
         }
     },
 
-    removePhoto: function UN_removePhoto(uuid) {
+    removePhoto: function UN_removePhoto() {
         var _functionName = 'UN_removePhoto';
 
         try {
@@ -1131,7 +1142,7 @@ IndexCtrl = {
                     url: IndexCtrl.urls.removePhoto, // 通信先のURL
                     type: 'POST', // 使用するHTTPメソッド
                     data: {
-                        uuid: uuid,
+                        uuid: $('#photoId').val(),
                         userId: IndexCtrl.userId
                     }, // 送信するデータ
                 }).done(function(ret, textStatus, jqXHR) {
@@ -1255,13 +1266,13 @@ IndexCtrl = {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
             $.getJSON('https://rojine.co/cat.json', function(data) {
-            	for(var val in data) {
-            		var cat = data[val]
-            		if (id.toUpperCase() == cat.id.toUpperCase() ) {
-            		     $('#catName').text(cat.name);
-            		     break;
-            		}
-            	}
+                for(var val in data) {
+                    var cat = data[val]
+                    if (id.toUpperCase() == cat.id.toUpperCase() ) {
+                         $('#catName').text(cat.name);
+                         break;
+                    }
+                }
             });
             // 処理終了
         } catch (ex) {
@@ -1270,6 +1281,7 @@ IndexCtrl = {
             Util.endWriteLog(IndexCtrl._className, _functionName);
         }
     },
+
 };
 
 $(document).ready(function() {
