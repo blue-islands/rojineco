@@ -1152,7 +1152,8 @@ IndexCtrl = {
                 }).fail(function(jqXHR, textStatus, errorThrown) {
                     logger.error(errorThrown);
                 }).always(function() {
-                    $('#commentView').hide();
+                    $('#catView').hide();
+                    $('#listView').hide();
                 });
             } else {
                 // window.alert('キャンセルされました。');
