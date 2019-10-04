@@ -1122,6 +1122,7 @@ IndexCtrl = {
                 $('#doCatDelete').hide();
             }
 
+            $('#photoId').val(data.uuid);
             $('#catView').show();
             // 処理終了
         } catch (ex) {
