@@ -1095,7 +1095,6 @@ IndexCtrl = {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
             if (uuid) {
-
                 for( var val in IndexCtrl.photos2) {
                     var photo = IndexCtrl.photos2[val];
                     if (uuid == photo.uuid) {
@@ -1106,6 +1105,12 @@ IndexCtrl = {
             }
 
             $('#catImage').attr('src', data.url);
+            if (data.cats.length > 0) {
+                IndexCtrl.getCatName(data.cats[0].name);
+            } else {
+            	$('#catName').text('不明');
+            }
+
             $('#catView').show();
             // 処理終了
         } catch (ex) {
@@ -1235,6 +1240,29 @@ IndexCtrl = {
                 IndexCtrl.parkF = false;
             }
             IndexCtrl.zoom = 0;
+            // 処理終了
+        } catch (ex) {
+            logger.error(ex);
+        } finally {
+            Util.endWriteLog(IndexCtrl._className, _functionName);
+        }
+    },
+
+    getCatName: function UN_getCatName(id) {
+        var _functionName = 'UN_getCatName';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className, _functionName);
+            // 処理開始
+            $.getJSON('https://rojine.co/cat.json', function(data) {
+            	for(var val in data) {
+            		var cat = data[val]
+            		if (id.toUpperCase() == cat.id.toUpperCase() ) {
+            		     $('#catName').text(cat.name);
+            		     break;
+            		}
+            	}
+            });
             // 処理終了
         } catch (ex) {
             logger.error(ex);
