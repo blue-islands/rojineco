@@ -180,6 +180,11 @@ IndexCtrl = {
                 IndexCtrl.dispSize();
             });
 
+            // タイトル閉じるボタン
+            $(document).on('click', '#doTitleClose', function() {
+                // clickイベントの処理
+                $('#titleView').hide();
+            });
             // 自動ボタン
             $(document).on('click', '#doAuto', function() {
                 // clickイベントの処理
