@@ -136,3 +136,9 @@ body {
 .space-16 {
 	height: 16px;
 }
+
+.vertical-scroll-table{
+    max-height: 500px;
+	overflow: auto;
+	overflow-x: hidden;
+}
