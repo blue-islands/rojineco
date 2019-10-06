@@ -940,13 +940,16 @@ IndexCtrl = {
 
             _reader.addEventListener("load", function() {
                 logger.info(_reader.result);
-
+                var oauthToken = localStorage.setItem("oauth_token");
+                var oauthTokenSecret = localStorage.setItem("oauth_token_secret");
                 $.ajax({
                     url: IndexCtrl.urls.setPhoto, // 通信先のURL
                     type: 'POST', // 使用するHTTPメソッド
                     data: {
                         uuid: null,
                         userId: IndexCtrl.userId,
+                        oauthToken: oauthToken,
+                        oauthTokenSecret: oauthTokenSecret,
                         lat: IndexCtrl.lat,
                         lng: IndexCtrl.lng,
                         photo: _reader.result,
