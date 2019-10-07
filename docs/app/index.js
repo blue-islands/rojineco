@@ -909,7 +909,7 @@ IndexCtrl = {
             _oauthToken = null;
 
         try {
-            Util.startWriteLog(LoginCtrl._className, _functionName);
+            Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
             _oauthToken = localStorage.getItem("oauth_token");
             if (_oauthToken) {
@@ -923,7 +923,7 @@ IndexCtrl = {
         } catch (ex) {
             logger.error(ex);
         } finally {
-            Util.endWriteLog(LoginCtrl._className, _functionName);
+            Util.endWriteLog(IndexCtrl._className, _functionName);
         }
     },
 
@@ -933,37 +933,44 @@ IndexCtrl = {
             _reader;
 
         try {
-            Util.startWriteLog(LoginCtrl._className, _functionName);
+            Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
             _file = document.querySelector('#fileUpload').files[0];
             _reader = new FileReader();
 
             _reader.addEventListener("load", function() {
                 logger.info(_reader.result);
-                var oauthToken = localStorage.setItem("oauth_token");
-                var oauthTokenSecret = localStorage.setItem("oauth_token_secret");
-                $.ajax({
-                    url: IndexCtrl.urls.setPhoto, // 通信先のURL
-                    type: 'POST', // 使用するHTTPメソッド
-                    data: {
-                        uuid: null,
-                        userId: IndexCtrl.userId,
-                        oauthToken: oauthToken,
-                        oauthTokenSecret: oauthTokenSecret,
-                        lat: IndexCtrl.lat,
-                        lng: IndexCtrl.lng,
-                        photo: _reader.result,
-                    }, // 送信するデータ
-                }).done(function(ret, textStatus, jqXHR) {
-                    logger.info(ret); //コンソールにJSONが表示される
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    logger.error(errorThrown);
-                }).always(function() {
-                    //     logger.info('***** 処理終了 *****');
-                    $('#fileUpload').val('');
-                    $('#photoView').hide();
-                    IndexCtrl.dispPhoto(IndexCtrl.lat, IndexCtrl.lng);
+
+                // Resize Base64 Image
+                Util.imgB64Resize(_reader.result,
+                    function(imgB64) {
+                        // Destination Image
+                    var oauthToken = localStorage.getItem("oauth_token");
+                    var oauthTokenSecret = localStorage.getItem("oauth_token_secret");
+                    $.ajax({
+                        url: IndexCtrl.urls.setPhoto, // 通信先のURL
+                        type: 'POST', // 使用するHTTPメソッド
+                        data: {
+                            uuid: null,
+                            userId: IndexCtrl.userId,
+                            oauthToken: oauthToken,
+                            oauthTokenSecret: oauthTokenSecret,
+                            lat: IndexCtrl.lat,
+                            lng: IndexCtrl.lng,
+                            photo: imgB64,
+                        }, // 送信するデータ
+                    }).done(function(ret, textStatus, jqXHR) {
+                        logger.info(ret); //コンソールにJSONが表示される
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                        logger.error(errorThrown);
+                    }).always(function() {
+                        //     logger.info('***** 処理終了 *****');
+                        $('#fileUpload').val('');
+                        $('#photoView').hide();
+                        IndexCtrl.dispPhoto(IndexCtrl.lat, IndexCtrl.lng);
+                    });
                 });
+
             }, false);
 
             if (_file) {
@@ -973,7 +980,7 @@ IndexCtrl = {
         } catch (ex) {
             logger.error(ex);
         } finally {
-            Util.endWriteLog(LoginCtrl._className, _functionName);
+            Util.endWriteLog(IndexCtrl._className, _functionName);
             $('#photoView').hide();
         }
     },
@@ -1156,7 +1163,7 @@ IndexCtrl = {
                     }, // 送信するデータ
                 }).done(function(ret, textStatus, jqXHR) {
                     logger.info(ret); //コンソールにJSONが表示される
-                    IndexCtrl.dispComment(IndexCtrl.rangeLat, IndexCtrl.rangeLng);
+                    IndexCtrl.dispPhoto(IndexCtrl.lat, IndexCtrl.lng);
                 }).fail(function(jqXHR, textStatus, errorThrown) {
                     logger.error(errorThrown);
                 }).always(function() {

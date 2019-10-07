@@ -12,6 +12,8 @@ logger.state.isEnabled = true;
 var Util = {
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
     _className: 'Util',
+    THUMBNAIL_WIDTH: 1000, // 画像リサイズ後の横の長さの最大値
+    THUMBNAIL_HEIGHT: 1000, // 画像リサイズ後の縦の長さの最大値
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
      startWriteLog: function UN_startWriteLog(className,functionName) {
         var _date = new Date(),
@@ -69,6 +71,53 @@ var Util = {
             uuid += (i == 12 ? 4 : (i == 16 ? (random & 3 | 8) : random)).toString(16);
         }
         return uuid;
+    },
+
+    imgB64Resize: function UN_imgB64Resize(imgB64Src, callback) {
+        var _functionName = 'UN_imgB64Resize',
+            _imgType = null,
+            _img = null;
+
+        try {
+            Util.startWriteLog(IndexCtrl._className, _functionName);
+            // 処理開始
+            // Image Type
+            var _imgType = imgB64Src.substring(5, imgB64Src.indexOf(";"));
+            // Source Image
+            var _img = new Image();
+            _img.onload = function() {
+
+                var width, height;
+                if(_img.width > _img.height){
+                    // 横長の画像は横のサイズを指定値にあわせる
+                    var ratio = _img.height / _img.width;
+                    width = Util.THUMBNAIL_WIDTH;
+                    height = Util.THUMBNAIL_WIDTH * ratio;
+                } else {
+                    // 縦長の画像は縦のサイズを指定値にあわせる
+                    var ratio = _img.width / _img.height;
+                    width = Util.THUMBNAIL_HEIGHT * ratio;
+                    height = Util.THUMBNAIL_HEIGHT;
+                }
+
+                // New Canvas
+                var canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                // Draw (Resize)
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(_img, 0, 0, width, height);
+                // Destination Image
+                var imgB64Dst = canvas.toDataURL(_imgType);
+                callback(imgB64Dst);
+            };
+            _img.src = imgB64Src;
+            // 処理終了
+        } catch (ex) {
+            logger.error(ex);
+        } finally {
+            Util.endWriteLog(Util._className, _functionName);
+        }
     },
 
     doTest: function UN_doTest() {
