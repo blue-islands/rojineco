@@ -308,12 +308,16 @@ IndexCtrl = {
                 // clickイベントの処理
                 IndexCtrl.removePhoto();
             });
-            // 地図クリックボタン
-            $(document).on('click', '#mymap', function() {
-                // clickイベントの処理
-                $('#doAuto').html('手動');
-                $('#doAuto').removeClass('is-error');
-                IndexCtrl.autoF = false;
+            // 地図スワイプ
+            $("#mymap").swipe( {
+                //Generic swipe handler for all directions
+                swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+                    $('#doAuto').html('手動');
+                    $('#doAuto').removeClass('is-error');
+                    IndexCtrl.autoF = false;
+                },
+                //Default is 75px, set to 0 for demo so any distance triggers swipe
+                 threshold:0
             });
 
             // ビューの非表示
