@@ -1118,7 +1118,7 @@ IndexCtrl = {
                 }
 
                 if (ret.results.length % 2 != 0) {
-                    html += '<td></td>';
+                    html += '<td style="width: 120px;"></td>';
                     html += '</tr>';
                 }
 
