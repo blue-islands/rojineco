@@ -1081,13 +1081,21 @@ IndexCtrl = {
                         html += '<tr>';
                         html += '<td align="center" valign="middle">';
                         html += '<a onclick="IndexCtrl.dispCat(\'' + data.uuid +  '\', null)">';
-                        html += '<img src="' + data.url + '" style="width: 100%; max-width: 200px">';
+                        html += '<div style="width: 150px;height: 150px;'
+                        html += 'background: url(\'' + data.url + '\');';
+                        html += 'background-size: cover;';
+                        html += 'background-position: center;';
+                        html += '"></div>'
                         html += '</a>';
                         html += '</td>';
                     } else {
                         html += '<td align="center" valign="middle">';
                         html += '<a onclick="IndexCtrl.dispCat(\'' + data.uuid +  '\', null)">';
-                        html += '<img src="' + data.url + '" style="width: 100%; max-width: 200px">';
+                        html += '<div style="width: 150px;height: 150px;'
+                        html += 'background: url(\'' + data.url + '\');';
+                        html += 'background-size: cover;';
+                        html += 'background-position: center;';
+                        html += '"></div>'
                         html += '</a>';
                         html += '</td>';
                         html += '</tr>';
