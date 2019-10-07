@@ -206,7 +206,7 @@ IndexCtrl = {
             $(document).on('click', '#doList', function() {
                 // clickイベントの処理
                 $('#settingView').hide();
-                $('#listView').show();
+                $('#listView').hide();
                 $('#photoView').hide();
                 IndexCtrl.dispPhotoList();
             });
@@ -968,6 +968,7 @@ IndexCtrl = {
                         $('#fileUpload').val('');
                         $('#photoView').hide();
                         IndexCtrl.dispPhoto(IndexCtrl.lat, IndexCtrl.lng);
+                        alert('写真を登録しました。');
                     });
                 });
 
@@ -1063,10 +1064,10 @@ IndexCtrl = {
 
                 if (ret.results.length == 0) {
                     alert('まだ、ネコを撮影していません。');
-                    $('#listView').hide();
                     return;
                 }
 
+                $('#listView').show();
                 var html = '';
                 IndexCtrl.photos2 = ret.results;
                 for (var i = 0; i < ret.results.length; i++) {
@@ -1169,6 +1170,7 @@ IndexCtrl = {
                 }).always(function() {
                     $('#catView').hide();
                     $('#listView').hide();
+                    alert('写真を削除しました。');
                 });
             } else {
                 // window.alert('キャンセルされました。');
