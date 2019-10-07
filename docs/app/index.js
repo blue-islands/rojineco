@@ -288,6 +288,16 @@ IndexCtrl = {
                 // clickイベントの処理
                 IndexCtrl.dispParkIcon(true);
             });
+            // About Usボタン
+            $(document).on('click', '#doAbout', function() {
+                // clickイベントの処理
+                $('#aboutView').show();
+            });
+            // About Us閉じるボタン
+            $(document).on('click', '#doAboutClose', function() {
+                // clickイベントの処理
+                $('#aboutView').hide();
+            });
             // ネコ表示閉じるボタン
             $(document).on('click', '#doCatClose', function() {
                 // clickイベントの処理
@@ -311,6 +321,7 @@ IndexCtrl = {
             $('#listView').hide();
             $('#photoView').hide();
             $('#catView').hide();
+            $('#aboutView').hide();
 
             // 設定ボタンの制御
             IndexCtrl.dispShrineIcon(true);
@@ -1079,23 +1090,23 @@ IndexCtrl = {
                     logger.info(data);
                     if (i % 2 == 0) {
                         html += '<tr>';
-                        html += '<td align="center" valign="middle">';
+                        html += '<td align="center" valign="middle" style="width: 120px;">';
                         html += '<a onclick="IndexCtrl.dispCat(\'' + data.uuid +  '\', null)">';
-                        html += '<div style="width: 150px;height: 150px;'
+                        html += '<span style="display: block;height: 0;width: 100%;padding-bottom: 100%;'
                         html += 'background: url(\'' + data.url + '\');';
                         html += 'background-size: cover;';
                         html += 'background-position: center;';
-                        html += '"></div>'
+                        html += '"></span>'
                         html += '</a>';
                         html += '</td>';
                     } else {
-                        html += '<td align="center" valign="middle">';
+                        html += '<td align="center" valign="middle" style="width: 120px;">';
                         html += '<a onclick="IndexCtrl.dispCat(\'' + data.uuid +  '\', null)">';
-                        html += '<div style="width: 150px;height: 150px;'
+                        html += '<span style="display: block;height: 0;width: 100%;padding-bottom: 100%;'
                         html += 'background: url(\'' + data.url + '\');';
                         html += 'background-size: cover;';
                         html += 'background-position: center;';
-                        html += '"></div>'
+                        html += '"></span>'
                         html += '</a>';
                         html += '</td>';
                         html += '</tr>';
