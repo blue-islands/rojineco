@@ -1153,10 +1153,10 @@ IndexCtrl = {
             }
 
             $('#catImage').attr('src', data.url);
-            if (data.cats.length > 0) {
-                IndexCtrl.getCatName(data.cats[0].name);
-            } else {
+            if (data.cats == null || data.cats.length == 0) {
                 $('#catName').text('不明');
+            } else {
+                IndexCtrl.getCatName(data.cats[0].name);
             }
 
             if (data.userId == IndexCtrl.userId) {
