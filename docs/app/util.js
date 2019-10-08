@@ -81,32 +81,91 @@ var Util = {
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
+
+            var _array = imgB64Src.split(',');
+            var _base64 = base64ToArrayBuffer(_array[1]);
+
+            var _orientation = Util.getOrientation(_base64);
+            logger.info(_orientation);
+
             // Image Type
             var _imgType = imgB64Src.substring(5, imgB64Src.indexOf(";"));
             // Source Image
             var _img = new Image();
             _img.onload = function() {
 
-                var width, height;
+                // var width, height;
+                var canvasWidth, canvasHeight, drawWidth, drawHeight;
                 if(_img.width > _img.height){
                     // 横長の画像は横のサイズを指定値にあわせる
                     var ratio = _img.height / _img.width;
-                    width = Util.THUMBNAIL_WIDTH;
-                    height = Util.THUMBNAIL_WIDTH * ratio;
+                    canvasWidth = Util.THUMBNAIL_WIDTH;
+                    canvasHeight = Util.THUMBNAIL_WIDTH * ratio;
                 } else {
                     // 縦長の画像は縦のサイズを指定値にあわせる
                     var ratio = _img.width / _img.height;
-                    width = Util.THUMBNAIL_HEIGHT * ratio;
-                    height = Util.THUMBNAIL_HEIGHT;
+                    canvasWidth = Util.THUMBNAIL_HEIGHT * ratio;
+                    canvasHeight = Util.THUMBNAIL_HEIGHT;
                 }
 
                 // New Canvas
                 var canvas = document.createElement('canvas');
-                canvas.width = width;
-                canvas.height = height;
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
                 // Draw (Resize)
                 var ctx = canvas.getContext('2d');
-                ctx.drawImage(_img, 0, 0, width, height);
+
+                //描画サイズを指定
+                drawWidth = canvasWidth;
+                drawHeight = canvasHeight;
+
+                switch(_orientation){
+
+                    case 2:
+                        ctx.transform(-1, 0, 0, 1, canvasWidth, 0);
+                        break;
+
+                    case 3:
+                        ctx.transform(-1, 0, 0, -1, canvasWidth, canvasHeight);
+                        break;
+
+                    case 4:
+                        ctx.transform(1, 0, 0, -1, 0, canvasHeight);
+                        break;
+
+                    case 5:
+                        ctx.transform(-1, 0, 0, 1, 0, 0);
+                        ctx.rotate((90 * Math.PI) / 180);
+                        drawWidth = canvasHeight;
+                        drawHeight = canvasWidth;
+                        break;
+
+                    case 6:
+                        ctx.transform(1, 0, 0, 1, canvasWidth, 0);
+                        ctx.rotate((90 * Math.PI) / 180);
+                        drawWidth = canvasHeight;
+                        drawHeight = canvasWidth;
+                        break;
+
+                    case 7:
+                        ctx.transform(-1, 0, 0, 1, canvasWidth, canvasHeight);
+                        ctx.rotate((-90 * Math.PI) / 180);
+                        drawWidth = canvasHeight;
+                        drawHeight = canvasWidth;
+                        break;
+
+                    case 8:
+                        ctx.transform(1, 0, 0, 1, 0, canvasHeight);
+                        ctx.rotate((-90 * Math.PI) / 180);
+                        drawWidth = canvasHeight;
+                        drawHeight = canvasWidth;
+                        break;
+
+                    default:
+                        break;
+                }
+
+                ctx.drawImage(_img, 0, 0, drawWidth, drawHeight);
                 // Destination Image
                 var imgB64Dst = canvas.toDataURL(_imgType);
                 callback(imgB64Dst);
@@ -119,6 +178,34 @@ var Util = {
             Util.endWriteLog(Util._className, _functionName);
         }
     },
+
+    getOrientation: function UN_getOrientation(buffer) {
+        const dv = new DataView(buffer)
+        var app1MarkerStart = 2
+        // もし JFIF で APP0 Marker がある場合は APP1 Marker の取得位置をずらす
+        if (dv.getUint16(app1MarkerStart) !== 65505) {
+          const length = dv.getUint16(4)
+          app1MarkerStart += length + 2
+        }
+        if (dv.getUint16(app1MarkerStart) !== 65505) {
+          return 0
+        }
+        // エンディアンを取得
+        const littleEndian = dv.getUint8(app1MarkerStart + 10) === 73
+        // フィールドの数を確認
+        const count = dv.getUint16(app1MarkerStart + 18, littleEndian)
+        for (let i = 0; i < count; i++) {
+          const start = app1MarkerStart + 20 + i * 12
+          const tag = dv.getUint16(start, littleEndian)
+          // Orientation の Tag は 274
+          if (tag === 274) {
+            // Orientation は Type が SHORT なので 2byte だけ読む
+            return dv.getUint16(start + 8, littleEndian)
+          }
+        }
+        return 0
+    },
+
 
     doTest: function UN_doTest() {
         alert('ようこそ！');
@@ -168,4 +255,14 @@ String.prototype.ltrim = function() {
 }
 String.prototype.rtrim = function() {
     return this.replace(/[\s　]+$/, '');
+}
+
+function base64ToArrayBuffer(base64) {
+    var binary_string =  window.atob(base64);
+    var len = binary_string.length;
+    var bytes = new Uint8Array( len );
+    for (var i = 0; i < len; i++)        {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
 }
