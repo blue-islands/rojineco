@@ -116,16 +116,16 @@ var Util = {
                 switch(_orientation){
                     case 8:
                         ctx.rotate(90*Math.PI/180);
-                        canvas.width = height;
-                        canvas.height = width;
+                        width = height;
+                        height = width;
                         break;
                     case 3:
                         ctx.rotate(180*Math.PI/180);
                         break;
                     case 6:
                         ctx.rotate(-90*Math.PI/180);
-                        canvas.width = height;
-                        canvas.height = width;
+                        width = height;
+                        height = width;
                         break;
                  }
                 
