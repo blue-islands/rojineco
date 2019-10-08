@@ -961,9 +961,8 @@ IndexCtrl = {
                 logger.info(_reader.result);
 
                 // Resize Base64 Image
-                Util.imgB64Resize(_reader.result,
-                    function(imgB64) {
-                        // Destination Image
+                Util.imgB64Resize(_reader.result, function(imgB64) {
+                    // Destination Image
                     var oauthToken = localStorage.getItem("oauth_token");
                     var oauthTokenSecret = localStorage.getItem("oauth_token_secret");
                     $.ajax({
