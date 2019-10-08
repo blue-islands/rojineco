@@ -81,6 +81,7 @@ var Util = {
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
+
             var _array = imgB64Src.split(',');
             var _base64 = base64ToArrayBuffer(_array[1]);
 
@@ -93,43 +94,86 @@ var Util = {
             var _img = new Image();
             _img.onload = function() {
 
-                var width, height;
-                if(_img.width > _img.height){
-                    // 横長の画像は横のサイズを指定値にあわせる
-                    var ratio = _img.height / _img.width;
-                    width = Util.THUMBNAIL_WIDTH;
-                    height = Util.THUMBNAIL_WIDTH * ratio;
-                } else {
-                    // 縦長の画像は縦のサイズを指定値にあわせる
-                    var ratio = _img.width / _img.height;
-                    width = Util.THUMBNAIL_HEIGHT * ratio;
-                    height = Util.THUMBNAIL_HEIGHT;
-                }
+                var imageAspect, canvasWidth, canvasHeight, drawWidth, drawHeight;
+
+                //アスペクト取得
+                imageAspect = (_orientation == 5 || _orientation == 6 || _orientation == 7 || _orientation == 8) ? _img.width / _img.height : _img.height / _img.width;
+
+                canvasWidth = _img.width;
+                canvasHeight = Math.floor(canvasWidth * imageAspect);
 
                 // New Canvas
                 var canvas = document.createElement('canvas');
-                canvas.width = width;
-                canvas.height = height;
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
                 // Draw (Resize)
                 var ctx = canvas.getContext('2d');
 
+                //描画サイズを指定
+                drawWidth = canvasWidth;
+                drawHeight = canvasHeight;
+
                 switch(_orientation){
-                    case 8:
-                        ctx.rotate(90*Math.PI/180);
-                        width = height;
-                        height = width;
+
+                    case 2:
+                        ctx.transform(-1, 0, 0, 1, canvasWidth, 0);
                         break;
+
                     case 3:
-                        ctx.rotate(180*Math.PI/180);
+                        ctx.transform(-1, 0, 0, -1, canvasWidth, canvasHeight);
                         break;
+
+                    case 4:
+                        ctx.transform(1, 0, 0, -1, 0, canvasHeight);
+                        break;
+
+                    case 5:
+                        ctx.transform(-1, 0, 0, 1, 0, 0);
+                        ctx.rotate((90 * Math.PI) / 180);
+                        drawWidth = canvasHeight;
+                        drawHeight = canvasWidth;
+                        break;
+
                     case 6:
-                        ctx.rotate(-90*Math.PI/180);
-                        width = height;
-                        height = width;
+                        ctx.transform(1, 0, 0, 1, canvasWidth, 0);
+                        ctx.rotate((90 * Math.PI) / 180);
+                        drawWidth = canvasHeight;
+                        drawHeight = canvasWidth;
                         break;
-                 }
+
+                    case 7:
+                        ctx.transform(-1, 0, 0, 1, canvasWidth, canvasHeight);
+                        ctx.rotate((-90 * Math.PI) / 180);
+                        drawWidth = canvasHeight;
+                        drawHeight = canvasWidth;
+                        break;
+
+                    case 8:
+                        ctx.transform(1, 0, 0, 1, 0, canvasHeight);
+                        ctx.rotate((-90 * Math.PI) / 180);
+                        drawWidth = canvasHeight;
+                        drawHeight = canvasWidth;
+                        break;
+
+                    default:
+                        break;
+                }
                 
-                ctx.drawImage(_img, 0, 0, width, height);
+                if(drawWidth > drawHeight){
+                    // 横長の画像は横のサイズを指定値にあわせる
+                    var ratio = drawHeight / drawWidth;
+                    drawWidth = Util.THUMBNAIL_WIDTH;
+                    drawHeight = Util.THUMBNAIL_WIDTH * ratio;
+                } else {
+                    // 縦長の画像は縦のサイズを指定値にあわせる
+                    var ratio = drawWidth / drawHeight;
+                    drawWidth = Util.THUMBNAIL_HEIGHT * ratio;
+                    drawHeight = Util.THUMBNAIL_HEIGHT;
+                }
+
+                ctx.drawImage(_img, 0, 0, drawWidth, drawHeight);
+                canvas.width = drawWidth;
+                canvas.height = drawHeight;
                 // Destination Image
                 var imgB64Dst = canvas.toDataURL(_imgType);
                 callback(imgB64Dst);
