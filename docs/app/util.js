@@ -94,16 +94,22 @@ var Util = {
             var _img = new Image();
             _img.onload = function() {
 
-                // var width, height;
-                var canvasWidth, canvasHeight, drawWidth, drawHeight;
-                if(_img.width > _img.height){
+                var imageAspect, canvasWidth, canvasHeight, drawWidth, drawHeight;
+
+                //アスペクト取得
+                imageAspect = (orientation == 5 || orientation == 6 || orientation == 7 || orientation == 8) ? image.width / image.height : image.height / image.width;
+
+                canvasWidth = image.width;
+                canvasHeight = Math.floor(canvasWidth * imageAspect);
+
+                if(canvasWidth > canvasHeight){
                     // 横長の画像は横のサイズを指定値にあわせる
-                    var ratio = _img.height / _img.width;
+                    var ratio = canvasHeight / canvasWidth;
                     canvasWidth = Util.THUMBNAIL_WIDTH;
                     canvasHeight = Util.THUMBNAIL_WIDTH * ratio;
                 } else {
                     // 縦長の画像は縦のサイズを指定値にあわせる
-                    var ratio = _img.width / _img.height;
+                    var ratio = canvasWidth / canvasHeight;
                     canvasWidth = Util.THUMBNAIL_HEIGHT * ratio;
                     canvasHeight = Util.THUMBNAIL_HEIGHT;
                 }
