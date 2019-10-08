@@ -125,7 +125,7 @@ var Util = {
                         break;
                  }
                 
-                ctx.drawImage(_img, 0, 0);
+                ctx.drawImage(_img, 0, 0, width, height);
                 // Destination Image
                 var imgB64Dst = canvas.toDataURL(_imgType);
                 callback(imgB64Dst);
