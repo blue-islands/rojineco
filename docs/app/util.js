@@ -99,24 +99,8 @@ var Util = {
                 //アスペクト取得
                 imageAspect = (orientation == 5 || orientation == 6 || orientation == 7 || orientation == 8) ? image.width / image.height : image.height / image.width;
 
-                canvasWidth = Util.THUMBNAIL_WIDTH;
+                canvasWidth = image.width;
                 canvasHeight = Math.floor(canvasWidth * imageAspect);
-
-                // if(canvasWidth > canvasHeight){
-                //     // 横長の画像は横のサイズを指定値にあわせる
-                //     // var ratio = canvasHeight / canvasWidth;
-                //     // canvasWidth = Util.THUMBNAIL_WIDTH;
-                //     // canvasHeight = Util.THUMBNAIL_WIDTH * ratio;
-                //     canvasWidth = image.width;
-                //     canvasHeight = Math.floor(canvasWidth * imageAspect);
-                // } else {
-                //     // 縦長の画像は縦のサイズを指定値にあわせる
-                //     // var ratio = canvasWidth / canvasHeight;
-                //     // canvasWidth = Util.THUMBNAIL_HEIGHT * ratio;
-                //     // canvasHeight = Util.THUMBNAIL_HEIGHT;
-                //     canvasWidth = image.width;
-                //     canvasHeight = Math.floor(canvasWidth * imageAspect);
-                // }
 
                 // New Canvas
                 var canvas = document.createElement('canvas');
@@ -173,6 +157,18 @@ var Util = {
 
                     default:
                         break;
+                }
+                
+                if(drawWidth > drawHeight){
+                    // 横長の画像は横のサイズを指定値にあわせる
+                    var ratio = drawHeight / drawWidth;
+                    drawWidth = Util.THUMBNAIL_WIDTH;
+                    drawHeight = Util.THUMBNAIL_WIDTH * ratio;
+                } else {
+                    // 縦長の画像は縦のサイズを指定値にあわせる
+                    var ratio = drawWidth / drawHeight;
+                    drawWidth = Util.THUMBNAIL_HEIGHT * ratio;
+                    drawHeight = Util.THUMBNAIL_HEIGHT;
                 }
 
                 ctx.drawImage(_img, 0, 0, drawWidth, drawHeight);
