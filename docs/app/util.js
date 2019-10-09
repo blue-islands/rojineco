@@ -243,18 +243,6 @@ function formatDate(date, format) {
     return format;
 }
 
-/**
- * オブジェクトの中身を表示
- * @param obj
- */
-function printProperties(obj) {
-    var properties = '';
-    for (var prop in obj){
-        properties += prop + '=' + obj[prop] + '\n';
-    }
-    logger.log(properties);
-}
-
 String.prototype.trim = function() {
     return this.replace(/^[\s　]+|[\s　]+$/g, '');
 }
@@ -273,4 +261,17 @@ function base64ToArrayBuffer(base64) {
         bytes[i] = binary_string.charCodeAt(i);
     }
     return bytes.buffer;
+}
+
+function parseStrToBoolean(str) {
+    // 文字列を判定
+    return (str == 'true') ? true : false;
+}
+
+function printProperties(obj) {
+    var properties = '';
+    for (var prop in obj){
+        properties += prop + '=' + obj[prop] + '\n';
+    }
+    logger.log(properties);
 }

@@ -24,6 +24,7 @@ var LoginCtrl = {
                 //ローカルストレージに保存する方が好ましいと思われる
                 localStorage.setItem("oauth_token", res.oauth_token);
                 localStorage.setItem("oauth_token_secret", res.oauth_token_secret);
+                localStorage.setItem("check_twitter", true);
 
                 _formdata = {
                     'uuid': IndexCtrl.userId,
@@ -70,6 +71,7 @@ var LoginCtrl = {
             // 処理開始
             localStorage.removeItem("oauth_token");
             localStorage.removeItem("oauth_token_secret");
+            localStorage.removeItem("check_twitter");
             // ログイン状態の確認
             IndexCtrl.changeBtn();
             // 処理終了

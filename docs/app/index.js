@@ -258,6 +258,14 @@ IndexCtrl = {
                 // clickイベントの処理
                 LoginCtrl.logout();
             });
+            // Twitterに投稿する
+            $(document).on('change', '#twitterPost', function() {
+                // changeイベントの処理
+                var twitterPost = $(this).prop('checked');
+                localStorage.setItem("check_twitter", twitterPost);
+                // ログイン状態の確認
+                IndexCtrl.changeBtn();
+            });
             // 神社表示ボタン
             $(document).on('click', '#doShrineOn', function() {
                 // clickイベントの処理
@@ -317,7 +325,7 @@ IndexCtrl = {
                     IndexCtrl.autoF = false;
                 },
                 //Default is 75px, set to 0 for demo so any distance triggers swipe
-                 threshold:0
+                //threshold:0
             });
 
             // ビューの非表示
@@ -908,7 +916,6 @@ IndexCtrl = {
 
                 if (IndexCtrl.necoF != _flg) {
                     if (_flg) {
-                        navigator.vibrate([500]);
                         alert('近くでネコの匂いがしますね。。。');
                     }
                 }
@@ -934,10 +941,15 @@ IndexCtrl = {
             if (_oauthToken) {
                 $('#doTwitterLogout').show();
                 $('#doTwitterLogin').hide();
+                $('#dispTwitter').show();
             } else {
                 $('#doTwitterLogin').show();
                 $('#doTwitterLogout').hide();
+                $('#dispTwitter').hide();
             }
+            // ツイッター投稿の値設定
+            var checkTwitter = localStorage.getItem("check_twitter");
+            $('#twitterPost').prop("checked", parseStrToBoolean(checkTwitter));
             // 処理終了
         } catch (ex) {
             logger.error(ex);
@@ -963,8 +975,14 @@ IndexCtrl = {
                 // Resize Base64 Image
                 Util.imgB64Resize(_reader.result, function(imgB64) {
                     // Destination Image
-                    var oauthToken = localStorage.getItem("oauth_token");
-                    var oauthTokenSecret = localStorage.getItem("oauth_token_secret");
+                    var checkTwitter = localStorage.getItem("check_twitter");
+                    var oauthToken = null;
+                    var oauthTokenSecret = null;
+                    if (parseStrToBoolean(checkTwitter)) {
+                        oauthToken = localStorage.getItem("oauth_token");
+                        oauthTokenSecret = localStorage.getItem("oauth_token_secret");
+                    }
+
                     $.ajax({
                         url: IndexCtrl.urls.setPhoto, // 通信先のURL
                         type: 'POST', // 使用するHTTPメソッド
@@ -1200,29 +1218,6 @@ IndexCtrl = {
                 });
             } else {
                 // window.alert('キャンセルされました。');
-            }
-            // 処理終了
-        } catch (ex) {
-            logger.error(ex);
-        } finally {
-            Util.endWriteLog(IndexCtrl._className, _functionName);
-        }
-    },
-
-    changeBtn: function UN_changeBtn() {
-        var _functionName = 'UN_changeBtn',
-            _oauthToken = null;
-
-        try {
-            Util.startWriteLog(IndexCtrl._className, _functionName);
-            // 処理開始
-            _oauthToken = localStorage.getItem("oauth_token");
-            if (_oauthToken) {
-                $('#doTwitterLogout').show();
-                $('#doTwitterLogin').hide();
-            } else {
-                $('#doTwitterLogin').show();
-                $('#doTwitterLogout').hide();
             }
             // 処理終了
         } catch (ex) {
