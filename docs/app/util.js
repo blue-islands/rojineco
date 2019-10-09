@@ -83,9 +83,9 @@ var Util = {
             // 処理開始
 
             var _array = imgB64Src.split(',');
-            var _base64 = base64ToArrayBuffer(_array[1]);
+            var _buffer = base64ToArrayBuffer(_array[1]);
 
-            var _orientation = Util.getOrientation(_base64);
+            var _orientation = Util.getOrientation(_buffer);
             logger.info(_orientation);
 
             // Image Type
@@ -188,7 +188,7 @@ var Util = {
     },
 
     getOrientation: function UN_getOrientation(buffer) {
-        const dv = new DataView(buffer)
+        var dv = new DataView(buffer)
         var app1MarkerStart = 2
         // もし JFIF で APP0 Marker がある場合は APP1 Marker の取得位置をずらす
         if (dv.getUint16(app1MarkerStart) !== 65505) {
