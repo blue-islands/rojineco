@@ -343,7 +343,8 @@ IndexCtrl = {
             IndexCtrl.mymap = L.map('mymap', {
                 center: [35.7102, 139.8132],
                 zoom: 13,
-                zoomControl: false // default true
+                zoomControl: false, // default true
+                preferCanvas: true  //trueとし、Canvasレンダラーを選択
             })
 
             L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey={apikey}', {
