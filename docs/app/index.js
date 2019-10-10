@@ -359,7 +359,7 @@ IndexCtrl = {
                 maximumAge: 0
             };
             // 位置情報取得
-            window.navigator.geolocation.watchPosition(IndexCtrl.success, IndexCtrl.error, options);
+            // window.navigator.geolocation.watchPosition(IndexCtrl.success, IndexCtrl.error, options);
             // 処理終了
         } catch (ex) {
             logger.error(ex);
