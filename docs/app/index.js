@@ -14,8 +14,8 @@ IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
-    CHANGE_DISTANCE: 10000,
-    RANGE_DISTANCE: 5000,
+    CHANGE_DISTANCE: 20000,
+    RANGE_DISTANCE: 10000,
     GET_DISTANCE: 1000,
     BOUND_ZOOM: 13,
     userId: null,
@@ -359,7 +359,7 @@ IndexCtrl = {
                 maximumAge: 0
             };
             // 位置情報取得
-            // window.navigator.geolocation.watchPosition(IndexCtrl.success, IndexCtrl.error, options);
+            window.navigator.geolocation.watchPosition(IndexCtrl.success, IndexCtrl.error, options);
             // 処理終了
         } catch (ex) {
             logger.error(ex);
