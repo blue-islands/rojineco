@@ -347,16 +347,15 @@ IndexCtrl = {
                 preferCanvas: true  //trueとし、Canvasレンダラーを選択
             })
 
-            // L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey={apikey}', {
-            //     attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            //     apikey: 'ed224a20677d4dd1a89710617d85df19',
-            //     maxZoom: 22
-            // }).addTo(IndexCtrl.mymap);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey={apikey}', {
+                attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                apikey: 'ed224a20677d4dd1a89710617d85df19',
+                maxZoom: 22
             }).addTo(IndexCtrl.mymap);
 
+            // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            // }).addTo(IndexCtrl.mymap);
 
             var options = {
                 enableHighAccuracy: true,
