@@ -53,7 +53,7 @@
     "dir": "ltr",
     "scope": "./",
     "start_url": "./",
-    "display": "minimal-ui",
+    "display": "fullscreen",
     "orientation": "any",
     "background_color": "",
     "theme_color": ""
