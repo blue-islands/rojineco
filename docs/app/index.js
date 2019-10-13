@@ -145,8 +145,8 @@ IndexCtrl = {
         temple: L.icon({
             iconUrl: './images/temple.png',
             iconRetinaUrl: './images/temple.png',
-            iconSize: [31, 30],
-            iconAnchor: [15, 15],
+            iconSize: [52, 32],
+            iconAnchor: [26, 16],
             popupAnchor: [0, -30],
         }),
         park: L.icon({
