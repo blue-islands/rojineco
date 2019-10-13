@@ -9,8 +9,8 @@
 //34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 var IndexCtrl = {};
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
-IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
-// IndexCtrl.domain = 'http://localhost:8080/';
+// IndexCtrl.domain = 'https://www.livlog.xyz/webapi/';
+IndexCtrl.domain = 'http://localhost:8080/';
 IndexCtrl = {
     _className: 'IndexCtrl',
     SESSION_UUID: "SESSION_UUID",
@@ -1001,14 +1001,18 @@ IndexCtrl = {
                         }, // 送信するデータ
                     }).done(function(ret, textStatus, jqXHR) {
                         logger.info(ret); //コンソールにJSONが表示される
+                        if (ret.status == 1) {
+                            IndexCtrl.dispPhoto(IndexCtrl.lat, IndexCtrl.lng);
+                            alert('写真を登録しました。');
+                        } else {
+                            alert(ret.messages[0]);
+                        }
                     }).fail(function(jqXHR, textStatus, errorThrown) {
                         logger.error(errorThrown);
                     }).always(function() {
                         //     logger.info('***** 処理終了 *****');
                         $('#fileUpload').val('');
                         $('#photoView').hide();
-                        IndexCtrl.dispPhoto(IndexCtrl.lat, IndexCtrl.lng);
-                        alert('写真を登録しました。');
                     });
                 });
 
@@ -1309,15 +1313,35 @@ IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
-            $.getJSON('https://rojine.co/cat.json', function(data) {
-                for(var val in data) {
-                    var cat = data[val]
-                    if (id.toUpperCase() == cat.id.toUpperCase() ) {
-                         $('#catName').text(cat.name);
-                         break;
-                    }
-                }
-            });
+            // $.getJSON('https://rojine.co/cat.json', function(data) {
+            //     for(var val in data) {
+            //         var cat = data[val]
+            //         if (id.toUpperCase() == cat.id.toUpperCase() ) {
+            //              $('#catName').text(cat.name);
+            //              break;
+            //         }
+            //     }
+            // });
+
+            if ('white_cat' == id) {
+                // 白猫(white_cat)
+                $('#catName').text('白猫');
+            } else if ('black_cat' == id) {
+                // 黒猫(black_cat)
+                $('#catName').text('黒猫');
+            } else if ('calico_cat' == id) {
+                // 三毛猫(calico_cat)
+                $('#catName').text('三毛猫');
+            } else if ('rust_cat' == id) {
+                // サビ猫(rust_cat)
+                $('#catName').text('サビ猫');
+            } else if ('tiger_cat' == id) {
+                // トラ猫(tiger_cat)
+                $('#catName').text('トラ猫');
+            } else if ('spotted_cat' == id) {
+                // ブチ猫(spotted_cat)
+                $('#catName').text('ブチ猫');
+            }
             // 処理終了
         } catch (ex) {
             logger.error(ex);
