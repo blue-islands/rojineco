@@ -327,6 +327,12 @@ IndexCtrl = {
                 //Default is 75px, set to 0 for demo so any distance triggers swipe
                 //threshold:0
             });
+            $(document).on('touchmove', '#mymap', function() {
+                // touchmoveイベントの処理
+                $('#doAuto').html('手動');
+                $('#doAuto').removeClass('is-error');
+                IndexCtrl.autoF = false;
+            });
 
             // ビューの非表示
             $('#settingView').hide();
