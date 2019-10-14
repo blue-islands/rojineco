@@ -334,6 +334,7 @@ IndexCtrl = {
             $('#photoView').hide();
             $('#catView').hide();
             $('#aboutView').hide();
+            $('#progressView').hide();
 
             // 設定ボタンの制御
             IndexCtrl.dispShrineIcon(true);
@@ -1012,7 +1013,7 @@ IndexCtrl = {
                     }).always(function() {
                         //     logger.info('***** 処理終了 *****');
                         $('#fileUpload').val('');
-                        $('#photoView').hide();
+                        IndexCtrl.progressBar(false);
                     });
                 });
 
@@ -1020,6 +1021,8 @@ IndexCtrl = {
 
             if (_file) {
                 _reader.readAsDataURL(_file);
+                $('#photoView').hide();
+                IndexCtrl.progressBar(true);
             }
             // 処理終了
         } catch (ex) {
@@ -1350,6 +1353,35 @@ IndexCtrl = {
         }
     },
 
+    progressId: 0,
+    progressBar: function UN_progressBar(flg) {
+        var _functionName = 'UN_progressBar';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className, _functionName);
+            // 処理開始
+            if (flg) {
+                $('#progressView').show();
+                var count = 0;
+                var countup = function(){
+                    //console.log(count++);
+                    //<progress class="nes-progress is-primary" value="80" max="100"></progress>
+                    $('#progress').val(count);
+                    count++
+                } 
+                IndexCtrl.progressId = setInterval(countup, 50);
+
+            } else {
+                $('#progressView').hide();
+                clearInterval(IndexCtrl.progressId);
+            }
+            // 処理終了
+        } catch (ex) {
+            logger.error(ex);
+        } finally {
+            Util.endWriteLog(IndexCtrl._className, _functionName);
+        }
+    },
 };
 
 $(document).ready(function() {
