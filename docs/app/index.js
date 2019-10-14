@@ -556,10 +556,7 @@ IndexCtrl = {
 
     dispNostalgy: function UN_dispNostalgy(lat, lng) {
         var _functionName = 'UN_dispNostalgy',
-            _distance = 0,
-            _pointLat = 0,
-            _pointLng = 0,
-            _point = [];
+            _distance = 0;
 
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
@@ -825,35 +822,23 @@ IndexCtrl = {
     },
 
     rarity: function UN_rarity(data) {
-        var _functionName = 'UN_rarity',
-            _ran = 0;
+        var _functionName = 'UN_rarity';
 
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
-            _ran = Math.floor(Math.random() * 2) + 1;
-
             if (40 <= data.nostalgiaRatio) {
-                switch (_ran) {
-                    case 1:
-                        return IndexCtrl.mapIcon.gold1;
-                    case 2:
-                        return IndexCtrl.mapIcon.gold2;
-                }
+                return IndexCtrl.mapIcon.gold1;
+            } else if (30 <= data.nostalgiaRatio) {
+                return IndexCtrl.mapIcon.gold2;
             } else if (20 <= data.nostalgiaRatio) {
-                switch (_ran) {
-                    case 1:
-                        return IndexCtrl.mapIcon.silver1;
-                    case 2:
-                        return IndexCtrl.mapIcon.silver2;
-                }
+                return IndexCtrl.mapIcon.silver1;
+            } else if (10 <= data.nostalgiaRatio) {
+                return IndexCtrl.mapIcon.silver2;
+            } else if (5 <= data.nostalgiaRatio) {
+                return IndexCtrl.mapIcon.bronze1;
             } else {
-                switch (_ran) {
-                    case 1:
-                        return IndexCtrl.mapIcon.bronze1;
-                    case 2:
-                        return IndexCtrl.mapIcon.bronze2;
-                }
+                return IndexCtrl.mapIcon.bronze2;
             }
             // 処理終了
         } catch (ex) {
@@ -1058,7 +1043,7 @@ IndexCtrl = {
                     userId: null,
                     lat: lat,
                     lng: lng,
-                    distance: IndexCtrl.RANGE_DISTANCE / 2
+                    distance: IndexCtrl.RANGE_DISTANCE * 2
                 }, // 送信するデータ
             }).done(function(ret, textStatus, jqXHR) {
                 for (var i = 0; i < ret.results.length; i++) {
