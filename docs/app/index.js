@@ -173,7 +173,6 @@ IndexCtrl = {
             }
             // ボタンの表示制御
             IndexCtrl.changeBtn();
-
             IndexCtrl.dispSize();
             $(window).resize(function() {
                 //リサイズされたときの処理
@@ -325,7 +324,7 @@ IndexCtrl = {
                     IndexCtrl.autoF = false;
                 },
                 //Default is 75px, set to 0 for demo so any distance triggers swipe
-                //threshold:0
+                threshold:5
             });
             $(document).on('touchmove', '#mymap', function() {
                 // touchmoveイベントの処理
@@ -1176,6 +1175,12 @@ IndexCtrl = {
                 $('#catName').text('不明');
             } else {
                 IndexCtrl.getCatName(data.cats[0].name);
+            }
+
+            if (data.address == null) {
+                $('#address').text('住所不定');
+            } else {
+                $('#address').text(data.address);
             }
 
             if (data.userId == IndexCtrl.userId) {
