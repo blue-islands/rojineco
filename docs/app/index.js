@@ -37,7 +37,7 @@ IndexCtrl = {
     templeMarkers: [],
     parkMarkers: [],
     photos: [],
-    photos2: [],
+    // photos2: [],
     autoF: true,
     necoF: false,
     shrineF: false,
@@ -1082,6 +1082,13 @@ IndexCtrl = {
                     marker.data = data;
                     IndexCtrl.photos.push(marker);
                 }
+
+                // ネコの指定があった場合はここで表示する
+                if (IndexCtrl.photoId != null) {
+                    IndexCtrl.dispCat(IndexCtrl.photoId, null);
+                    IndexCtrl.photoId = null;
+                }
+
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 logger.error(errorThrown);
                 // }).always(function(){
@@ -1117,7 +1124,7 @@ IndexCtrl = {
 
                 $('#listView').show();
                 var html = '';
-                IndexCtrl.photos2 = ret.results;
+                // IndexCtrl.photos2 = ret.results;
                 for (var i = 0; i < ret.results.length; i++) {
                     var data = ret.results[i];
                     logger.info(data);
@@ -1172,10 +1179,10 @@ IndexCtrl = {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
             if (uuid) {
-                for( var val in IndexCtrl.photos2) {
-                    var photo = IndexCtrl.photos2[val];
-                    if (uuid == photo.uuid) {
-                        data = photo;
+                for( var val in IndexCtrl.photos) {
+                    var photo = IndexCtrl.photos[val];
+                    if (uuid == photo.data.uuid) {
+                        data = photo.data;
                         break;
                     }
                 }
