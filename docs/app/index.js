@@ -19,6 +19,7 @@ IndexCtrl = {
     GET_DISTANCE: 1000,
     BOUND_ZOOM: 13,
     userId: null,
+    photoId: null,
     mymap: null,
     lat: 0,
     lng: 0,
@@ -340,6 +341,10 @@ IndexCtrl = {
             $('#catView').hide();
             $('#aboutView').hide();
             $('#progressView').hide();
+
+            // クエリー文字列から指定の写真を取得
+            var queryStrings = getUrlVars();
+            IndexCtrl.photoId = queryStrings['uuid'];
 
             // 設定ボタンの制御
             IndexCtrl.dispShrineIcon(true);
