@@ -1025,7 +1025,8 @@ IndexCtrl = {
 
     dispPhoto: function UN_dispPhoto(lat, lng) {
         var _functionName = 'UN_dispPhoto',
-            _distance = 0,
+            _userId = null,
+            _photoId = null,
             _pointLat = 0,
             _pointLng = 0,
             _point = [];
@@ -1039,16 +1040,20 @@ IndexCtrl = {
                 }
             }
 
+            // ユーザーIDの取得
+            _userId = IndexCtrl.userId;
+
             IndexCtrl.photos = [];
 
             $.ajax({
                 url: IndexCtrl.urls.getPhoto, // 通信先のURL
                 type: 'GET', // 使用するHTTPメソッド
                 data: {
-                    userId: null,
+                    userId: _userId,
                     lat: lat,
                     lng: lng,
-                    distance: IndexCtrl.RANGE_DISTANCE * 2
+                    distance: IndexCtrl.RANGE_DISTANCE,
+                    photoId: _photoId
                 }, // 送信するデータ
             }).done(function(ret, textStatus, jqXHR) {
                 for (var i = 0; i < ret.results.length; i++) {
