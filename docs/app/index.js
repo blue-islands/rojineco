@@ -1047,6 +1047,7 @@ IndexCtrl = {
 
             // ユーザーIDの取得
             _userId = IndexCtrl.userId;
+            _photoId = IndexCtrl.photoId;
 
             IndexCtrl.photos = [];
 
