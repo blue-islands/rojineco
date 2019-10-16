@@ -208,7 +208,7 @@ IndexCtrl = {
                 $('#settingView').hide();
                 $('#listView').hide();
                 $('#photoView').hide();
-                IndexCtrl.dispPhotoList();
+                IndexCtrl.dispMyPhoto();
             });
             // 写真一覧閉じるボタン
             $(document).on('click', '#doListClose', function() {
@@ -526,7 +526,7 @@ IndexCtrl = {
                 IndexCtrl.rangeLng = _lng;
                 IndexCtrl.dispTemple(_lat, _lng);
                 IndexCtrl.dispPark(_lat, _lng);
-                IndexCtrl.dispPhoto(_lat, _lng);
+                IndexCtrl.dispPhotoList(_lat, _lng);
             }
 
             var z = IndexCtrl.mymap.getZoom();
@@ -998,7 +998,7 @@ IndexCtrl = {
                     }).done(function(ret, textStatus, jqXHR) {
                         logger.info(ret); //コンソールにJSONが表示される
                         if (ret.status == 1) {
-                            IndexCtrl.dispPhoto(IndexCtrl.lat, IndexCtrl.lng);
+                            IndexCtrl.dispPhotoList(IndexCtrl.lat, IndexCtrl.lng);
                             alert('写真を登録しました。');
                         } else {
                             alert(ret.messages[0]);
@@ -1028,8 +1028,8 @@ IndexCtrl = {
         }
     },
 
-    dispPhoto: function UN_dispPhoto(lat, lng) {
-        var _functionName = 'UN_dispPhoto',
+    dispPhotoList: function UN_dispPhotoList(lat, lng) {
+        var _functionName = 'UN_dispPhotoList',
             _userId = null,
             _photoId = null,
             _pointLat = 0,
@@ -1077,7 +1077,7 @@ IndexCtrl = {
                         .on('click', function(e) {
                             // clickイベントの処理
                             var data = e.target.data;
-                            IndexCtrl.dispCat(null, data);
+                            IndexCtrl.dispPhotoDetail(null, data);
                         });
                     marker.data = data;
                     IndexCtrl.photos.push(marker);
@@ -1085,7 +1085,7 @@ IndexCtrl = {
 
                 // ネコの指定があった場合はここで表示する
                 if (IndexCtrl.photoId != null) {
-                    IndexCtrl.dispCat(IndexCtrl.photoId, null);
+                    IndexCtrl.dispPhotoDetail(IndexCtrl.photoId, null);
                     IndexCtrl.photoId = null;
                 }
 
@@ -1102,8 +1102,8 @@ IndexCtrl = {
         }
     },
 
-    dispPhotoList: function UN_dispPhotoList() {
-        var _functionName = 'UN_dispPhotoList';
+    dispMyPhoto: function UN_dispMyPhoto() {
+        var _functionName = 'UN_dispMyPhoto';
 
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
@@ -1131,7 +1131,7 @@ IndexCtrl = {
                     if (i % 2 == 0) {
                         html += '<tr>';
                         html += '<td align="center" valign="middle" style="width: 120px;">';
-                        html += '<a onclick="IndexCtrl.dispCat(\'' + data.uuid +  '\', null)">';
+                        html += '<a onclick="IndexCtrl.dispPhotoDetail(\'' + data.uuid +  '\', null)">';
                         html += '<span style="display: block;height: 0;width: 100%;padding-bottom: 100%;'
                         html += 'background: url(\'' + data.url + '\');';
                         html += 'background-size: cover;';
@@ -1141,7 +1141,7 @@ IndexCtrl = {
                         html += '</td>';
                     } else {
                         html += '<td align="center" valign="middle" style="width: 120px;">';
-                        html += '<a onclick="IndexCtrl.dispCat(\'' + data.uuid +  '\', null)">';
+                        html += '<a onclick="IndexCtrl.dispPhotoDetail(\'' + data.uuid +  '\', null)">';
                         html += '<span style="display: block;height: 0;width: 100%;padding-bottom: 100%;'
                         html += 'background: url(\'' + data.url + '\');';
                         html += 'background-size: cover;';
@@ -1172,8 +1172,8 @@ IndexCtrl = {
         }
     },
 
-    dispCat: function UN_dispCat(uuid, data) {
-        var _functionName = 'UN_dispCat';
+    dispPhotoDetail: function UN_dispPhotoDetail(uuid, data) {
+        var _functionName = 'UN_dispPhotoDetail';
 
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
@@ -1233,7 +1233,7 @@ IndexCtrl = {
                     }, // 送信するデータ
                 }).done(function(ret, textStatus, jqXHR) {
                     logger.info(ret); //コンソールにJSONが表示される
-                    IndexCtrl.dispPhoto(IndexCtrl.lat, IndexCtrl.lng);
+                    IndexCtrl.dispPhotoList(IndexCtrl.lat, IndexCtrl.lng);
                 }).fail(function(jqXHR, textStatus, errorThrown) {
                     logger.error(errorThrown);
                 }).always(function() {
