@@ -1208,6 +1208,12 @@ IndexCtrl = {
             }
 
             $('#photoId').val(data.uuid);
+            $('#titleView').hide();
+            $('#doAuto').html('手動');
+            $('#doAuto').removeClass('is-error');
+            IndexCtrl.autoF = false;
+            IndexCtrl.mymap.setView([data.location[1], data.location[0]]); //地図を移動
+            IndexCtrl.mymap.setZoom(14);
             $('#catView').show();
             // 処理終了
         } catch (ex) {
@@ -1330,16 +1336,6 @@ IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
-            // $.getJSON('https://rojine.co/cat.json', function(data) {
-            //     for(var val in data) {
-            //         var cat = data[val]
-            //         if (id.toUpperCase() == cat.id.toUpperCase() ) {
-            //              $('#catName').text(cat.name);
-            //              break;
-            //         }
-            //     }
-            // });
-
             if ('white_cat' == id) {
                 // 白猫(white_cat)
                 $('#catName').text('白猫');
@@ -1358,6 +1354,8 @@ IndexCtrl = {
             } else if ('spotted_cat' == id) {
                 // ブチ猫(spotted_cat)
                 $('#catName').text('ブチ猫');
+            } else {
+                $('#catName').text('不明');
             }
             // 処理終了
         } catch (ex) {
