@@ -1213,7 +1213,7 @@ IndexCtrl = {
             $('#doAuto').removeClass('is-error');
             IndexCtrl.autoF = false;
             IndexCtrl.mymap.setView([data.location[1], data.location[0]]); //地図を移動
-            IndexCtrl.mymap.setZoom(14);
+            // IndexCtrl.mymap.setZoom(16);
             $('#catView').show();
             // 処理終了
         } catch (ex) {
