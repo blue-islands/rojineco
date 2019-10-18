@@ -365,7 +365,7 @@ IndexCtrl = {
             // }).addTo(IndexCtrl.mymap);
 
             L.tileLayer("https://api-map-pre.mapfan.com/v1/map?key={apikey}&mapstyle=rpg_sp&tilematrix=EPSG:3857:{z}&tilerow={y}&tilecol={x}", {
-                attribution: '&copy; <a href="http://www.incrementp.co.jp/" target="_blank">INCREMENT P CORPORATION</a> | &copy whatt3words',
+                attribution: '&copy; <a href="http://www.incrementp.co.jp/" target="_blank">INCREMENT P CORPORATION</a> | &copy ROJINECO PROJECT',
                 apikey: Mfapi._authAccessKey,
                 maxZoom: 21,
                 minZoom: 6
