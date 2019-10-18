@@ -160,7 +160,7 @@ IndexCtrl = {
     },
 
     //+----- ↓functionの記述ココから -----------------------------------------------------------------+
-    init: function UN_init() {
+    init: function UN_init(authStatus) {
         var _functionName = 'UN_init';
 
         try {
@@ -358,10 +358,17 @@ IndexCtrl = {
                 preferCanvas: true  //trueとし、Canvasレンダラーを選択
             })
 
-            L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey={apikey}', {
-                attribution: '&copy; <a href="http://www.thunderforest.com/" target="_blank">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
-                apikey: 'ed224a20677d4dd1a89710617d85df19',
-                maxZoom: 22
+            // L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey={apikey}', {
+            //     attribution: '&copy; <a href="http://www.thunderforest.com/" target="_blank">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
+            //     apikey: 'ed224a20677d4dd1a89710617d85df19',
+            //     maxZoom: 22
+            // }).addTo(IndexCtrl.mymap);
+
+            L.tileLayer("https://api-map-pre.mapfan.com/v1/map?key={apikey}&mapstyle=rpg_sp&tilematrix=EPSG:3857:{z}&tilerow={y}&tilecol={x}", {
+                attribution: '&copy; <a href="http://www.incrementp.co.jp/" target="_blank">INCREMENT P CORPORATION</a> | &copy whatt3words',
+                apikey: Mfapi._authAccessKey,
+                maxZoom: 21,
+                minZoom: 6
             }).addTo(IndexCtrl.mymap);
 
             // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -1397,5 +1404,16 @@ IndexCtrl = {
 };
 
 $(document).ready(function() {
-    IndexCtrl.init();
+    //### サーバ名設定 ###
+    // 利用する地図APIサーバ名を設定します。
+    // なお、このサンプルではテスト利用サーバー名を設定しています。
+    Mfapi.mapHost = 'api-map-pre.mapfan.com';
+
+    //### 認証リクエスト処理 ###
+    // 認証APIの実行要求を行います。
+    // 第１パラメータには、お客様専用に発行した顧客IDを設定します。
+    // 第２パラメータには、認証手続き完了後に呼び出すコールバック関数を設定します。
+    // ※ appidはお客様の認証ＩＤを設定してください。
+    var appid = '5375a40a0e635b3145726775dad47fb732a6fae203d61bdb'
+    Mfapi.auth(appid, IndexCtrl.init);
 });
