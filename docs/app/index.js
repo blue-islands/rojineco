@@ -359,7 +359,7 @@ IndexCtrl = {
             })
 
             if(authStatus == 'success') {
-                // 認証手続き処理失敗時の処理コードをここに記述してください。
+                // 認証手続き処理成功時の処理コードをここに記述してください。
                 L.tileLayer("https://api-map-pre.mapfan.com/v1/map?key={apikey}&mapstyle=rpg_sp&tilematrix=EPSG:3857:{z}&tilerow={y}&tilecol={x}", {
                     attribution: '&copy; <a href="http://www.incrementp.co.jp/" target="_blank">INCREMENT P CORPORATION</a> | &copy ROJINECO PROJECT',
                     apikey: Mfapi._authAccessKey,
