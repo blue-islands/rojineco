@@ -1016,6 +1016,7 @@ IndexCtrl = {
                         }
                     }).fail(function(jqXHR, textStatus, errorThrown) {
                         logger.error(errorThrown);
+                        alert('エラーが発生しました。');
                     }).always(function() {
                         //     logger.info('***** 処理終了 *****');
                         $('#fileUpload').val('');
