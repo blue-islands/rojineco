@@ -1004,6 +1004,8 @@ IndexCtrl = {
                             oauthTokenSecret: oauthTokenSecret,
                             lat: IndexCtrl.lat,
                             lng: IndexCtrl.lng,
+                            catDetector: 'Iteration17',
+                            whatCat: 'Iteration7',
                             photo: imgB64,
                         }, // 送信するデータ
                     }).done(function(ret, textStatus, jqXHR) {
