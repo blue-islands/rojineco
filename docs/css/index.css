@@ -160,8 +160,16 @@ body {
     transform: translateY(-50%) translateX(-50%);
 }
 
-.is-orange{
+.is-orange {
     background-color: #f9b100;
+}
+
+.close {
+    position: absolute;
+    top: 0px;
+    right: 1px;
+    padding-bottom: 2px;
+    z-index: 1500;
 }
 
 .nes-btn > input[type="file"] {
