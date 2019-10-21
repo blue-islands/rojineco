@@ -5,16 +5,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
-<title>ロジネコ | 近くのネコに会いに行く</title>
-<meta name="description" content="ロジネコは自由気ままに暮らすネコ達を見つけて、写真を撮って、ネコ達の実態を把握することを目的としています。かわいいネコ達に会いに行きましょう。">
+<title>ロジねこ | あなたの街のねこを撮って作る、あなただけのねこずかん。</title>
+<meta name="description" content="あなたの街のねこを撮って作る、あなただけのねこずかん。路地裏にはねこがいるかも？さあ、ねこを探しにでかけよう。">
 <meta name="author" content="@rojineco">
 <script src="./components/loader.js"></script>
 <link rel="shortcut icon" href="favicon.png">
 <link rel="apple-touch-icon-precomposed" href="favicon.png" />
 <link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="./components/loader.css">
 <!-- CSS -->
-<link rel="stylesheet" href="https://unpkg.com/nes.css@latest/css/nes.min.css"/>
+<link rel="stylesheet" href="./components/loader.css">
+<link rel="stylesheet" href="https://unpkg.com/nes.css@latest/css/nes.min.css"　/>
+<link rel="stylesheet" href="https://unpkg.com/nes.icons/css/nes-icons.css" />
 <link rel="stylesheet" href="./libs/leaflet/leaflet.css" />
 <link rel="stylesheet" href="./css/ress.min.css" />
 <link rel="stylesheet" href="./css/web-grid.css" />
@@ -36,13 +37,16 @@
 		</div>
 		<div class="space-08">
 		</div>
-		<div class="nes-container is-rounded is-dark">
-  			<p>ロジネコは自由気ままに暮らすネコ達を見つけて、写真を撮って、ネコ達の実態を把握することを目的としています。かわいいネコ達に会いに行きましょう。</p>
+		<div class="center nes-container is-rounded is-dark">
+  			<p style="white-space: nowrap;">あなたの街のねこを撮って作る、<br>
+				あなただけのねこずかん。<br>
+				路地裏にはねこがいるかも？<br>
+				さあ、ねこを探しにでかけよう。</p>
 		</div>
 		<div class="space-08">
 		</div>
 		<div class="center">
-			<button id="doTitleClose" type="button" class="nes-btn">スタート</button>
+			<button id="doTitleClose" type="button" class="nes-btn">はじめる</button>
 		</div>
 		<div class="space-08">
 		</div>
@@ -56,16 +60,16 @@
 <div id="mymap"></div>
 <!-- ボタンを配置 -->
 <div id="button1">
-	<button id="doAuto" type="button" class="nes-btn is-error">自動</button>
+	<button id="doAuto" type="button" class="nes-btn is-error">自分を中心</button>
 </div>
 <div id="button2">
-	<button id="doSetting" type="button" class="nes-btn is-warning">設定</button>
+	<button id="doSetting" type="button" class="nes-btn"><i class="nes-icon bars is-small"></i></button>
 </div>
 <div id="button3">
-	<button id="doList" type="button" class="nes-btn is-primary">ネコ</button>
+	<button id="doList" type="button" class="nes-btn">ねこずかん</button>
 </div>
 <div id="button4">
-	<button id="doPhoto" type="button" class="nes-btn is-success">写真</button>
+	<button id="doPhoto" type="button" class="nes-btn  is-warning">ねこを撮る</button>
 </div>
 <!-- 設定画面 -->
 <div id="settingView" class="dialog-parent animated fadeInUp">
@@ -75,7 +79,7 @@
 		</div>
 		<div class="space-08">
 		</div>
-		<div class="nes-container is-rounded is-dark">
+		<div class="nes-container is-rounded is-orange">
 			<div class="center">
 				<button id="doTwitterLogin" type="button" class="nes-btn">
 					<i class="nes-icon twitter is-small" style="top: 3px;"></i>
@@ -89,7 +93,7 @@
 			<div id="dispTwitter" class="center">
 				<div class="space-08"></div>
 				<label>
-					<input id="twitterPost" type="checkbox" class="nes-checkbox is-dark" />
+					<input id="twitterPost" type="checkbox" class="nes-checkbox" />
 					<span>Twitterに投稿する</span>
 				</label>
 			</div>
@@ -126,7 +130,7 @@
 </div>
 <!-- 写真一覧画面 -->
 <div id="listView" class="list-parent animated fadeInUp">
-	<div class="nes-container is-rounded list-inner is-light-white">
+	<div class="nes-container is-rounded list-inner is-orange">
 		<div class="nes-table-responsive center vertical-scroll-table">
 			<table class="nes-table is-bordered is-dark">
 				<tbody id="photoList">
@@ -141,7 +145,7 @@
 </div>
 <!-- 写真撮影画面 -->
 <div id="photoView" class="dialog-parent animated fadeInUp">
-	<div class="nes-container is-rounded dialog-inner is-dark">
+	<div class="nes-container is-rounded dialog-inner is-orange">
 		<div class="center">
 			<label class="nes-btn is-primary" for="fileUpload">
 				<span>写真を撮影する</span>
@@ -161,7 +165,7 @@
 </div>
 <!-- ネコ表示画面 -->
 <div id="catView" class="dialog-parent animated fadeInUp">
-	<div class="nes-container is-rounded dialog-inner is-dark">
+	<div class="nes-container is-rounded dialog-inner is-orange">
 		<div class="center">
 			<img src="" id="catImage" style="width: 100%; max-width: 200px">
 		</div>

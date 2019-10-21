@@ -2,7 +2,7 @@
  * タイトル：インデックス画面JS
  * 説明    ：
  * 著作権  ：Copyright(c) 2019 rojineco project.
- * 会社名  ：ロジネコプロジェクト
+ * 会社名  ：ロジねこプロジェクト
  * 変更履歴：2019.05.16
  *        ：新規登録
  */
@@ -185,7 +185,7 @@ IndexCtrl = {
                 // clickイベントの処理
                 $('#titleView').hide();
             });
-            // 自動ボタン
+            // 自分を中心ボタン
             $(document).on('click', '#doAuto', function() {
                 // clickイベントの処理
                 IndexCtrl.auto();
@@ -320,7 +320,7 @@ IndexCtrl = {
             $("#mymap").swipe( {
                 //Generic swipe handler for all directions
                 swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
-                    $('#doAuto').html('手動');
+                    $('#doAuto').html('マップ探索');
                     $('#doAuto').removeClass('is-error');
                     IndexCtrl.autoF = false;
                 },
@@ -329,7 +329,7 @@ IndexCtrl = {
             });
             $(document).on('touchmove', '#mymap', function() {
                 // touchmoveイベントの処理
-                $('#doAuto').html('手動');
+                $('#doAuto').html('マップ探索');
                 $('#doAuto').removeClass('is-error');
                 IndexCtrl.autoF = false;
             });
@@ -877,11 +877,11 @@ IndexCtrl = {
             // 処理開始
             IndexCtrl.autoF
             if (IndexCtrl.autoF) {
-                $('#doAuto').html('手動');
+                $('#doAuto').html('マップ探索');
                 $('#doAuto').removeClass('is-error');
                 IndexCtrl.autoF = false;
             } else {
-                $('#doAuto').html('自動');
+                $('#doAuto').html('自分を中心');
                 $('#doAuto').addClass('is-error');
                 IndexCtrl.autoF = true;
             }
@@ -1223,7 +1223,7 @@ IndexCtrl = {
 
             $('#photoId').val(data.uuid);
             $('#titleView').hide();
-            $('#doAuto').html('手動');
+            $('#doAuto').html('マップ探索');
             $('#doAuto').removeClass('is-error');
             IndexCtrl.autoF = false;
             IndexCtrl.mymap.setView([data.location[1], data.location[0]]); //地図を移動

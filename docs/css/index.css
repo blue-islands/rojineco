@@ -160,8 +160,8 @@ body {
     transform: translateY(-50%) translateX(-50%);
 }
 
-.is-light-white{
-    background-color: #fefefe;
+.is-orange{
+    background-color: #f9b100;
 }
 
 .nes-btn > input[type="file"] {
