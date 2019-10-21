@@ -218,11 +218,7 @@ IndexCtrl = {
             // 写真撮影ボタン
             $(document).on('click', '#doPhoto', function() {
                 // clickイベントの処理
-                $('#settingView').hide();
-                $('#listView').hide();
-                $('#photoView').show();
-                $('#photoImage').attr('src', './images/l_e_others_501.png');
-                $('#fileUpload').val('');
+                $('#fileUpload').trigger('click');
             });
             // 写真選択ボタン
             $(document).on('change', '#fileUpload', function() {
@@ -231,6 +227,11 @@ IndexCtrl = {
                 var reader = new FileReader();
                 reader.addEventListener("load", function() {
                     logger.info(reader.result);
+                    $('#settingView').hide();
+                    $('#listView').hide();
+                    $('#photoView').show();
+                    // $('#photoImage').attr('src', './images/l_e_others_501.png');
+                    $('#fileUpload').val('');
                     $('#photoImage').attr('src', reader.result)
                 }, false);
 
@@ -245,6 +246,11 @@ IndexCtrl = {
             });
             // 写真撮影閉じるボタン
             $(document).on('click', '#doPhotoClose', function() {
+                // clickイベントの処理
+                $('#photoView').hide();
+            });
+            // 写真撮影戻るボタン
+            $(document).on('click', '#doPhotoReturn', function() {
                 // clickイベントの処理
                 $('#photoView').hide();
             });
