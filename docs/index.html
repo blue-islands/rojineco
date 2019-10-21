@@ -166,11 +166,13 @@
 <!-- ネコ表示画面 -->
 <div id="catView" class="dialog-parent animated fadeInUp">
 	<div class="nes-container is-rounded dialog-inner is-orange">
+		<button id="doCatClose" type="button" class="nes-btn close"><i class="nes-icon times is-small"></i></button>
+		<div class="center">
+			<h4 id="catName"></h4>
+		</div>
+		<div class="space-08"></div>
 		<div class="center">
 			<img src="" id="catImage" style="width: 100%; max-width: 200px">
-		</div>
-		<div class="center">
-			<span id="catName"></span>
 		</div>
 		<div class="space-08"></div>
 		<div class="center">
@@ -178,7 +180,6 @@
 		</div>
 		<div class="space-08"></div>
 		<div class="center">
-			<button id="doCatClose" class="nes-btn">閉じる</button>
 			<button id="doCatDelete" class="nes-btn is-error">削除</button>
 			<input type="hidden" id="photoId" name="photoId">
 		</div>
