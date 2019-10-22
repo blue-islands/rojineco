@@ -44,6 +44,7 @@ IndexCtrl = {
     templeF: false,
     parkF: false,
     processF: false,
+    file: null,
     urls: {
         login: IndexCtrl.domain + 'login',
         who: IndexCtrl.domain + 'who',
@@ -223,7 +224,7 @@ IndexCtrl = {
             // 写真選択ボタン
             $(document).on('change', '#fileUpload', function() {
                 // changeイベントの処理
-                var file = document.querySelector('#fileUpload').files[0];
+                IndexCtrl.file = document.querySelector('#fileUpload').files[0];
                 var reader = new FileReader();
                 reader.addEventListener("load", function() {
                     logger.info(reader.result);
@@ -235,8 +236,8 @@ IndexCtrl = {
                     $('#photoImage').attr('src', reader.result)
                 }, false);
 
-                if (file) {
-                    reader.readAsDataURL(file);
+                if (IndexCtrl.file) {
+                    reader.readAsDataURL(IndexCtrl.file);
                 }
             });
             // 写真送信ボタン
@@ -983,7 +984,7 @@ IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
-            _file = document.querySelector('#fileUpload').files[0];
+            _file = IndexCtrl.file;
             _reader = new FileReader();
 
             _reader.addEventListener("load", function() {
@@ -992,13 +993,13 @@ IndexCtrl = {
                 // Resize Base64 Image
                 Util.imgB64Resize(_reader.result, function(imgB64) {
                     // Destination Image
-                    var checkTwitter = localStorage.getItem("check_twitter");
+                    // var checkTwitter = localStorage.getItem("check_twitter");
                     var oauthToken = null;
                     var oauthTokenSecret = null;
-                    if (parseStrToBoolean(checkTwitter)) {
-                        oauthToken = localStorage.getItem("oauth_token");
-                        oauthTokenSecret = localStorage.getItem("oauth_token_secret");
-                    }
+                    // if (parseStrToBoolean(checkTwitter)) {
+                    //     oauthToken = localStorage.getItem("oauth_token");
+                    //     oauthTokenSecret = localStorage.getItem("oauth_token_secret");
+                    // }
 
                     $.ajax({
                         url: IndexCtrl.urls.setPhoto, // 通信先のURL
@@ -1039,6 +1040,7 @@ IndexCtrl = {
                 $('#photoView').hide();
                 IndexCtrl.progressBar(true);
             }
+            IndexCtrl.file = null;
             // 処理終了
         } catch (ex) {
             logger.error(ex);
