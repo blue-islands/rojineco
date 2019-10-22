@@ -251,10 +251,10 @@ IndexCtrl = {
                 // clickイベントの処理
                 $('#photoView').hide();
             });
-            // 写真撮影戻るボタン
+            // 写真撮影撮り直しボタン
             $(document).on('click', '#doPhotoReturn', function() {
                 // clickイベントの処理
-                $('#photoView').hide();
+                $('#fileUpload').trigger('click');
             });
             // Twitterログインボタン
             $(document).on('click', '#doTwitterLogin', function() {
@@ -1029,7 +1029,8 @@ IndexCtrl = {
                             // alert('写真を登録しました。');
                             toastr.success('写真を登録しました。');
                         } else {
-                            alert(ret.messages[0]);
+                            // alert(ret.messages[0]);
+                            toastr.success(ret.messages[0]);
                         }
                     }).fail(function(jqXHR, textStatus, errorThrown) {
                         logger.error(errorThrown);
@@ -1466,7 +1467,8 @@ IndexCtrl = {
                         // alert('Twitterに投稿しました。');
                         toastr.success('Twitterに投稿しました。');
                     } else {
-                        alert(ret.messages[0]);
+                        // alert(ret.messages[0]);
+                        toastr.success(ret.messages[0]); 
                     }
                 }).fail(function(jqXHR, textStatus, errorThrown) {
                     logger.error(errorThrown);
