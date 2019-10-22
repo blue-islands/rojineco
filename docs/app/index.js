@@ -58,6 +58,7 @@ IndexCtrl = {
         getPhoto: IndexCtrl.domain + 'getPhoto',
         getPhotoList: IndexCtrl.domain + 'getPhotoList',
         removePhoto: IndexCtrl.domain + 'removePhoto',
+        sendTwitter: IndexCtrl.domain + 'sendTwitter',
     },
     mapIcon: {
         my: L.icon({
@@ -322,6 +323,11 @@ IndexCtrl = {
             $(document).on('click', '#doCatDelete', function() {
                 // clickイベントの処理
                 IndexCtrl.removePhoto();
+            });
+            // Twitterに投稿ボタン
+            $(document).on('click', '#doTwitterSendTo', function() {
+                // clickイベントの処理
+                IndexCtrl.twitterSendTo();
             });
             // 地図スワイプ
             $("#mymap").swipe( {
@@ -1225,8 +1231,15 @@ IndexCtrl = {
 
             if (data.userId == IndexCtrl.userId) {
                 $('#doCatDelete').show();
+                var checkTwitter = localStorage.getItem("check_twitter");
+                if (parseStrToBoolean(checkTwitter)) {
+                    $('#doTwitterSendTo').show();
+                } else {
+                    $('#doTwitterSendTo').hide();      
+                }
             } else {
                 $('#doCatDelete').hide();
+                $('#doTwitterSendTo').hide();
             }
 
             $('#photoId').val(data.uuid);
@@ -1414,6 +1427,56 @@ IndexCtrl = {
             logger.error(ex);
         } finally {
             Util.endWriteLog(IndexCtrl._className, _functionName);
+        }
+    },
+
+    twitterSendTo: function UN_twitterSendTo() {
+        var _functionName = 'UN_twitterSendTo'
+
+        try {
+            Util.startWriteLog(IndexCtrl._className, _functionName);
+            // 処理開始
+            if (window.confirm('Twitterに投稿しますか？')) {
+                var checkTwitter = localStorage.getItem("check_twitter");
+                var oauthToken = null;
+                var oauthTokenSecret = null;
+                if (parseStrToBoolean(checkTwitter)) {
+                    oauthToken = localStorage.getItem("oauth_token");
+                    oauthTokenSecret = localStorage.getItem("oauth_token_secret");
+                }
+                var uuid = $('#photoId').val();
+    
+                $.ajax({
+                    url: IndexCtrl.urls.sendTwitter, // 通信先のURL
+                    type: 'POST', // 使用するHTTPメソッド
+                    data: {
+                        uuid: uuid,
+                        userId: IndexCtrl.userId,
+                        oauthToken: oauthToken,
+                        oauthTokenSecret: oauthTokenSecret,
+                    }, // 送信するデータ
+                }).done(function(ret, textStatus, jqXHR) {
+                    logger.info(ret); //コンソールにJSONが表示される
+                    if (ret.status == 1) {
+                        IndexCtrl.dispPhotoList(IndexCtrl.lat, IndexCtrl.lng);
+                        alert('Twitterに投稿しました。');
+                    } else {
+                        alert(ret.messages[0]);
+                    }
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    logger.error(errorThrown);
+                    alert('エラーが発生しました。');
+                }).always(function() {
+                    //     logger.info('***** 処理終了 *****');
+                    $('#catView').hide();
+                });
+            }
+            // 処理終了
+        } catch (ex) {
+            logger.error(ex);
+        } finally {
+            Util.endWriteLog(IndexCtrl._className, _functionName);
+            $('#photoView').hide();
         }
     },
 };
