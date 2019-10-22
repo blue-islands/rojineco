@@ -254,7 +254,7 @@ IndexCtrl = {
             // 写真撮影戻るボタン
             $(document).on('click', '#doPhotoReturn', function() {
                 // clickイベントの処理
-                $('#fileUpload').trigger('click');
+                $('#photoView').hide();
             });
             // Twitterログインボタン
             $(document).on('click', '#doTwitterLogin', function() {
@@ -1507,8 +1507,8 @@ toastr.options = {
     "debug": false,
     "newestOnTop": false,
     "progressBar": false,
-    "positionClass": "toast-bottom-center",
-    "preventDuplicates": false,
+    "positionClass": "toast-top-center",
+    "preventDuplicates": true,
     "onclick": null,
     "showDuration": "300",
     "hideDuration": "1000",
@@ -1518,4 +1518,4 @@ toastr.options = {
     "hideEasing": "linear",
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
-  }
+}
