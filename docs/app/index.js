@@ -254,7 +254,7 @@ IndexCtrl = {
             // 写真撮影戻るボタン
             $(document).on('click', '#doPhotoReturn', function() {
                 // clickイベントの処理
-                $('#photoView').hide();
+                $('#fileUpload').trigger('click');
             });
             // Twitterログインボタン
             $(document).on('click', '#doTwitterLogin', function() {
