@@ -940,7 +940,8 @@ IndexCtrl = {
 
                 if (IndexCtrl.necoF != _flg) {
                     if (_flg) {
-                        alert('近くでネコの匂いがしますね。。。');
+                        // alert('近くでネコの匂いがしますね。。。');
+                        toastr.success('近くでネコの匂いがしますね。。。');
                     }
                 }
                 IndexCtrl.necoF = _flg;
@@ -1025,7 +1026,8 @@ IndexCtrl = {
                         logger.info(ret); //コンソールにJSONが表示される
                         if (ret.status == 1) {
                             IndexCtrl.dispPhotoList(IndexCtrl.lat, IndexCtrl.lng);
-                            alert('写真を登録しました。');
+                            // alert('写真を登録しました。');
+                            toastr.success('写真を登録しました。');
                         } else {
                             alert(ret.messages[0]);
                         }
@@ -1280,7 +1282,8 @@ IndexCtrl = {
                 }).always(function() {
                     $('#catView').hide();
                     $('#listView').hide();
-                    alert('写真を削除しました。');
+                    // alert('写真を削除しました。');
+                    toastr.success('写真を削除しました。');
                 });
             } else {
                 // window.alert('キャンセルされました。');
@@ -1437,6 +1440,7 @@ IndexCtrl = {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
             if (window.confirm('Twitterに投稿しますか？')) {
+                IndexCtrl.progressBar(true);
                 var checkTwitter = localStorage.getItem("check_twitter");
                 var oauthToken = null;
                 var oauthTokenSecret = null;
@@ -1459,7 +1463,8 @@ IndexCtrl = {
                     logger.info(ret); //コンソールにJSONが表示される
                     if (ret.status == 1) {
                         IndexCtrl.dispPhotoList(IndexCtrl.lat, IndexCtrl.lng);
-                        alert('Twitterに投稿しました。');
+                        // alert('Twitterに投稿しました。');
+                        toastr.success('Twitterに投稿しました。');
                     } else {
                         alert(ret.messages[0]);
                     }
@@ -1469,6 +1474,7 @@ IndexCtrl = {
                 }).always(function() {
                     //     logger.info('***** 処理終了 *****');
                     $('#catView').hide();
+                    IndexCtrl.progressBar(false);
                 });
             }
             // 処理終了
@@ -1495,3 +1501,21 @@ $(document).ready(function() {
     var appid = '5375a40a0e635b3145726775dad47fb732a6fae203d61bdb'
     Mfapi.auth(appid, IndexCtrl.init);
 });
+
+toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-bottom-center",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
