@@ -182,6 +182,13 @@ IndexCtrl = {
                 IndexCtrl.dispSize();
             });
 
+            // Twitterではじめるボタン
+            $(document).on('click', '#doTwitterStart', function() {
+                // clickイベントの処理
+                $('#titleView').hide();
+                LoginCtrl.login();
+            });
+
             // タイトル閉じるボタン
             $(document).on('click', '#doTitleClose', function() {
                 // clickイベントの処理
