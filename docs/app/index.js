@@ -1255,13 +1255,13 @@ IndexCtrl = {
                 $('#doCatDelete').show();
                 var checkTwitter = localStorage.getItem("check_twitter");
                 if (parseStrToBoolean(checkTwitter)) {
-                    $('#doTwitterSendTo').show();
+                    $('#doTwitterComment').show();
                 } else {
-                    $('#doTwitterSendTo').hide();      
+                    $('#doTwitterComment').hide();      
                 }
             } else {
                 $('#doCatDelete').hide();
-                $('#doTwitterSendTo').hide();
+                $('#doTwitterComment').hide();
             }
 
             $('#photoId').val(data.uuid);
