@@ -1496,7 +1496,8 @@ IndexCtrl = {
                     alert('エラーが発生しました。');
                 }).always(function() {
                     //     logger.info('***** 処理終了 *****');
-                    $('#catView').hide();
+                    // $('#catView').hide();
+                    $('#twitterCommentView').hide();
                     IndexCtrl.progressBar(false);
                 });
             }
