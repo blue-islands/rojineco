@@ -321,7 +321,7 @@ IndexCtrl = {
                 // clickイベントの処理
                 $('#aboutView').hide();
             });
-            // ネコ表示閉じるボタン
+            // ねこ表示閉じるボタン
             $(document).on('click', '#doCatClose', function() {
                 // clickイベントの処理
                 $('#catView').hide();
@@ -567,7 +567,7 @@ IndexCtrl = {
                 IndexCtrl.dispPark(_lat, _lng);
             }
 
-            // ネコが近くにいたらアラートを出す。
+            // ねこが近くにいたらアラートを出す。
             IndexCtrl.judgment(_lat, _lng);
 
             IndexCtrl.zoom = z;
@@ -947,8 +947,8 @@ IndexCtrl = {
 
                 if (IndexCtrl.necoF != _flg) {
                     if (_flg) {
-                        // alert('近くでネコの匂いがしますね。。。');
-                        toastr.success('近くでネコの匂いがしますね。。。');
+                        // alert('近くでねこの匂いがしますね。。。');
+                        toastr.success('近くでねこの匂いがしますね。。。');
                     }
                 }
                 IndexCtrl.necoF = _flg;
@@ -1121,7 +1121,7 @@ IndexCtrl = {
                     IndexCtrl.photos.push(marker);
                 }
 
-                // ネコの指定があった場合はここで表示する
+                // ねこの指定があった場合はここで表示する
                 if (IndexCtrl.photoId != null) {
                     IndexCtrl.dispPhotoDetail(IndexCtrl.photoId, null);
                     IndexCtrl.photoId = null;
@@ -1156,7 +1156,8 @@ IndexCtrl = {
             }).done(function(ret, textStatus, jqXHR) {
 
                 if (ret.results.length == 0) {
-                    alert('まだ、ネコを撮影していません。');
+                    // alert('まだ、ねこを撮影していません。');
+                    toastr.success('まだ、ねこを撮影していません。');
                     return;
                 }
 
@@ -1290,8 +1291,8 @@ IndexCtrl = {
                 }).always(function() {
                     $('#catView').hide();
                     $('#listView').hide();
-                    // alert('写真を削除しました。');
-                    toastr.success('写真を削除しました。');
+                    // alert('ねこ写真を削除しました。');
+                    toastr.success('ねこ写真を削除しました。');
                 });
             } else {
                 // window.alert('キャンセルされました。');
