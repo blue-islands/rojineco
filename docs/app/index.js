@@ -331,6 +331,16 @@ IndexCtrl = {
                 // clickイベントの処理
                 IndexCtrl.removePhoto();
             });
+            // Twitterコメントボタン
+            $(document).on('click', '#doTwitterComment', function() {
+                // clickイベントの処理
+                IndexCtrl.twitterComment();
+            });
+            // Twitterコメント閉じるボタン
+            $(document).on('click', '#doTwitterCommentClose', function() {
+                // clickイベントの処理
+                $('#twitterCommentView').hide();
+            });
             // Twitterに投稿ボタン
             $(document).on('click', '#doTwitterSendTo', function() {
                 // clickイベントの処理
@@ -360,6 +370,7 @@ IndexCtrl = {
             $('#photoView').hide();
             $('#catView').hide();
             $('#aboutView').hide();
+            $('#twitterCommentView').hide();
             $('#progressView').hide();
 
             // クエリー文字列から指定の写真を取得
@@ -1458,6 +1469,7 @@ IndexCtrl = {
                     oauthTokenSecret = localStorage.getItem("oauth_token_secret");
                 }
                 var uuid = $('#photoId').val();
+                var comment = $('#comment').val();
     
                 $.ajax({
                     url: IndexCtrl.urls.sendTwitter, // 通信先のURL
@@ -1465,6 +1477,7 @@ IndexCtrl = {
                     data: {
                         uuid: uuid,
                         userId: IndexCtrl.userId,
+                        comment: comment,
                         oauthToken: oauthToken,
                         oauthTokenSecret: oauthTokenSecret,
                     }, // 送信するデータ
@@ -1487,6 +1500,38 @@ IndexCtrl = {
                     IndexCtrl.progressBar(false);
                 });
             }
+            // 処理終了
+        } catch (ex) {
+            logger.error(ex);
+        } finally {
+            Util.endWriteLog(IndexCtrl._className, _functionName);
+            $('#photoView').hide();
+        }
+    },
+
+    twitterComment: function UN_twitterComment() {
+        var _functionName = 'UN_twitterComment',
+            _uuid = '',
+            _catName = '',
+            _address = '',
+            _comment ='';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className, _functionName);
+            // 処理開始
+            _uuid = $('#photoId').val();
+            _address = $('#address').text();
+            _catName = $('#catName').text();
+            _comment += _address + 'で';
+            _comment += _catName + 'を';
+            _comment += '発見！\n';
+            _comment += 'ねこ情報はこちら → https://rojine.co?uuid=' + _uuid + '\n';
+            _comment += '\n';
+            _comment += 'ロジねこアプリはこちら → https://rojine.co' + '\n';
+            _comment += "#ロジねこ #猫好きさんと繋がりたい";
+
+            $('#comment').val(_comment);
+            $('#twitterCommentView').show();
             // 処理終了
         } catch (ex) {
             logger.error(ex);
