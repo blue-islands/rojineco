@@ -879,15 +879,15 @@ IndexCtrl = {
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
-            if (40 <= data.nostalgiaRatio) {
+            if (100 <= data.nostalgiaRatio) {
                 return IndexCtrl.mapIcon.gold1;
-            } else if (30 <= data.nostalgiaRatio) {
+            } else if (80 <= data.nostalgiaRatio) {
                 return IndexCtrl.mapIcon.gold2;
-            } else if (20 <= data.nostalgiaRatio) {
+            } else if (60 <= data.nostalgiaRatio) {
                 return IndexCtrl.mapIcon.silver1;
-            } else if (10 <= data.nostalgiaRatio) {
+            } else if (40 <= data.nostalgiaRatio) {
                 return IndexCtrl.mapIcon.silver2;
-            } else if (5 <= data.nostalgiaRatio) {
+            } else if (20 <= data.nostalgiaRatio) {
                 return IndexCtrl.mapIcon.bronze1;
             } else {
                 return IndexCtrl.mapIcon.bronze2;
