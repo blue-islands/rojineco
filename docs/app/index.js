@@ -874,20 +874,22 @@ IndexCtrl = {
     },
 
     rarity: function UN_rarity(data) {
-        var _functionName = 'UN_rarity';
+        var _functionName = 'UN_rarity',
+            _point = 0;
 
         try {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
-            if (100 <= data.nostalgiaRatio) {
+            _point = data.nostalgiaRatio + data.alleyRatio;
+            if (180 <= _point) {
                 return IndexCtrl.mapIcon.gold1;
-            } else if (80 <= data.nostalgiaRatio) {
+            } else if (140 <= _point) {
                 return IndexCtrl.mapIcon.gold2;
-            } else if (60 <= data.nostalgiaRatio) {
+            } else if (100 <= _point) {
                 return IndexCtrl.mapIcon.silver1;
-            } else if (40 <= data.nostalgiaRatio) {
+            } else if (60 <= _point) {
                 return IndexCtrl.mapIcon.silver2;
-            } else if (20 <= data.nostalgiaRatio) {
+            } else if (20 <= _point) {
                 return IndexCtrl.mapIcon.bronze1;
             } else {
                 return IndexCtrl.mapIcon.bronze2;
