@@ -364,15 +364,6 @@ IndexCtrl = {
                 IndexCtrl.autoF = false;
             });
 
-            // ビューの非表示
-            $('#settingView').hide();
-            $('#listView').hide();
-            $('#photoView').hide();
-            $('#catView').hide();
-            $('#aboutView').hide();
-            $('#twitterCommentView').hide();
-            $('#progressView').hide();
-
             // クエリー文字列から指定の写真を取得
             var queryStrings = getUrlVars();
             IndexCtrl.photoId = queryStrings['uuid'];
@@ -1546,6 +1537,16 @@ IndexCtrl = {
 };
 
 $(document).ready(function() {
+    
+    // ビューの非表示
+    $('#settingView').hide();
+    $('#listView').hide();
+    $('#photoView').hide();
+    $('#catView').hide();
+    $('#aboutView').hide();
+    $('#twitterCommentView').hide();
+    $('#progressView').hide();
+
     //### サーバ名設定 ###
     // 利用する地図APIサーバ名を設定します。
     // なお、このサンプルではテスト利用サーバー名を設定しています。
