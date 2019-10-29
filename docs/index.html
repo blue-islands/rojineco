@@ -280,5 +280,17 @@
 <script src="./app/util.js"></script>
 <script src="./app/index.js"></script>
 <script src="./app/login.js"></script>
+<script>
+window.addEventListener('load', function() {
+	if ('serviceWorker' in navigator) {
+	navigator.serviceWorker.register("/serviceWorker.js")
+		.then(function(registration) {
+		console.log("serviceWorker registed.");
+		}).catch(function(error) {
+		console.warn("serviceWorker error.", error);
+		});
+	}
+});
+</script>
 </body>
 </html>
