@@ -25,6 +25,8 @@ IndexCtrl = {
     mymap: null,
     lat: 0,
     lng: 0,
+    fixLat: 0,
+    fixLng: 0,
     zoom: 0,
     changeLat: 0,
     changeLng: 0,
@@ -369,6 +371,8 @@ IndexCtrl = {
             // クエリー文字列から指定の写真を取得
             var queryStrings = getUrlVars();
             IndexCtrl.photoId = queryStrings['uuid'];
+            IndexCtrl.fixLat = parseFloat(queryStrings['lat']);
+            IndexCtrl.fixLng = parseFloat(queryStrings['lng']);
 
             // 設定ボタンの制御
             IndexCtrl.dispShrineIcon(true);
@@ -1020,6 +1024,12 @@ IndexCtrl = {
                     //     oauthToken = localStorage.getItem("oauth_token");
                     //     oauthTokenSecret = localStorage.getItem("oauth_token_secret");
                     // }
+                    var lat = IndexCtrl.lat;
+                    var lng = IndexCtrl.lng;
+                    if (!isNaN(IndexCtrl.fixLat) || !isNaN(IndexCtrl.fixLng)) {
+                        lat = IndexCtrl.fixLat;
+                        lng = IndexCtrl.fixLng;
+                    } 
 
                     $.ajax({
                         url: IndexCtrl.urls.setPhoto, // 通信先のURL
@@ -1029,8 +1039,8 @@ IndexCtrl = {
                             userId: IndexCtrl.userId,
                             oauthToken: oauthToken,
                             oauthTokenSecret: oauthTokenSecret,
-                            lat: IndexCtrl.lat,
-                            lng: IndexCtrl.lng,
+                            lat: lat,
+                            lng: lng,
                             catDetector: IndexCtrl.CATDETECTOR_ITERATION,
                             whatCat: IndexCtrl.WHATCAT_ITERATION,
                             photo: imgB64,
