@@ -18,6 +18,8 @@ IndexCtrl = {
     RANGE_DISTANCE: 10000,
     GET_DISTANCE: 1000,
     BOUND_ZOOM: 13,
+    CATDETECTOR_ITERATION: 'Iteration19',
+    WHATCAT_ITERATION: 'Iteration9',
     userId: null,
     photoId: null,
     mymap: null,
@@ -1029,8 +1031,8 @@ IndexCtrl = {
                             oauthTokenSecret: oauthTokenSecret,
                             lat: IndexCtrl.lat,
                             lng: IndexCtrl.lng,
-                            catDetector: 'Iteration17',
-                            whatCat: 'Iteration7',
+                            catDetector: IndexCtrl.CATDETECTOR_ITERATION,
+                            whatCat: IndexCtrl.WHATCAT_ITERATION,
                             photo: imgB64,
                         }, // 送信するデータ
                     }).done(function(ret, textStatus, jqXHR) {
