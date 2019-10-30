@@ -12,8 +12,8 @@ logger.state.isEnabled = true;
 var Util = {
 //+----- ↓定数・変数の設定ココから -----------------------------------------------------------------+
     _className: 'Util',
-    THUMBNAIL_WIDTH: 1000, // 画像リサイズ後の横の長さの最大値
-    THUMBNAIL_HEIGHT: 1000, // 画像リサイズ後の縦の長さの最大値
+    THUMBNAIL_WIDTH: 1500, // 画像リサイズ後の横の長さの最大値
+    THUMBNAIL_HEIGHT: 1500, // 画像リサイズ後の縦の長さの最大値
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
      startWriteLog: function UN_startWriteLog(className,functionName) {
         var _date = new Date(),
