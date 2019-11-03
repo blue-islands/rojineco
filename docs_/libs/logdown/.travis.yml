@@ -1,9 +1,0 @@
-os:
-  - linux
-language: node_js
-node_js:
-  - 8
-script:
-  - npm run test
-after_success:
-  - ./node_modules/.bin/codecov
