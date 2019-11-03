@@ -389,14 +389,14 @@ IndexCtrl = {
             if(authStatus == 'success') {
                 // 認証手続き処理成功時の処理コードをここに記述してください。
                 L.tileLayer("https://api-map-pre.mapfan.com/v1/map?key={apikey}&mapstyle=rpg_sp&tilematrix=EPSG:3857:{z}&tilerow={y}&tilecol={x}", {
-                    attribution: '&copy; <a href="http://www.incrementp.co.jp/" target="_blank">INCREMENT P CORPORATION</a> | &copy ROJINECO PROJECT',
+                    attribution: '&copy; <a href="http://www.incrementp.co.jp/" target="_blank">INCREMENT P CORPORATION</a> | <a href="https://livlog.jp/terms" target="_blank">利用規約</a>',
                     apikey: Mfapi._authAccessKey,
                     maxZoom: 21,
                     minZoom: 6
                 }).addTo(IndexCtrl.mymap);
             } else {
                 L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey={apikey}', {
-                    attribution: '&copy; <a href="http://www.thunderforest.com/" target="_blank">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
+                    attribution: '&copy; <a href="http://www.thunderforest.com/" target="_blank">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors | <a href="https://livlog.jp/terms" target="_blank">利用規約</a>',
                     apikey: 'ed224a20677d4dd1a89710617d85df19',
                     maxZoom: 21,
                     minZoom: 6
