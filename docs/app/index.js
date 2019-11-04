@@ -448,6 +448,12 @@ IndexCtrl = {
 
             _lat = pos.coords.latitude; //緯度
             _lng = pos.coords.longitude; //経度
+
+            if (!isNaN(IndexCtrl.fixLat) || !isNaN(IndexCtrl.fixLng)) {
+                _lat = IndexCtrl.fixLat;
+                _lng = IndexCtrl.fixLng;
+            } 
+
             IndexCtrl.lat = _lat;
             IndexCtrl.lng = _lng;
             _changeDistance = geolib.getDistance({
