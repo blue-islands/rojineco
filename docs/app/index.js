@@ -63,6 +63,7 @@ IndexCtrl = {
         getPhotoList: IndexCtrl.domain + 'getPhotoList',
         removePhoto: IndexCtrl.domain + 'removePhoto',
         sendTwitter: IndexCtrl.domain + 'sendTwitter',
+        getTwitterUser: IndexCtrl.domain + 'getTwitterUser',
     },
     mapIcon: {
         my: L.icon({
@@ -452,7 +453,7 @@ IndexCtrl = {
             if (!isNaN(IndexCtrl.fixLat) || !isNaN(IndexCtrl.fixLng)) {
                 _lat = IndexCtrl.fixLat;
                 _lng = IndexCtrl.fixLng;
-            } 
+            }
 
             IndexCtrl.lat = _lat;
             IndexCtrl.lng = _lng;
@@ -990,10 +991,13 @@ IndexCtrl = {
                 $('#doTwitterLogout').show();
                 $('#doTwitterLogin').hide();
                 $('#dispTwitter').show();
+                $('.avatar').show();
+                IndexCtrl.getTwitterUser();
             } else {
                 $('#doTwitterLogin').show();
                 $('#doTwitterLogout').hide();
                 $('#dispTwitter').hide();
+                $('.avatar').hide();
             }
             // ツイッター投稿の値設定
             var checkTwitter = localStorage.getItem("check_twitter");
@@ -1035,7 +1039,7 @@ IndexCtrl = {
                     if (!isNaN(IndexCtrl.fixLat) || !isNaN(IndexCtrl.fixLng)) {
                         lat = IndexCtrl.fixLat;
                         lng = IndexCtrl.fixLng;
-                    } 
+                    }
 
                     $.ajax({
                         url: IndexCtrl.urls.setPhoto, // 通信先のURL
@@ -1268,7 +1272,7 @@ IndexCtrl = {
                 if (parseStrToBoolean(checkTwitter)) {
                     $('#doTwitterComment').show();
                 } else {
-                    $('#doTwitterComment').hide();      
+                    $('#doTwitterComment').hide();
                 }
             } else {
                 $('#doCatDelete').hide();
@@ -1449,7 +1453,7 @@ IndexCtrl = {
                     //<progress class="nes-progress is-primary" value="80" max="100"></progress>
                     $('#progress').val(count);
                     count++
-                } 
+                }
                 IndexCtrl.progressId = setInterval(countup, 50);
 
             } else {
@@ -1481,7 +1485,7 @@ IndexCtrl = {
                 }
                 var uuid = $('#photoId').val();
                 var comment = $('#comment').val();
-    
+
                 $.ajax({
                     url: IndexCtrl.urls.sendTwitter, // 通信先のURL
                     type: 'POST', // 使用するHTTPメソッド
@@ -1500,7 +1504,7 @@ IndexCtrl = {
                         toastr.success('Twitterに投稿しました。');
                     } else {
                         // alert(ret.messages[0]);
-                        toastr.success(ret.messages[0]); 
+                        toastr.success(ret.messages[0]);
                     }
                 }).fail(function(jqXHR, textStatus, errorThrown) {
                     logger.error(errorThrown);
@@ -1552,10 +1556,49 @@ IndexCtrl = {
             $('#photoView').hide();
         }
     },
+
+    getTwitterUser: function UN_getTwitterUser() {
+        var _functionName = 'UN_getTwitterUser'
+
+        try {
+            Util.startWriteLog(IndexCtrl._className, _functionName);
+            // 処理開始
+            var oauthToken = localStorage.getItem("oauth_token");
+            var oauthTokenSecret = localStorage.getItem("oauth_token_secret");
+      
+            $.ajax({
+                url: IndexCtrl.urls.getTwitterUser, // 通信先のURL
+                type: 'POST', // 使用するHTTPメソッド
+                data: {
+                    oauthToken: oauthToken,
+                    oauthTokenSecret: oauthTokenSecret,
+                }, // 送信するデータ
+            }).done(function(ret, textStatus, jqXHR) {
+                logger.info(ret); //コンソールにJSONが表示される
+                if (ret.status == 1) {
+                    var data = ret.results[0];
+                    $('#profile').attr('src',data.profileImageURL);
+                    $('#profile').attr('alt',data.screenName);
+                } else {
+                    alert('エラーが発生しました。');
+                }
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                logger.error(errorThrown);
+                alert('エラーが発生しました。');
+            }).always(function() {
+                //     logger.info('***** 処理終了 *****');
+            });
+            // 処理終了
+        } catch (ex) {
+            logger.error(ex);
+        } finally {
+            Util.endWriteLog(IndexCtrl._className, _functionName);
+        }
+    },
 };
 
 $(document).ready(function() {
-    
+
     // ビューの非表示
     $('#settingView').hide();
     $('#listView').hide();

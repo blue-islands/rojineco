@@ -209,3 +209,12 @@ body {
     color: #2c9ceb;
 }
 
+.avatar {
+	float: left;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.buttons {
+
+}
