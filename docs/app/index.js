@@ -1565,7 +1565,7 @@ IndexCtrl = {
             // 処理開始
             var oauthToken = localStorage.getItem("oauth_token");
             var oauthTokenSecret = localStorage.getItem("oauth_token_secret");
-      
+
             $.ajax({
                 url: IndexCtrl.urls.getTwitterUser, // 通信先のURL
                 type: 'POST', // 使用するHTTPメソッド
@@ -1580,7 +1580,7 @@ IndexCtrl = {
                     $('#profile').attr('src',data.profileImageURL);
                     $('#profile').attr('alt',data.screenName);
                 } else {
-                    alert('エラーが発生しました。');
+                	toastr.success('ログインに失敗しました。');
                 }
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 logger.error(errorThrown);
