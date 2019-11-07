@@ -14,6 +14,7 @@ var Util = {
     _className: 'Util',
     THUMBNAIL_WIDTH: 1500, // 画像リサイズ後の横の長さの最大値
     THUMBNAIL_HEIGHT: 1500, // 画像リサイズ後の縦の長さの最大値
+    MAPFAN: '5375a40a0e635b3145726775dad47fb732a6fae203d61bdb',
 //+----- ↓functionの記述ココから -----------------------------------------------------------------+
      startWriteLog: function UN_startWriteLog(className,functionName) {
         var _date = new Date(),
@@ -170,7 +171,7 @@ var Util = {
                     default:
                         break;
                 }
-            
+
                 ctx.drawImage(_img, 0, 0, drawWidth, drawHeight);
                 // canvas.width = drawWidth;
                 // canvas.height = drawHeight;
@@ -281,7 +282,7 @@ function getUrlVars() {
     var url = window.location.search;
 
         //?を取り除くため、1から始める。複数のクエリ文字列に対応するため、&で区切る
-    hash  = url.slice(1).split('&');    
+    hash  = url.slice(1).split('&');
     max = hash.length;
     for (var i = 0; i < max; i++) {
         array = hash[i].split('=');    //keyと値に分割。

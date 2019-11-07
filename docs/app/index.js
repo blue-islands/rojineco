@@ -1608,18 +1608,9 @@ $(document).ready(function() {
     $('#twitterCommentView').hide();
     $('#progressView').hide();
 
-    //### サーバ名設定 ###
-    // 利用する地図APIサーバ名を設定します。
-    // なお、このサンプルではテスト利用サーバー名を設定しています。
     Mfapi.mapHost = 'api-map-pre.mapfan.com';
 
-    //### 認証リクエスト処理 ###
-    // 認証APIの実行要求を行います。
-    // 第１パラメータには、お客様専用に発行した顧客IDを設定します。
-    // 第２パラメータには、認証手続き完了後に呼び出すコールバック関数を設定します。
-    // ※ appidはお客様の認証ＩＤを設定してください。
-    var appid = '5375a40a0e635b3145726775dad47fb732a6fae203d61bdb'
-    Mfapi.auth(appid, IndexCtrl.init);
+    Mfapi.auth(Util.MAPFAN, IndexCtrl.init);
 });
 
 toastr.options = {
