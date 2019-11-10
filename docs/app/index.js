@@ -164,6 +164,83 @@ IndexCtrl = {
             iconAnchor: [16, 16],
             popupAnchor: [0, -32],
         }),
+        denpa1: L.icon({
+            iconUrl: './images/cat_denpa1.png',
+            iconRetinaUrl: './images/cat_denpa1.png',
+            iconSize: [50, 54],
+            iconAnchor: [25, 54],
+            popupAnchor: [0, -54],
+        }),
+        denpa2: L.icon({
+            iconUrl: './images/cat_denpa2.png',
+            iconRetinaUrl: './images/cat_denpa2.png',
+            iconSize: [50, 54],
+            iconAnchor: [25, 54],
+            popupAnchor: [0, -54],
+        }),
+        denpa3: L.icon({
+            iconUrl: './images/cat_denpa3.png',
+            iconRetinaUrl: './images/cat_denpa3.png',
+            iconSize: [50, 54],
+            iconAnchor: [25, 54],
+            popupAnchor: [0, -54],
+        }),
+        denpa4: L.icon({
+            iconUrl: './images/cat_denpa4.png',
+            iconRetinaUrl: './images/cat_denpa4.png',
+            iconSize: [50, 54],
+            iconAnchor: [25, 54],
+            popupAnchor: [0, -54],
+        }),
+        denpa5: L.icon({
+            iconUrl: './images/cat_denpa5.png',
+            iconRetinaUrl: './images/cat_denpa5.png',
+            iconSize: [50, 54],
+            iconAnchor: [25, 54],
+            popupAnchor: [0, -54],
+        }),
+        catWhite: L.icon({
+            iconUrl: './images/cat_white.png',
+            iconRetinaUrl: './images/cat_white.png',
+            iconSize: [64, 48],
+            iconAnchor: [32, 24],
+            popupAnchor: [0, -48],
+        }),
+        catBlack: L.icon({
+            iconUrl: './images/cat_black.png',
+            iconRetinaUrl: './images/cat_black.png',
+            iconSize: [64, 48],
+            iconAnchor: [32, 24],
+            popupAnchor: [0, -48],
+        }),
+        catHachi: L.icon({
+            iconUrl: './images/cat_hachi.png',
+            iconRetinaUrl: './images/cat_hachi.png',
+            iconSize: [64, 48],
+            iconAnchor: [32, 24],
+            popupAnchor: [0, -48],
+        }),
+        catTora: L.icon({
+            iconUrl: './images/cat_tora.png',
+            iconRetinaUrl: './images/cat_tora.png',
+            iconSize: [64, 48],
+            iconAnchor: [32, 24],
+            popupAnchor: [0, -48],
+        }),
+        catMike: L.icon({
+            iconUrl: './images/cat_mike.png',
+            iconRetinaUrl: './images/cat_mike.png',
+            iconSize: [64, 48],
+            iconAnchor: [32, 24],
+            popupAnchor: [0, -48],
+        }),
+        catSabi: L.icon({
+            iconUrl: './images/cat_sabi.png',
+            iconRetinaUrl: './images/cat_sabi.png',
+            iconSize: [64, 48],
+            iconAnchor: [32, 24],
+            popupAnchor: [0, -48],
+        }),
     },
 
     //+----- ↓functionの記述ココから -----------------------------------------------------------------+
@@ -885,18 +962,16 @@ IndexCtrl = {
             Util.startWriteLog(IndexCtrl._className, _functionName);
             // 処理開始
             _point = data.nostalgiaRatio + data.alleyRatio;
-            if (180 <= _point) {
-                return IndexCtrl.mapIcon.gold1;
-            } else if (140 <= _point) {
-                return IndexCtrl.mapIcon.gold2;
-            } else if (100 <= _point) {
-                return IndexCtrl.mapIcon.silver1;
-            } else if (60 <= _point) {
-                return IndexCtrl.mapIcon.silver2;
-            } else if (20 <= _point) {
-                return IndexCtrl.mapIcon.bronze1;
+            if (160 <= _point) {
+                return IndexCtrl.mapIcon.denpa5;
+            } else if (120 <= _point) {
+                return IndexCtrl.mapIcon.denpa4;
+            } else if (80 <= _point) {
+                return IndexCtrl.mapIcon.denpa3;
+            } else if (40 <= _point) {
+                return IndexCtrl.mapIcon.denpa2;
             } else {
-                return IndexCtrl.mapIcon.bronze2;
+                return IndexCtrl.mapIcon.denpa1;
             }
             // 処理終了
         } catch (ex) {
@@ -1136,7 +1211,7 @@ IndexCtrl = {
                     _point = vincenty(_pointLat, _pointLng, doRad(alpha12), length);
 
                     var marker = L.marker([_point[0], _point[1]], {
-                            icon: IndexCtrl.mapIcon.photo
+                            icon: IndexCtrl.getCatIcon(data.cats[0].name)
                         }).addTo(IndexCtrl.mymap)
                         .on('click', function(e) {
                             // clickイベントの処理
@@ -1429,6 +1504,41 @@ IndexCtrl = {
                 $('#catName').text('ブチ猫');
             } else {
                 $('#catName').text('不明');
+            }
+            // 処理終了
+        } catch (ex) {
+            logger.error(ex);
+        } finally {
+            Util.endWriteLog(IndexCtrl._className, _functionName);
+        }
+    },
+
+    getCatIcon: function UN_getCatIcon(id) {
+        var _functionName = 'UN_getCatIcon';
+
+        try {
+            Util.startWriteLog(IndexCtrl._className, _functionName);
+            // 処理開始
+            if ('white_cat' == id) {
+                // 白猫(white_cat)
+                return IndexCtrl.mapIcon.catWhite;
+            } else if ('black_cat' == id) {
+                // 黒猫(black_cat)
+                return IndexCtrl.mapIcon.catBlack;
+            } else if ('calico_cat' == id) {
+                // 三毛猫(calico_cat)
+                return IndexCtrl.mapIcon.catMike;
+            } else if ('rust_cat' == id) {
+                // サビ猫(rust_cat)
+                return IndexCtrl.mapIcon.catSabi;
+            } else if ('tiger_cat' == id) {
+                // トラ猫(tiger_cat)
+                return IndexCtrl.mapIcon.catTora;
+            } else if ('spotted_cat' == id) {
+                // ブチ猫(spotted_cat)
+                return IndexCtrl.mapIcon.catHachi;
+            } else {
+                return IndexCtrl.mapIcon.catHachi;
             }
             // 処理終了
         } catch (ex) {
