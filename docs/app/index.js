@@ -19,7 +19,7 @@ IndexCtrl = {
     GET_DISTANCE: 1000,
     BOUND_ZOOM: 13,
     CATDETECTOR_ITERATION: 'Iteration27',
-    WHATCAT_ITERATION: 'Iteration11',
+    WHATCAT_ITERATION: 'Iteration12',
     userId: null,
     photoId: null,
     mymap: null,
