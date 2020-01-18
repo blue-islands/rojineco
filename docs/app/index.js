@@ -18,7 +18,7 @@ IndexCtrl = {
     RANGE_DISTANCE: 10000,
     GET_DISTANCE: 1000,
     BOUND_ZOOM: 13,
-    CATDETECTOR_ITERATION: 'Iteration25',
+    CATDETECTOR_ITERATION: 'Iteration27',
     WHATCAT_ITERATION: 'Iteration11',
     userId: null,
     photoId: null,
