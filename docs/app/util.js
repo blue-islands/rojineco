@@ -126,51 +126,51 @@ var Util = {
                 drawWidth = canvasWidth;
                 drawHeight = canvasHeight;
 
-                // switch(_orientation){
+                switch(_orientation){
 
-                //     case 2:
-                //         ctx.transform(-1, 0, 0, 1, canvasWidth, 0);
-                //         break;
+                    case 2:
+                        // ctx.transform(-1, 0, 0, 1, canvasWidth, 0);
+                        break;
 
-                //     case 3:
-                //         ctx.transform(-1, 0, 0, -1, canvasWidth, canvasHeight);
-                //         break;
+                    case 3:
+                        // ctx.transform(-1, 0, 0, -1, canvasWidth, canvasHeight);
+                        break;
 
-                //     case 4:
-                //         ctx.transform(1, 0, 0, -1, 0, canvasHeight);
-                //         break;
+                    case 4:
+                        // ctx.transform(1, 0, 0, -1, 0, canvasHeight);
+                        break;
 
-                //     case 5:
-                //         ctx.transform(-1, 0, 0, 1, 0, 0);
-                //         ctx.rotate((90 * Math.PI) / 180);
-                //         drawWidth = canvasHeight;
-                //         drawHeight = canvasWidth;
-                //         break;
+                    case 5:
+                        // ctx.transform(-1, 0, 0, 1, 0, 0);
+                        // ctx.rotate((90 * Math.PI) / 180);
+                        drawWidth = canvasHeight;
+                        drawHeight = canvasWidth;
+                        break;
 
-                //     case 6:
-                //         ctx.transform(1, 0, 0, 1, canvasWidth, 0);
-                //         ctx.rotate((90 * Math.PI) / 180);
-                //         drawWidth = canvasHeight;
-                //         drawHeight = canvasWidth;
-                //         break;
+                    case 6:
+                        // ctx.transform(1, 0, 0, 1, canvasWidth, 0);
+                        // ctx.rotate((90 * Math.PI) / 180);
+                        drawWidth = canvasHeight;
+                        drawHeight = canvasWidth;
+                        break;
 
-                //     case 7:
-                //         ctx.transform(-1, 0, 0, 1, canvasWidth, canvasHeight);
-                //         ctx.rotate((-90 * Math.PI) / 180);
-                //         drawWidth = canvasHeight;
-                //         drawHeight = canvasWidth;
-                //         break;
+                    case 7:
+                        // ctx.transform(-1, 0, 0, 1, canvasWidth, canvasHeight);
+                        // ctx.rotate((-90 * Math.PI) / 180);
+                        drawWidth = canvasHeight;
+                        drawHeight = canvasWidth;
+                        break;
 
-                //     case 8:
-                //         ctx.transform(1, 0, 0, 1, 0, canvasHeight);
-                //         ctx.rotate((-90 * Math.PI) / 180);
-                //         drawWidth = canvasHeight;
-                //         drawHeight = canvasWidth;
-                //         break;
+                    case 8:
+                        // ctx.transform(1, 0, 0, 1, 0, canvasHeight);
+                        // ctx.rotate((-90 * Math.PI) / 180);
+                        drawWidth = canvasHeight;
+                        drawHeight = canvasWidth;
+                        break;
 
-                //     default:
-                //         break;
-                // }
+                    default:
+                        break;
+                }
 
                 ctx.drawImage(_img, 0, 0, drawWidth, drawHeight);
                 // canvas.width = drawWidth;
