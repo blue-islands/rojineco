@@ -19,31 +19,33 @@ var LoginCtrl = {
             // 処理開始
             const austin = new Austin("https://livlog.xyz", "kqNxNdN4F9aZ");
             austin.popup("twitter", function(data) {
-                //ローカルストレージに保存する方が好ましいと思われる
-                localStorage.setItem("oauth_token", data.oauthToken);
-                localStorage.setItem("oauth_token_secret", data.oauthTokenSecret);
-                localStorage.setItem("check_twitter", true);
+                if (data.status == 'ok') {
+                    //ローカルストレージに保存する方が好ましいと思われる
+                    localStorage.setItem("oauth_token", data.oauthToken);
+                    localStorage.setItem("oauth_token_secret", data.oauthTokenSecret);
+                    localStorage.setItem("check_twitter", true);
 
-                _formdata = {
-                    'uuid': IndexCtrl.userId,
-                    'twitterToken': data.oauthToken,
-                }
-                $.ajax({
-                    url: IndexCtrl.urls.login,
-                    type: 'GET',
-                    data: _formdata,
-                    dataType: 'json',
-                })
-                // Ajaxリクエストが成功した時
-                .done( (data) => {
-                    if (data.results.length > 0) {
-                        var  result = data.results[0];
-                        IndexCtrl.userId = result.uuid;
-                        localStorage.setItem(IndexCtrl.SESSION_UUID, IndexCtrl.userId);
-                        // ログイン状態の確認
-                        IndexCtrl.changeBtn();
+                    _formdata = {
+                        'uuid': IndexCtrl.userId,
+                        'twitterToken': data.oauthToken,
                     }
-                });
+                    $.ajax({
+                        url: IndexCtrl.urls.login,
+                        type: 'GET',
+                        data: _formdata,
+                        dataType: 'json',
+                    })
+                    // Ajaxリクエストが成功した時
+                    .done( (data) => {
+                        if (data.results.length > 0) {
+                            var  result = data.results[0];
+                            IndexCtrl.userId = result.uuid;
+                            localStorage.setItem(IndexCtrl.SESSION_UUID, IndexCtrl.userId);
+                            // ログイン状態の確認
+                            IndexCtrl.changeBtn();
+                        }
+                    });
+                }
             });
             // 処理終了
         }
