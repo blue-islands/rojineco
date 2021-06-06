@@ -17,18 +17,16 @@ var LoginCtrl = {
         try {
             Util.startWriteLog(LoginCtrl._className,_functionName);
             // 処理開始
-            OAuth.initialize('Q-wGViV-TLkPEozGl_Uro0XEpuw')
-            OAuth.setOAuthdURL('https://auth.livlog.xyz')
-            OAuth.popup('twitter',function(err, res){ //コールバック関数
-
+            const austin = new Austin("https://livlog.xyz", "kqNxNdN4F9aZ");
+            austin.popup("twitter", function(data) {
                 //ローカルストレージに保存する方が好ましいと思われる
-                localStorage.setItem("oauth_token", res.oauth_token);
-                localStorage.setItem("oauth_token_secret", res.oauth_token_secret);
+                localStorage.setItem("oauth_token", data.oauthToken);
+                localStorage.setItem("oauth_token_secret", data.oauthTokenSecret);
                 localStorage.setItem("check_twitter", true);
 
                 _formdata = {
                     'uuid': IndexCtrl.userId,
-                    'twitterToken': res.oauth_token,
+                    'twitterToken': data.oauthToken,
                 }
                 $.ajax({
                     url: IndexCtrl.urls.login,
@@ -46,12 +44,6 @@ var LoginCtrl = {
                         IndexCtrl.changeBtn();
                     }
                 });
-
-            //以下追加コード
-            }).then(function(){ //終了処理
-
-                  //コールバック処理(元のアドレスに戻る)
-                  OAuth.callback('twitter',  "callback/url");
             });
             // 処理終了
         }
