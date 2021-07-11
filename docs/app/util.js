@@ -172,8 +172,8 @@ var Util = {
                 }
 
                 ctx.drawImage(_img, 0, 0, drawWidth, drawHeight);
-                canvas.width = drawWidth;
-                canvas.height = drawHeight;
+                // canvas.width = drawWidth;
+                // canvas.height = drawHeight;
                 // Destination Image
                 var imgB64Dst = canvas.toDataURL(_imgType);
                 callback(imgB64Dst);
